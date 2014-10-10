@@ -1,0 +1,9 @@
+{
+  "name": "medchecker",
+  "version": "0.0.1",
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "foundation": "~5.4.5",
+    "fontawesome": "~4.2.0"
+  }
+}

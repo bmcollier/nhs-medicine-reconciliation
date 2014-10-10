@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}MedChecker{% endblock title %}</title>
+    <script type="text/javascript" src="static/bower_components/jquery/dist/jquery.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/foundation.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .gradient {
+           filter: none;
+        }
+      </style>
+    <![endif]-->
+  </head>
+  <body>
+      <h1>
+        <img src="{% static 'img/medchecker_logo.png' %}" />
+        <span class="bold">Med</span>Checker
+      </h1>
+
+    <div class="row">
+      <div class="small-10 small-offset-1 medium-6 medium-offset-3 columns login-pane">
+        <div class="login-icon-container">
+          <i class="fa fa-lock"></i>
+        </div>
+        <form action="{% url "login" %}" method="post">
+          {% if error_message %}
+          <div data-alert class="alert-box alert radius">
+            {{ error_message }}
+          </div>
+          {% endif %}
+          {% csrf_token %}
+          
+          {{ login_form.username }}
+          {{ login_form.password }}
+          <input type="submit" class="right" value="Log in" />
+        </form>
+      </div>
+      <div class="small-0 large-4 columns"></div>
+    </div>
+
+  </body>
+</html>
