@@ -1,1 +1,32 @@
-/*! project specific CSS goes here. */
+.top-bar {
+  height: 110px;
+  background-color: #A9D5D8;
+  vertical-align: middle;
+  color: #414F5A;
+}
+
+.top-bar ul, .top-bar li {
+  height: 100%;
+}
+
+.top-bar label {
+  font-size: 1em;
+  cursor: text;
+  color: #414F5A;
+}
+
+h1, .intro-text {
+  text-align: center;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bolder;
+  margin-top: 1em;
+  color: #475860;
+}
+
+.intro-text {
+  color: #738088;
+  font-size: 1.4em;
+}

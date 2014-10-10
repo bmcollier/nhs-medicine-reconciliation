@@ -1,75 +1,56 @@
 {% load staticfiles %}
+{% load cache %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}MedChecker{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
+    <meta name="description" content="Open Source medicine reconciliation for the NHS.">
     <meta name="author" content="Fivium, Ltd.">
-
-    <!-- Le styles -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-
+    <title>{% block title %}{% endblock title %} | MedChecker</title>
+    <link rel="stylesheet" href="{% static 'css/foundation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <!-- This file store project specific CSS -->
     <link href="{% static 'css/medchecker.css' %}" rel="stylesheet">
-
-    <!-- Use this to quickly test CSS changes in a template,
-        then move to medchecker.css -->
     {% block extra_css %}{% endblock extra_css %}
   </head>
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">medchecker</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
+    {% block top_bar %}
+    {% cache 3600 topbar request.user.username %}
+      <nav class="top-bar" data-topbar role="navigation">
+      <ul class="left">
+        <li>
+          <img src="{% static 'img/kevin_woods.png' %}" alt="Small photograph of patient." class="left" />
+          <div class="left">
+            <label for="patient-name">Patient</label>
+            <span id="patient-name">Kevin Woods</span>
+          </div>
+        </li>
+      </ul>
 
-    <div class="container">
+      <ul class="right">
+        <li>
+          <img src="{% static 'img/nurse_norah.png' %}" alt="Small photograph of currently logged in user." class="right" />
+          <div class="right">
+            <label for="current-user-name" class="text-right">Logged in as</label>
+            <span id="current-user-name" class="text-right">{{ request.user.get_full_name }}</span>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    {% endcache %}
+    {% endblock top_bar %}
 
-      <h1>{% block page_title %}Example Base Template{% endblock page_title %}</h1>
+    {% block content %}
+      <p>Override block "content" to display information here.</p>
+    {% endblock content %}
 
-      {% block content %}
-        <p>Use this document as a way to quick start any new project.</p>
-      {% endblock content %}
-
-    </div> <!-- /container -->
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-    <!-- place project specific Javascript in this file -->
-    <script src="{% static 'js/medchecker.js' %}"></script>
-
+    <script type="text/javascript" src="static/bower_components/jquery/dist/jquery.min.js"></script>
     {% block extra_js %}{% endblock extra_js %}
   </body>
 </html>

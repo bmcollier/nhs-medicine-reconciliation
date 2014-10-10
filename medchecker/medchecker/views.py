@@ -18,7 +18,7 @@ def do_login(request):
                     login(request, user)
                     
                     return HttpResponseRedirect(
-                        reverse('doesntexist')
+                        reverse('home')
                         )
 
                 else:
