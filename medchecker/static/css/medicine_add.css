@@ -1,0 +1,18 @@
+textarea.comments {
+  /*position: absolute;
+  height: 111px;*/
+}
+
+input[type="text"].medicine-free-text {
+  font-size: 2em;
+  height: 2em;
+}
+
+.break {
+  margin: 20px 20px;
+}
+
+.medicine-free-text-autocomplete-suggestions {
+  position: absolute;
+  border: 1px solid black;
+}
