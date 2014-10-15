@@ -90,4 +90,4 @@ class ActualMedicinalProductPack(models.Model):
     discdt = models.DateField(null=True)
 
     def __unicode__(self):
-        return u'[AMP] %s' % self.nm
+        return u'[AMPP] %s' % self.nm
