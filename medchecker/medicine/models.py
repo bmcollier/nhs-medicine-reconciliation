@@ -38,7 +38,7 @@ class VirtualMedicinalProduct(models.Model):
     unit_dose_uomcd = models.IntegerField(null=True)
 
     def __unicode__(self):
-        return u'[AMP] %s' % self.nm
+        return u'[VMP] %s' % self.nm
 
 class VirtualMedicinalProductPack(models.Model):
     vppid = models.IntegerField(primary_key=True)
