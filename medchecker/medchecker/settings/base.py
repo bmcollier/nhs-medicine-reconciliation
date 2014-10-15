@@ -98,6 +98,7 @@ STATICFILES_DIRS = (
     normpath(join(SITE_ROOT, 'static')),
     normpath(join(SITE_ROOT, 'static/bower_components/foundation')),
     normpath(join(SITE_ROOT, 'static/bower_components/fontawesome')),
+    ('js', normpath(join(SITE_ROOT, 'static/bower_components/jquery/dist'))),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -106,6 +107,11 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 ########## END STATIC FILE CONFIGURATION
+
+
+########## SECRET CONFIGURATION
+AJAX_URL = '/ajax/'
+########## END AJAX CONFIGURATION
 
 
 ########## SECRET CONFIGURATION
@@ -190,12 +196,14 @@ DJANGO_APPS = (
     # 'django.contrib.humanize',
 
     # Admin panel and documentation:
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     # 'django.contrib.admindocs',
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
+    'core',
+    'medicine',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

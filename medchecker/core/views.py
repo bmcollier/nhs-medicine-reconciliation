@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
-from medchecker.forms import LoginForm
+from core.forms import LoginForm
 
 def do_login(request):
     error_message = u""
@@ -18,7 +18,7 @@ def do_login(request):
                     login(request, user)
                     
                     return HttpResponseRedirect(
-                        reverse('home')
+                        reverse('medicine_add')
                         )
 
                 else:

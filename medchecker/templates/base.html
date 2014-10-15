@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Open Source medicine reconciliation for the NHS.">
     <meta name="author" content="Fivium, Ltd.">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="96x96" href="{% static 'img/medchecker_logo96x96.png' %}">
     <title>{% block title %}{% endblock title %} | MedChecker</title>
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
@@ -50,7 +52,7 @@
       <p>Override block "content" to display information here.</p>
     {% endblock content %}
 
-    <script type="text/javascript" src="static/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     {% block extra_js %}{% endblock extra_js %}
   </body>
 </html>

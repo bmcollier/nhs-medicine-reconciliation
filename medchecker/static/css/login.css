@@ -30,13 +30,13 @@ h1 > span.bold {
   border-radius: 0.6em;
 }
 
-.login-pane input[type="text"],
+.login-pane input[type="email"],
 .login-pane input[type="password"],
 .login-pane input[type="submit"] {
   font-size: 1.2em;
 }
 
-.login-pane input[type="text"],
+.login-pane input[type="email"],
 .login-pane input[type="password"] {
   background-color: #D4D9DD;
   color: #5E6B74;
