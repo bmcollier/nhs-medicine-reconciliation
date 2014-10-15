@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib import admin
 
 # Regular URLs
 urlpatterns = patterns('',
@@ -11,6 +12,12 @@ urlpatterns = patterns('',
 # AJAX URLs
 urlpatterns += patterns('',
     url(r'^' + settings.AJAX_URL + 'medicine/', include('medicine.urlsajax')),
+)
+
+
+
+urlpatterns = patterns('',
+    (r'^admin/', include(admin.site.urls)),
 )
 
 if settings.DEBUG:

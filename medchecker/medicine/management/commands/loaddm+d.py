@@ -8,11 +8,11 @@ from medicine.models import (VirtualTherapeuticMoiety, VirtualMedicinalProduct,
   
 def load_dm_and_d():
     # Delete all records we currently have?!?!
-    # ActualMedicinalProductPack.objects.all().delete()
-    # ActualMedicinalProduct.objects.all().delete()
-    # VirtualMedicinalProductPack.objects.all().delete()
-    # VirtualMedicinalProduct.objects.all().delete()
-    # VirtualTherapeuticMoiety.objects.all().delete()
+    ActualMedicinalProductPack.objects.all().delete()
+    ActualMedicinalProduct.objects.all().delete()
+    VirtualMedicinalProductPack.objects.all().delete()
+    VirtualMedicinalProduct.objects.all().delete()
+    VirtualTherapeuticMoiety.objects.all().delete()
 
     load_vtm('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vtm2_3091014.xml')
     load_vmp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmp2_3091014.xml')
