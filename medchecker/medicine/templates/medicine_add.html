@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Add Medicine{% endblock title %}
+
+{% block extra_css %}
+  <link href="{% static 'css/medicine_add.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+  <h1>Add Medicine</h1>
+  <div class="row">
+      <div class="small-12 medium-12 columns">
+        <input id="medicine-free-text" class="medicine-free-text" type="text" class="large" placeholder="Medicine and such" />
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="small-6 columns">
+      <label>Medication</label>
+      <input id="medication" type="text" class="large" />
+    </div>
+    <div class="small-3 columns">
+      <label>Frequency</label>
+      <input id="frequency" type="text" class="large" />
+    </div>
+    <div class="small-3 columns">
+      <label>Repetition</label>
+      <input id="repetition" type="text" class="large" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-4 columns">
+      <label>Prescriber/OTC</label>
+      <input type="text" class="large" />
+    </div>
+    <div class="small-4 columns">
+      <label>Reason</label>
+      <input type="text" class="large" />
+    </div>
+    <div class="small-4 columns">
+      <label>Comments</label>
+      <textarea class="comments"></textarea>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    function parse_medicine_text() {
+      $.ajax({
+        url: "{% url "ajax_parse_medicine_text" %}",
+        data: {medicine_free_text: $(this).val()},
+        success: function(xhr) {
+          $('#medication').val(xhr.medicine);
+          $('#repetition').val(xhr.daily_repetition);
+          $('#frequency').val(xhr.interval_frequency);
+        },
+        error: function(xhr) {
+          document.write(xhr.responseText);
+        }
+      });
+    }
+
+    $('#medicine-free-text').keyup(parse_medicine_text);
+    $('#medicine-free-text').on('paste', parse_medicine_text);
+
+  </script>
+{% endblock extra_js %}
