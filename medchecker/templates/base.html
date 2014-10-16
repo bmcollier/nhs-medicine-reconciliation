@@ -23,29 +23,46 @@
   <body>
 
     {% block top_bar %}
-    {% cache 3600 topbar request.user.username %}
       <nav class="top-bar" data-topbar role="navigation">
-      <ul class="left">
-        <li>
-          <img src="{% static 'img/kevin_woods.png' %}" alt="Small photograph of patient." class="left" />
-          <div class="left">
-            <label for="patient-name">Patient</label>
-            <span id="patient-name">Kevin Woods</span>
-          </div>
-        </li>
-      </ul>
 
-      <ul class="right">
-        <li>
-          <img src="{% static 'img/nurse_norah.png' %}" alt="Small photograph of currently logged in user." class="right" />
-          <div class="right">
-            <label for="current-user-name" class="text-right">Logged in as</label>
-            <span id="current-user-name" class="text-right">{{ request.user.get_full_name }}</span>
+        <div class="row collapse">
+          <div class="small-4 columns">
+            <img src="{% static 'img/kevin_woods.png' %}" alt="Small photograph of patient." class="left" />
+            <div class="left">
+              <label for="patient-name">Patient</label>
+              <span id="patient-name">Kevin Woods</span>
+            </div>
           </div>
-        </li>
-      </ul>
-    </nav>
-    {% endcache %}
+          <div class="large-4 columns">
+            <div class="logo">
+              <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo96x96.png' %}" alt="MedChecker logo" /></a>
+              <span class="bold">Med</span>Checker
+            </div>
+          </div>
+          <div class="small-4 columns">
+            <img src="{% static 'img/nurse_norah.png' %}" alt="Small photograph of currently logged in user." class="right" />
+            <div class="right">
+              <label for="current-user-name" class="text-right">Logged in as</label>
+              <span id="current-user-name" class="text-right">{{ request.user.get_full_name }}</span>
+              <a href="{% url 'logout' %}">Log out</a>
+            </div>
+          </div>
+        </div>
+
+
+
+        <ul class="left">
+          <li>
+            
+          </li>
+        </ul>
+
+        <ul class="right">
+          <li>
+            
+          </li>
+        </ul>
+      </nav>
     {% endblock top_bar %}
 
     {% block content %}

@@ -2,7 +2,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 from core.forms import LoginForm
 
 def do_login(request):
@@ -18,7 +20,7 @@ def do_login(request):
                     login(request, user)
                     
                     return HttpResponseRedirect(
-                        reverse('medicine_add')
+                        reverse('core_home')
                         )
 
                 else:
@@ -35,4 +37,24 @@ def do_login(request):
             request,
             {'login_form': login_form, 'error_message': error_message}
             )
+        )
+
+@login_required
+def do_logout(request):
+    """Logs out user"""
+    logout(request)
+    return HttpResponseRedirect(reverse('login'))
+
+@login_required
+def home(request):
+    return render_to_response(
+        'home.html',
+        context_instance=RequestContext(request,)
+        )
+
+@login_required
+def dashboard(request):
+    return render_to_response(
+        'dashboard.html',
+        context_instance=RequestContext(request,)
         )

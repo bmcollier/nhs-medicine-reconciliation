@@ -1,3 +1,7 @@
+body {
+  color: #40515B;
+}
+
 .top-bar {
   height: 110px;
   background-color: #A9D5D8;
@@ -15,6 +19,16 @@
   color: #414F5A;
 }
 
+.logo {
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 1.5em;
+}
+
+.logo > span.bold {
+  font-weight: bold;
+}
+
 h1, .intro-text {
   text-align: center;
 }
@@ -29,4 +43,72 @@ h1 {
 .intro-text {
   color: #738088;
   font-size: 1.4em;
+}
+
+.NotYetImplemented:before {
+  content: 'This feature is not yet implemented';
+  text-align: center;
+  left: 50%;
+  position: absolute;
+  font-size: 1.4em;
+  color: #E46049;
+  margin-left: -170px;
+}
+
+/* Home */
+
+.home-menu .home-menu-item {
+  background-color: #EAEDF2;
+  display: block;
+  position: relative;
+  margin-bottom: 50px;
+  -webkit-border-radius: 1em;
+  -moz-border-radius: 1em;
+  border-radius: 1em;
+  width: 400px;
+}
+
+.home-menu .home-menu-item:hover {
+  background-color: #C8CACE;
+  cursor: pointer;
+}
+
+.home-menu .home-menu-item .icon-container {
+  position: absolute;
+  left: -100px;
+  height: 180px;
+  width: 180px;
+  top: -15px;
+  -webkit-border-radius: 90px;
+  -moz-border-radius: 90px;
+  border-radius: 90px;
+  background-repeat: no-repeat;
+  background-position: 45px 35px; 
+}
+
+.home-menu .home-menu-item .icon-container.search-patient {
+  background-image: url('../img/home_patient_search.png');
+  background-color: #E46049;
+}
+
+.home-menu .home-menu-item .icon-container.add-patient {
+  background-image: url('../img/home_patient_add.png');
+  background-color: #2EB398;
+}
+
+.home-menu .home-menu-item .icon-container.dashboard {
+  background-image: url('../img/home_dashboard.png');
+  background-color: #FFD800;
+}
+
+.home-menu .home-menu-item .icon-container.admin {
+  background-color: #000;
+}
+
+.label-container {
+  height: 150px;
+  line-height: 150px;
+  padding-left: 100px;
+  font-size: 1.2em;
+  width: 100%;
 }

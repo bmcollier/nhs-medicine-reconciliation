@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% block title %}Dashboard{%endblock title %}</h1>
+<p class="NotYetImplemented"></p>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+  <script type="text/javascript">
+    $('.home-menu-item').click(function() {
+      window.location = $(this).attr('data-url');
+    });
+
+  </script>
+
+{% endblock extra_js %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% block title %}Home{%endblock title %}</h1>
+
+
+ <div class="row">
+    <div class="small-10 small-centered medium-6 medium-centered columns">
+      
+      <ul class="home-menu">
+        {% comment %}
+        <li class="home-menu-item" data-url="{% url 'core_dashboard' %}">
+          <div class="icon-container dashboard"></div>
+          <div class="label-container">
+            My Dashboard
+          </div>
+        </li>
+        {% endcomment %}
+        
+        <li class="home-menu-item" data-url="{% url 'patient_search' %}">
+          <div class="icon-container search-patient"></div>
+          <div class="label-container">
+            Search for a Patient
+          </div>
+        </li>
+        <li class="home-menu-item" data-url="{% url 'patient_add' %}">
+          <div class="icon-container add-patient"></div>
+          <div class="label-container">
+            Add a new Patient
+          </div>
+        </li>
+
+        <li class="home-menu-item" data-url="/admin">
+          <div class="icon-container admin"></div>
+          <div class="label-container">
+            Administration
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+
+  <script type="text/javascript">
+    $('.home-menu-item').click(function() {
+      window.location = $(this).attr('data-url');
+    });
+
+  </script>
+
+{% endblock extra_js %}
