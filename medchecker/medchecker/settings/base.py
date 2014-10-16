@@ -206,6 +206,7 @@ DJANGO_APPS = (
 LOCAL_APPS = (
     'core',
     'medicine',
+    'patient',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

@@ -7,6 +7,9 @@ from django.contrib import admin
 urlpatterns = patterns('',
     url(r'^', include('core.urls')),
     url(r'^medicine/', include('medicine.urls')),
+    url(r'^patient/', include('patient.urls')),
+
+    url(r'^$', 'core.views.home', name='core_home'),
     )
 
 # AJAX URLs

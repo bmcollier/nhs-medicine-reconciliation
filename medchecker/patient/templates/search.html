@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{% block title %}Patient Search{% endblock title %}</h1>
+
+<div class="row">
+  <div class="small-8 small-centered columns">
+    <ul>
+    {% for patient in patients %}
+      <li>
+        <h2><a href="{% url 'patient_detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a> ({{ patient.nhs_number }})</h2>
+        <p>{{ patient.address }}</p>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock content %}
