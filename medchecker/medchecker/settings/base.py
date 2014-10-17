@@ -119,7 +119,7 @@ AJAX_URL = '/ajax/'
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key should only be used for development and testing.
-SECRET_KEY = r""
+SECRET_KEY = r"romp!jd%39zag$#hyyeknlh-b%7eg&m@wsa2*iu*_+9rbn*fu^"
 ########## END SECRET CONFIGURATION
 
 

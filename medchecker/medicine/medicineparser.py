@@ -1,13 +1,19 @@
 import re, string
 
-__DOSE_SYMBOL_RE = 'g|ug|mg|kg|l|ml|p|d|s|OP|CP|Mu|u|mg/kg|ml/kg|/kg|cm|in|micrograms'
-__STRENGTH_RE = '([0-9.]+( )*(' + __DOSE_SYMBOL_RE + ')( |$|/)+)'
+__DOSE_SYMBOL_RE = r'g|ug|mg|kg|l|ml|p|d|s|OP|CP|Mu|u|mg/kg|ml/kg|/kg|cm|in|micrograms'
+__STRENGTH_RE = r'([0-9.]+( )*(' + __DOSE_SYMBOL_RE + ')( |$|/)+)'
 
-__DAILY_REPETITION_SYMBOL_RE = 'd|ad|d3|d4|d5|qw|tw|bw|ow|om|w2|mwf'
-__DAILY_REPETITION_RE = '(^|[^\w\d])+(' + __DAILY_REPETITION_SYMBOL_RE + ')([^\w\d]|$)+'
+__DAILY_REPETITION_SYMBOL_RE = r'd|ad|d3|d4|d5|qw|tw|bw|ow|om|w2|mwf'
+__DAILY_REPETITION_RE = r'(^|[^\w\d])+(' + __DAILY_REPETITION_SYMBOL_RE + ')([^\w\d]|$)+'
 
-__INTERVAL_FREQUENCY_SYMBOL_RE ='hh|h1|h2|h3|h4|h5|h6|h8|h12|h18|h24|hd|pd|qd|td|tid|bd|od'
-__INTERVAL_FREQUENCY_RE = '(^|[^\w\d])+(' + __INTERVAL_FREQUENCY_SYMBOL_RE + ')([^\w\d]|$)+'
+__INTERVAL_FREQUENCY_SYMBOL_RE = r'hh|h1|h2|h3|h4|h5|h6|h8|h12|h18|h24|hd|pd|qd|td|tid|bd|od'
+__INTERVAL_FREQUENCY_RE = r'(^|[^\w\d])+(' + __INTERVAL_FREQUENCY_SYMBOL_RE + ')([^\w\d]|$)+'
+
+__FORM_SYMBOL_RE = r'capsule(s)|tablet(s)'
+__FORM_RE = r'(^|[^\w\d])+(' + __FORM_SYMBOL_RE + ')([^\w\d]|$)+'
+
+# __MEDICINE_RE = r'^([\w ]*) (?=(,|[0-9]|' + __DOSE_SYMBOL_RE + '|' + __DAILY_REPETITION_SYMBOL_RE + '|' + __INTERVAL_FREQUENCY_SYMBOL_RE + '))'
+__MEDICINE_RE = '^([\w ]*)(?=td|,|bw|[0-9])'
 
 __DOSE_SYNTAX_HUMAN_MAP = {
     # Interval Frequence
@@ -41,6 +47,11 @@ __DOSE_SYNTAX_HUMAN_MAP = {
     'ow':  'once a week',
     'om':  'once a month',
     'mwf': 'Monday, Wednesday, Friday',
+    # Form
+    'capsule': 'Capsule',
+    'capsules': 'Capsules',
+    'tablet': 'Tablet',
+    'tablets': 'Tablets',
     }
 
 
@@ -61,24 +72,36 @@ def get_medicine_text_as_components(medicine_text):
     medicine_dict = {}
 
     # Medicine
-    m = re.search('([A-Za-z ]{4,})', medicine_text)
+    m = re.search(__MEDICINE_RE, medicine_text)
     if m:
         medicine_dict['medicine'] = clean_token(m.group(0))
+
+    # Form
+    m = re.search(__FORM_RE, medicine_text_lower)
+    if m:
+        medicine_dict['form'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
 
     # Strength
     m = re.search(__STRENGTH_RE, medicine_text_lower)
     if m:
-        medicine_dict['medicine'] += ', ' + m.group(0).strip(string.punctuation)
+        medicine_dict['strength'] = m.group(0).strip(string.punctuation)
 
-    # Daily Repetition
-    m = re.search(__DAILY_REPETITION_RE, medicine_text_lower)
+    # Dose
+    m = re.search(__STRENGTH_RE, medicine_text_lower)
     if m:
-        medicine_dict['daily_repetition'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
+        medicine_dict['dose'] = ''
 
-    # Interval Frequency
+    # Frequency
     m = re.search(__INTERVAL_FREQUENCY_RE, medicine_text_lower)
     if m:
-        medicine_dict['interval_frequency'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
+        medicine_dict['frequency'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
+
+    # Duration
+    m = re.search(__DAILY_REPETITION_RE, medicine_text_lower)
+    if m:
+        medicine_dict['duration'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
+
+    
 
     # # Instructions
     # m = re.search(__DOSE_RE, medicine_text_lower)

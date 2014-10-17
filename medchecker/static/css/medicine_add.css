@@ -1,18 +1,51 @@
-textarea.comments {
-  /*position: absolute;
-  height: 111px;*/
-}
-
-input[type="text"].medicine-free-text {
+.medicine-free-text {
+  box-sizing: border-box;
   font-size: 2em;
   height: 2em;
+  line-height: 2em;
+  border: 1px solid #cccccc;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  position: relative;
 }
 
-.break {
-  margin: 20px 20px;
+.medicine-free-text.placeholder {
+  color: #cccccc;
 }
 
-.medicine-free-text-autocomplete-suggestions {
+.medicine-free-text:focus {
+  transition: box-shadow 0.45s, border-color 0.45s ease-in-out;
+  -webkit-appearance: none;
+  outline: none;
+}
+
+#caret-locatior {
+  width: 0px;
+}
+
+.medicine-free-text-suggestions {
+  border: 1px solid #cccccc;
+  background-color: #eeeeee;
   position: absolute;
-  border: 1px solid black;
+  z-index: 9999;
+  display: none;
+  max-height: 200px;
+  overflow-y: scroll;
+  margin-top: -1px;
+}
+
+.medicine-free-text-suggestions ul {
+  list-style: none;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.suggestion {
+  font-size: 1.4em;
+  padding-left: 0.8rem;
+}
+
+.suggestion:hover {
+  background-color: #dddddd;
+  cursor: pointer;
 }

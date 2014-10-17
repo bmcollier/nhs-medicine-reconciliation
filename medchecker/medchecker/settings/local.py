@@ -26,12 +26,12 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(DJANGO_ROOT, 'default.db')),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'medchecker',
+        'USER': 'django',
+        'PASSWORD': 'fivium12',
+        'HOST': 'localhost',
+        'PORT': '5433',
         'ATOMIC_REQUESTS': True,
     }
 }

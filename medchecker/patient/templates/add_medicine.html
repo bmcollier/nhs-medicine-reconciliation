@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Add Medicine{% endblock title %}
+
+{% block extra_css %}
+  <link href="{% static 'css/medicine_add.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+  <h1>Add Medicine</h1>
+  <div class="row">
+      <div class="small-12 medium-12 columns">
+        <div id="medicine-free-text" class="medicine-free-text placeholder" contenteditable>drug, dose</div>
+        <div id="medicine-free-text-suggestions" class="medicine-free-text-suggestions">
+          <ul id="suggestions">
+          </ul>
+        </div>
+      </div>
+  </div>
+
+  <hr />
+
+  <form action="{% url 'patient_add_medicine' patient.id %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="small-8 columns">
+        <label{% if patient_medication_form.virtual_medicinal_product_pack.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.virtual_medicinal_product_pack.label }}
+          {{ patient_medication_form.virtual_medicinal_product_pack }}
+        </label>
+        {% if patient_medication_form.virtual_medicinal_product_pack.errors %}
+          <small class="error">{{ patient_medication_form.virtual_medicinal_product_pack.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-2 columns">
+        <label{% if patient_medication_form.form.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.form.label }}
+          {{ patient_medication_form.form }}
+        </label>
+        {% if patient_medication_form.form.errors %}
+          <small class="error">{{ patient_medication_form.form.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-2 columns">
+        <label{% if patient_medication_form.strength.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.strength.label }}
+          {{ patient_medication_form.strength }}
+        </label>
+        {% if patient_medication_form.strength.errors %}
+          <small class="error">{{ patient_medication_form.strength.errors }}</small>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 columns">
+        <label{% if patient_medication_form.dose.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.dose.label }}
+          {{ patient_medication_form.dose }}
+        </label>
+        {% if patient_medication_form.dose.errors %}
+          <small class="error">{{ patient_medication_form.dose.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-3 columns">
+        <label{% if patient_medication_form.frequency.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.frequency.label }}
+          {{ patient_medication_form.frequency }}
+        </label>
+        {% if patient_medication_form.frequency.errors %}
+          <small class="error">{{ patient_medication_form.frequency.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-3 columns">
+        <label{% if patient_medication_form.duration.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.duration.label }}
+          {{ patient_medication_form.duration }}
+        </label>
+        {% if patient_medication_form.duration.errors %}
+          <small class="error">{{ patient_medication_form.duration.errors }}</small>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <label{% if patient_medication_form.special_instructions.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.special_instructions.label }}
+          {{ patient_medication_form.special_instructions }}
+        </label>
+        {% if patient_medication_form.special_instructions.errors %}
+          <small class="error">{{ patient_medication_form.special_instructions.errors }}</small>
+        {% endif %}
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+      <div class="small-4 columns">
+        <label{% if patient_medication_form.source.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.source.label }}
+          {{ patient_medication_form.source }}
+        </label>
+        {% if patient_medication_form.source.errors %}
+          <small class="error">{{ patient_medication_form.source.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-8 columns">
+        <label{% if patient_medication_form.reason.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.reason.label }}
+          {{ patient_medication_form.reason }}  
+        </label>
+        {% if patient_medication_form.reason.errors %}
+          <small class="error">{{ patient_medication_form.reason.errors }}</small>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-6 columns">
+        <label{% if patient_medication_form.comments.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.comments.label }}
+          {{ patient_medication_form.comments }}
+        </label>
+        {% if patient_medication_form.comments.errors %}
+          <small class="error">{{ patient_medication_form.comments.errors }}</small>
+        {% endif %}
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+      <div class="small-3 small-centerer columns">
+        <input type="submit" class="button" value="Add Medicine"/>
+        <a href="{% url 'patient_detail' patient.id %}" class="button">Cancel</a>
+      </div>
+    </div>
+
+  </form>
+
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+
+
+    function pasteHtmlAtCaret(html) {
+      var sel, range;
+      if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+          range = sel.getRangeAt(0);
+          range.deleteContents();
+
+          // Range.createContextualFragment() would be useful here but is
+          // only relatively recently standardized and is not supported in
+          // some browsers (IE9, for one)
+          var el = document.createElement("div");
+          el.innerHTML = html;
+          var frag = document.createDocumentFragment(), node, lastNode;
+          while ( (node = el.firstChild) ) {
+            lastNode = frag.appendChild(node);
+          }
+          range.insertNode(frag);
+
+          // Preserve the selection
+          if (lastNode) {
+            range = range.cloneRange();
+            range.setStartAfter(lastNode);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        }
+      } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+      }
+    }
+
+
+
+    function parse_medicine_text(event) {
+      var evt = event || window.event
+        // "e" is the standard behavior (FF, Chrome, Safari, Opera), while "window.event" (or "event") is IE's behavior
+        if ( event.which == 13 ) {
+         event.preventDefault();
+         return false;
+       }
+
+
+      if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+
+        if (sel.type === 'Range') {
+          return;
+        } else {
+          pasteHtmlAtCaret('<span id="caret-locator"></span>');
+          $('#medicine-free-text-suggestions').css('left', $('#caret-locator').position().left);
+          $(this).find('#caret-locator').remove();
+        }
+      }
+
+      $.ajax({
+        url: "{% url "ajax_parse_medicine_text" %}",
+        data: {medicine_free_text: $(this).html()},
+        success: function(xhr) {
+
+          $('#id_virtual_medicinal_product_pack').val(xhr.medicine);
+          $('#id_form').val(xhr.form);
+          $('#id_strength').val(xhr.strength);
+          $('#id_dose').val(xhr.dose);
+          $('#id_duration').val(xhr.duration);
+          $('#id_frequency').val(xhr.frequency);
+
+          $('#medicine-free-text-suggestions ul').html('');
+
+
+          if (xhr.suggestions !== undefined) {
+            for (i = 0; i < xhr.suggestions.length; ++i) {
+              $('#medicine-free-text-suggestions ul').append('<li class="suggestion" data-nm="' + xhr.suggestions[i] + '">' + xhr.suggestions[i] + '</li>');
+            }
+
+            $('.suggestion').click(function() {
+              $('#medicine-free-text').html($(this).attr('data-nm'));
+              $('#medicine-free-text').focus();
+              $('#medicine-free-text-suggestions').hide();
+            });
+
+            $('#medicine-free-text-suggestions').show();
+          } else {
+            $('#medicine-free-text-suggestions').hide();
+          }
+
+          
+
+        },
+        error: function(xhr) {
+          document.write(xhr.responseText);
+        }
+      });
+    }
+
+    $('#medicine-free-text').keyup(parse_medicine_text);
+    $('#medicine-free-text').on('paste', parse_medicine_text);
+
+    $('#medicine-free-text').focus(function(event) {
+      if ($(this).hasClass('placeholder')) {
+        $(this).html('')
+        $(this).removeClass('placeholder');
+      } else {
+        $('#medicine-free-text-suggestions').show();
+      }
+    });
+
+    $('body').click(function(event) {
+
+      var target = $(document.activeElement||event.explicitOriginalTarget);
+
+      console.log();
+
+
+      if (target.attr('id') === 'medicine-free-text' || target.hasClass('suggestion')) {
+        console.log('do nothing');
+        return false;
+      }
+
+      if ($(this).text() == '') {
+        $(this).html('drug, dose');
+        $(this).addClass('placeholder');
+      }
+      $('#medicine-free-text-suggestions').hide();
+    });
+
+    // $('#medicine-free-text').blur(function(event) {
+    //   if ($(this).text() == '') {
+    //     $(this).html('drug, dose');
+    //     $(this).addClass('placeholder');
+    //   }
+    //   $('#medicine-free-text-suggestions').hide();
+    // });
+
+    
+
+  </script>
+{% endblock extra_js %}

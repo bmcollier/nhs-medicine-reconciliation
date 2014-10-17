@@ -112,3 +112,10 @@ h1 {
   font-size: 1.2em;
   width: 100%;
 }
+
+.errorlist {
+  list-style: none;
+  margin-bottom: 0;
+  margin-left: 0;
+  font-size: 0.9em;
+}

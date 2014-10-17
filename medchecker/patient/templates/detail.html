@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{% block title %}{{ patient.first_name }} {{ patient.last_name }} ({{ patient.nhs_number }}){%endblock title %}</h1>
+<h1>{% block title %}{{ patient.get_full_name }} ({{ patient.nhs_number }}){%endblock title %}</h1>
 
 <h2>Medication History</h2>
-<a href="{% url 'medicine_add' %}" class="button small">Add Medicine</a>
+<a href="{% url 'patient_add_medicine' patient.id %}" class="button small">Add Medicine</a>
 
 {% endblock content %}

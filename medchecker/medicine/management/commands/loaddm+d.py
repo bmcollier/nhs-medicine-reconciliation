@@ -18,10 +18,10 @@ def load_dm_and_d():
     # VirtualMedicinalProduct.objects.all().delete()
     # VirtualTherapeuticMoiety.objects.all().delete()
 
-    load_vtm('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vtm2_3091014.xml')
-    load_vmp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmp2_3091014.xml')
-    load_vmpp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmpp2_3091014.xml')
-    load_amp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_amp2_3091014.xml')
+    # load_vtm('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vtm2_3091014.xml')
+    # load_vmp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmp2_3091014.xml')
+    # load_vmpp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmpp2_3091014.xml')
+    # load_amp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_amp2_3091014.xml')
     load_ampp(
         ampp_file_location='C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_ampp2_3091014.xml',
         gtin_file_location='C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\week422014-r2_3-GTIN\\f_gtin2_0091014.xml'
@@ -389,8 +389,6 @@ def load_ampp(ampp_file_location, gtin_file_location):
 
                 if gtin.get('enddt') is not None:
                     ampp.gtin_enddt = gtin.get('enddt')
-            
-                print 'GTIN data found for AMPP %d' % int(appid.text) 
 
             except KeyError:
                 pass #print 'No GTIN data found for AMPP %d' % int(appid.text) 
