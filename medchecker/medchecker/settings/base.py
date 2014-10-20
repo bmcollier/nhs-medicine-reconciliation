@@ -164,6 +164,10 @@ TEMPLATE_DIRS = (
 ########## END TEMPLATE CONFIGURATION
 
 
+AUTH_USER_MODEL = 'core.NfcUser'
+
+AUTHENTICATION_BACKENDS = ('core.backends.NfcAuthenticationBackend',)
+
 ########## MIDDLEWARE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (

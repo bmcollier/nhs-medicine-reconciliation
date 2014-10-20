@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from core.forms import LoginForm
+from core.models import NfcUser
 
 def do_login(request):
     error_message = u""
@@ -28,8 +29,22 @@ def do_login(request):
             
         error_message = "Invalid login details provided."
 
-    else:
-        login_form = LoginForm()
+    else: # GET
+
+        # HACK: Suitable for NFC demo only.
+        # Check if the NFC token has been supplied as a URL parameter. If it 
+        # has, authenticate using this.
+        nfc_token = request.GET.get('nfc_token')
+        if nfc_token is not None:
+            user = authenticate(nfc_token=nfc_token)
+            login(request, user)
+
+            return HttpResponseRedirect(
+                reverse('core_home')
+                )
+
+        else:
+            login_form = LoginForm()
 
     return render_to_response(
         'login.html',
