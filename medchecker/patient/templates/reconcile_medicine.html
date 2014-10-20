@@ -89,18 +89,13 @@
           var similar_id = ui.helper.attr('data-similar-id');
           var source = ui.helper.attr('data-source');
 
-          var med_tile_postion = ui.helper.offset();
+          var helper_offset = ui.helper.offset();
 
           $('.med-tile[data-similar-id="' + similar_id + '"]').not("[data-source='" + source + "']").each(function() {
-            $(this).css('background-color', 'red');
-
-            $(this).css('position', 'absolute');
-
             $(this).animate({
-              left: med_tile_postion.left,
-              top: med_tile_postion.top,
-
-            }, 1000, function() {
+              left: helper_offset.left - $(this).offset().left,
+              top: helper_offset.top - $(this).offset().top
+            }, 300, function() {
               $(this).hide();
             });
           });
@@ -108,13 +103,29 @@
         },
         stop: function(event, ui) {
           ui.helper.removeClass('drag-helper');
-        },
+          var similar_id = ui.helper.attr('data-similar-id');
+          var source = ui.helper.attr('data-source');
+
+          $('.med-tile[data-similar-id="' + similar_id + '"]').not("[data-source='" + source + "']").each(function() {
+            $(this).css('left', '');
+            $(this).css('top', '');
+            $(this).show();
+          });
+        }
       });
 
       $("#reconcile-target").droppable({
         drop: function(event, ui) {
           $(this).append('<li class="med-tile">' + ui.draggable.html() + '</li>');
+          
+          var similar_id = ui.helper.attr('data-similar-id');
+          var source = ui.helper.attr('data-source');
+
           ui.draggable.remove();
+
+          $('.med-tile[data-similar-id="' + similar_id + '"]').not("[data-source='" + source + "']").each(function() {
+            $(this).remove();
+          });
         }
         // ,
         // activate: function(event, ui) {

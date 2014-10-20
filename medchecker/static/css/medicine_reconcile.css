@@ -7,10 +7,16 @@
   margin-top: 0;
   margin-bottom: 0;
   max-width: 100%;
+  position: absolute;
 }
 
 .med-rec-col {
   padding: 5px;
+  position: relative;
+}
+
+.med-rec-source {
+  position: relative;
 }
 
 .med-rec-source, .med-rec-target {
