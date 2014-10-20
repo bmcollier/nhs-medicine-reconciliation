@@ -31,12 +31,14 @@ h1 > span.bold {
 }
 
 .login-pane input[type="email"],
+.login-pane input[type="number"],
 .login-pane input[type="password"],
 .login-pane input[type="submit"] {
   font-size: 1.2em;
 }
 
 .login-pane input[type="email"],
+.login-pane input[type="number"],
 .login-pane input[type="password"] {
   background-color: #D4D9DD;
   color: #5E6B74;
@@ -72,4 +74,19 @@ h1 > span.bold {
   border-radius: 1.8em;
   text-align: center;
   vertical-align: middle;
+}
+
+input[type="number"] {
+  text-align: center;
+}
+
+.nfc-pin {
+  font-size: 2em;
+  height: 2em;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.4em;
+  margin-bottom: 20px;
 }

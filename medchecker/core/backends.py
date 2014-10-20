@@ -2,11 +2,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
 class NfcAuthenticationBackend(ModelBackend):
-    def authenticate(self, username=None, password=None, nfc_token=None):
+    def authenticate(self, username=None, password=None, nfc_token=None, pin=None):
         UserModel = get_user_model()
 
         if nfc_token is not None:
-            return UserModel._default_manager.get(nfc_login_id=nfc_token)
+            try:
+                user = UserModel._default_manager.get(
+                nfc_login_id=nfc_token, nfc_login_pin=pin
+                )
+                return user
+            except UserModel.DoesNotExist:
+                return None
 
         if username is None:
             username = kwargs.get(UserModel.USERNAME_FIELD)

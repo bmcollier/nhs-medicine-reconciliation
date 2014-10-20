@@ -1,11 +1,11 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from core.forms import LoginForm
+from core.forms import LoginForm, UnlockForm
 from core.models import NfcUser
 
 def do_login(request):
@@ -51,6 +51,40 @@ def do_login(request):
         context_instance=RequestContext(
             request,
             {'login_form': login_form, 'error_message': error_message}
+            )
+        )
+
+def do_unlock(request, nfc_token):
+    nfcuser = get_object_or_404(NfcUser, nfc_login_id=nfc_token)
+
+    error_message = u""
+    if request.method == 'POST':
+        unlock_form = UnlockForm(request.POST)
+        if unlock_form.is_valid():
+            pin = request.POST['pin']
+            user = authenticate(nfc_token=nfc_token, pin=pin)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    
+                    return HttpResponseRedirect(
+                        reverse('core_home')
+                        )
+
+                else:
+                    error_message = "This account is disabled."
+            
+        error_message = "Invalid login details provided."
+
+    else:
+        unlock_form = UnlockForm()
+
+    return render_to_response(
+        'login.html',
+        context_instance=RequestContext(
+            request,
+            {'unlock_form': unlock_form, 'error_message': error_message,
+            'nfcuser': nfcuser}
             )
         )
 

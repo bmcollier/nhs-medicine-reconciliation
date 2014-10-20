@@ -28,6 +28,9 @@
       <div class="login-icon-container">
         <i class="fa fa-lock"></i>
       </div>
+
+      {% if login_form %}
+
       <form action="{% url "login" %}" method="post">
         {% if error_message %}
         <div data-alert class="alert-box alert radius">
@@ -40,7 +43,38 @@
         {{ login_form.password }}
         <input type="submit" class="right" value="Log in" />
       </form>
+
+      {% else %}
+
+      <h2>Welcome, {{ nfcuser.get_full_name }}!</h2>
+
+      <form action="{% url "unlock" nfcuser.nfc_login_id %}" method="post">
+        {% if error_message %}
+        <div data-alert class="alert-box alert radius">
+          {{ error_message }}
+        </div>
+        {% endif %}
+        {% csrf_token %}
+        
+        <div class="row">
+          <div class="small-5 small-centered columns">
+            {{ unlock_form.pin }}
+          </div> 
+        </div>
+
+        <input type="submit" class="right" value="Log in" />
+      </form>
+
+      {% endif %}
     </div>
     <div class="small-0 large-4 columns"></div>
   </div>
 {% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    $('#nfc-pin').click(function() {
+      $(this).val('');
+    });
+  </script>
+{% endblock extra_js %}
