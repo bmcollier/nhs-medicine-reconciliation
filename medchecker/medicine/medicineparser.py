@@ -1,23 +1,25 @@
+from medicine.models import VirtualMedicinalProduct
+
 import re, string
 
 __DOSE_SYMBOL_RE = r'g|ug|mg|kg|l|ml|p|d|s|OP|CP|Mu|u|mg/kg|ml/kg|/kg|cm|in|micrograms'
-__STRENGTH_RE = r'([0-9.]+( )*(' + __DOSE_SYMBOL_RE + ')( |$|/)+)'
+__STRENGTH_RE = r'([0-9.]+( )*(' + __DOSE_SYMBOL_RE + ')(/([0-9.]( )*)?(' + __DOSE_SYMBOL_RE + '))?(?=( |$|/|\))+))'
 
-__DAILY_REPETITION_SYMBOL_RE = r'd|ad|d3|d4|d5|qw|tw|bw|ow|om|w2|mwf'
+__DAILY_REPETITION_SYMBOL_RE = r'd|ad|d3|d4|d5|qw|tw|bw|ow|om|w2|mwf|prn'
 __DAILY_REPETITION_RE = r'(^|[^\w\d])+(' + __DAILY_REPETITION_SYMBOL_RE + ')([^\w\d]|$)+'
 
 __INTERVAL_FREQUENCY_SYMBOL_RE = r'hh|h1|h2|h3|h4|h5|h6|h8|h12|h18|h24|hd|pd|qd|td|tid|bd|od'
 __INTERVAL_FREQUENCY_RE = r'(^|[^\w\d])+(' + __INTERVAL_FREQUENCY_SYMBOL_RE + ')([^\w\d]|$)+'
 
-__FORM_SYMBOL_RE = r'capsule(s)|tablet(s)'
+__FORM_SYMBOL_RE = r'capsule(s)?|tablet(s)?|bandage(s)?|injection(s)?|drop(s)?|patch(es)?|sachet(s)?|roll(s)?|tube(s)?|suppositor(y)?(ies)?|infusion bag(s)?|vial(s)?|suspension|solution(s)?'
 __FORM_RE = r'(^|[^\w\d])+(' + __FORM_SYMBOL_RE + ')([^\w\d]|$)+'
 
 # __MEDICINE_RE = r'^([\w ]*) (?=(,|[0-9]|' + __DOSE_SYMBOL_RE + '|' + __DAILY_REPETITION_SYMBOL_RE + '|' + __INTERVAL_FREQUENCY_SYMBOL_RE + '))'
-__MEDICINE_RE = '^([\w ]*)(?=td|,|bw|[0-9])'
+__MEDICINE_RE = r'^([\w\d %\(\)/.\-]{4,})(?=(,|$))'
 
-__DOSE_SYNTAX_HUMAN_MAP = {
+INTERVAL_FREQUENCY_HUMAN_MAP = {
     # Interval Frequence
-    'hh': 'every30 minutes',
+    'hh': 'every 30 minutes',
     'h1': 'every hour',
     'h2': 'every 2 hours',
     'h3': 'every 3 hours',
@@ -35,7 +37,9 @@ __DOSE_SYNTAX_HUMAN_MAP = {
     'tid': 'three times a day',
     'bd': 'twice a day',
     'od': 'once a day',
-    # Daily Repetition
+    }
+
+DAILY_REPETITION_HUMAN_MAP = {
     'd':  'daily',
     'ad': 'alternate days',
     'd3': 'every 3 days',
@@ -47,34 +51,86 @@ __DOSE_SYNTAX_HUMAN_MAP = {
     'ow':  'once a week',
     'om':  'once a month',
     'mwf': 'Monday, Wednesday, Friday',
-    # Form
-    'capsule': 'Capsule',
-    'capsules': 'Capsules',
-    'tablet': 'Tablet',
-    'tablets': 'Tablets',
+    'prn': 'as required',
     }
 
+FORM_HUMAN_MAP = {
+    'capsule': 'capsule',
+    'capsules': 'capsule',
+    'tablet': 'tablet',
+    'tablets': 'tablet',
+    'drop': 'drop',
+    'drops': 'drop',
+    'bandage': 'bandage',
+    'bandages': 'bandage',
+    'injection': 'injection',
+    'injections': 'injection',
+    'patch': 'patch',
+    'patches': 'patch',
+    'sachet': 'sachet',
+    'sachets': 'sachet',
+    'roll': 'roll',
+    'rolls': 'roll',
+    'tube': 'tube',
+    'tubes': 'tube',
+    'suppository': 'suppository',
+    'suppositories': 'suppository',
+    'infusion bag': 'infusion bag',
+    'infusion bags': 'infusion bag',
+    'vial': 'vial',
+    'vials': 'vial',
+    'suspension': 'suspension',
+    'solution': 'solution',
+    'solutions': 'solution',
+    }
 
-# def translate_non_alphanumerics(to_translate, translate_to=u'_'):
-#     not_letters_or_digits = u'!"#%\'()*+,-./:;<=>?@[\]^_`{|}~'
-#     translate_table = dict((ord(char), translate_to) for char in not_letters_or_digits)
-#     return to_translate.translate(translate_table)
+__DOSE_SYNTAX_HUMAN_MAP = dict(
+    INTERVAL_FREQUENCY_HUMAN_MAP.items() +
+    DAILY_REPETITION_HUMAN_MAP.items() + 
+    FORM_HUMAN_MAP.items()
+    )
 
-def clean_token(token):
-    translation_table = dict((ord(char), None) for char in string.punctuation)
+def clean_token(token, remove_punctuation=True):
+    token = token.replace('&nbsp;', ' ')
 
-    return token.translate(translation_table).strip()
+    if remove_punctuation:
+        translation_table = dict((ord(char), None) for char in string.punctuation)
+        token = token.translate(translation_table)
+
+    return token.strip()
+
+def normalize_input(input_string):
+    for k, v in INTERVAL_FREQUENCY_HUMAN_MAP.items():
+        input_string = input_string.replace(v, k)
+
+    for k, v in DAILY_REPETITION_HUMAN_MAP.items():
+        input_string = input_string.replace(v, k)
+
+    return input_string
 
 def get_medicine_text_as_components(medicine_text):
-
-    medicine_text_lower = medicine_text.lower()
+    medicine_text_lower = normalize_input(medicine_text)
 
     medicine_dict = {}
 
     # Medicine
     m = re.search(__MEDICINE_RE, medicine_text)
     if m:
-        medicine_dict['medicine'] = clean_token(m.group(0))
+        medicine_dict['medicine'] = m.group(0)
+
+    # If a potential medicine name is found try and validate it against the 
+    # database for a real VMP. 
+    if medicine_dict.get('medicine'):
+        try:
+            vmp = VirtualMedicinalProduct.objects.get(
+                nm__iexact=medicine_dict['medicine']
+                )
+
+            if vmp is not None:
+                medicine_dict['medicine'] = vmp.nm
+                medicine_dict['medicine_is_valid'] = True
+        except VirtualMedicinalProduct.DoesNotExist:
+            medicine_dict['medicine_is_valid'] = False
 
     # Form
     m = re.search(__FORM_RE, medicine_text_lower)
@@ -84,12 +140,7 @@ def get_medicine_text_as_components(medicine_text):
     # Strength
     m = re.search(__STRENGTH_RE, medicine_text_lower)
     if m:
-        medicine_dict['strength'] = m.group(0).strip(string.punctuation)
-
-    # Dose
-    m = re.search(__STRENGTH_RE, medicine_text_lower)
-    if m:
-        medicine_dict['dose'] = ''
+        medicine_dict['strength'] = clean_token(m.group(0), remove_punctuation=False)
 
     # Frequency
     m = re.search(__INTERVAL_FREQUENCY_RE, medicine_text_lower)
@@ -101,6 +152,11 @@ def get_medicine_text_as_components(medicine_text):
     if m:
         medicine_dict['duration'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
 
+    # Dose
+    medicine_dict['dose'] =  '%s, %s, %s' % (
+        medicine_dict.get('strength', '?'), medicine_dict.get('frequency', '?'),
+        medicine_dict.get('duration', '?')
+        )
     
 
     # # Instructions

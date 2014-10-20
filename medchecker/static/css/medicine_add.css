@@ -1,3 +1,18 @@
+.medicine-free-text-container {
+  padding: 10px;
+  background-color: #eee;
+  margin-bottom: 20px;
+}
+
+.medicine-free-text-container.highlight {
+  background-color: #A9D5D8;
+  -webkit-transition: background-color 300ms linear;
+  -moz-transition: background-color 300ms linear;
+  -o-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: background-color 300ms linear;
+}
+
 .medicine-free-text {
   box-sizing: border-box;
   font-size: 2em;
@@ -7,6 +22,10 @@
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   position: relative;
+  background-color: #fff;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .medicine-free-text.placeholder {
@@ -29,7 +48,7 @@
   position: absolute;
   z-index: 9999;
   display: none;
-  max-height: 200px;
+  max-height: 350px;
   overflow-y: scroll;
   margin-top: -1px;
 }
@@ -41,11 +60,19 @@
 }
 
 .suggestion {
-  font-size: 1.4em;
+  font-size: 1.5em;
   padding-left: 0.8rem;
+  white-space: nowrap;
 }
 
 .suggestion:hover {
   background-color: #dddddd;
   cursor: pointer;
+}
+
+.wait-container {
+  position: absolute;
+  right: 28px;
+  top: 16px;
+  display: none;
 }
