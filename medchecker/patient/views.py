@@ -62,3 +62,17 @@ def add_medicine(request, patient_id):
         'add_medicine.html',
         context_instance=RequestContext(request, {'patient': patient, 'patient_medication_form': patient_medication_form})
         )
+
+@login_required
+def reconcile_medicine(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+
+    unverified_medications = PatientMedication.objects.filter(patient=patient)
+
+    return render_to_response(
+        'reconcile_medicine.html',
+        context_instance=RequestContext(request,
+            {'patient': patient,
+            'unverified_medications': unverified_medications}
+            )
+        )

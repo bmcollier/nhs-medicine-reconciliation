@@ -4,6 +4,8 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "foundation": "~5.4.5",
-    "fontawesome": "~4.2.0"
+    "fontawesome": "~4.2.0",
+    "jqueryui": "~1.11.2",
+    "jqueryui-touch-punch-improved": "~0.3.1"
   }
 }
