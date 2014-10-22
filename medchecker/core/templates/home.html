@@ -29,7 +29,7 @@
             Add a new Patient
           </div>
         </li>
-        <li class="home-menu-item" data-url="https://docs.google.com/forms/d/1mZhH8NO-3sUrrjwqTNwR54xpuQIMe-6IwXWcC2vaf-0/viewform?entry.362395284={{ user.get_full_name }}&entry.1729656582=Doctor">
+        <li class="home-menu-item" data-url="https://docs.google.com/forms/d/1mZhH8NO-3sUrrjwqTNwR54xpuQIMe-6IwXWcC2vaf-0/viewform?entry.362395284={{ user.get_full_name }}&entry.1729656582=Doctor" data-target="blank">
           <div class="icon-container feedback"></div>
           <div class="label-container">
             Provide Feedback
@@ -56,7 +56,14 @@
 
   <script type="text/javascript">
     $('.home-menu-item').click(function() {
-      window.location = $(this).attr('data-url');
+      var url = $(this).attr('data-url');
+      var target = $(this).attr('data-target');
+
+      if ($(this).attr('data-target')) {
+        window.open(url, target);
+      } else {
+        window.location = url;
+      }
     });
 
   </script>
