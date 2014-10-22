@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<div class="medium-3 columns med-rec-col">
+  <div class="header {{ source }}">
+    {% with 'img/medicine_reconcile_header_'|add:source|add:'.png' as image_static %}
+      <img src="{% static image_static %}" alt="{{ title }} icon" />
+    {% endwith %}
+    <div class="title">
+      {{ title }}
+    </div>
+  </div>
+</div>

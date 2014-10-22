@@ -5,9 +5,12 @@
 
 <h2>Medication History</h2>
 <a href="{% url 'patient_add_medicine' patient.id %}" class="button">Add Medication</a>
-<h3>Unverified Medications</h2>
-<a href="{% url 'patient_add_medicine' patient.id %}" class="button">Verify Medications</a>
+<a href="{% url 'patient_verify_medicine' patient.id %}" class="button">Verify Medications</a>
 <a href="{% url 'patient_reconcile_medicine' patient.id %}" class="button">Reconcile Medications</a>
+<a href="{% url 'patient_discharge' patient.id %}" class="button">Discharge Patient</a>
+
+<h3>Unverified Medications</h2>
+
 <ul>
 {% for medication in unverified_medications %}
   <li>{{ medication.virtual_medicinal_product.nm }}, {{ medication.frequency}} {{ medication.duration }} ({{ medication.get_source_display }})</li>

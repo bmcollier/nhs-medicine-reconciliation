@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 from core.forms import LoginForm, UnlockForm
 from core.models import NfcUser
@@ -96,9 +97,12 @@ def do_logout(request):
 
 @login_required
 def home(request):
+
     return render_to_response(
         'home.html',
-        context_instance=RequestContext(request,)
+        context_instance=RequestContext(request,
+            {'show_admin': settings.SHOW_ADMIN_ON_HOME}
+            )
         )
 
 @login_required

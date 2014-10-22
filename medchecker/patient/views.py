@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
-from patient.models import Patient, PatientMedication
+from patient.models import Patient, PatientMedication, GPMedication
 from patient.forms import PatientMedicationModelForm
 
 @login_required
@@ -67,12 +67,59 @@ def add_medicine(request, patient_id):
 def reconcile_medicine(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
 
-    unverified_medications = PatientMedication.objects.filter(patient=patient)
+    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient)
+    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient)
+
+    medications_dict = {}
+    for medication in history_medications:
+        if medications_dict.get(str(medication.virtual_medicinal_product.vpid)):
+            current_dict = medications_dict[str(medication.virtual_medicinal_product.vpid)]
+            new_dict = dict(current_dict.items() + {'history': medication,}.items())
+            medications_dict[str(medication.virtual_medicinal_product.vpid)] = new_dict
+        else:
+            medications_dict[str(medication.virtual_medicinal_product.vpid)] = {
+                'history': medication,
+                'medinfo': {
+                    'vpid': medication.virtual_medicinal_product.vpid, 'nm': medication.virtual_medicinal_product.nm
+                    }
+                }
+
+    for medication in gp_medications:
+        if medications_dict.get(str(medication.virtual_medicinal_product.vpid)):
+            current_dict = medications_dict[str(medication.virtual_medicinal_product.vpid)]
+            new_dict = dict(current_dict.items() + {'gp': medication,}.items())
+            medications_dict[str(medication.virtual_medicinal_product.vpid)] = new_dict
+        else:
+            medications_dict[str(medication.virtual_medicinal_product.vpid)] = {
+                'gp': medication,
+                'medinfo': {
+                    'vpid': medication.virtual_medicinal_product.vpid, 'nm': medication.virtual_medicinal_product.nm
+                    }
+                }
+
+    medications = []
+    for k, v in medications_dict.iteritems():
+        medications += [v,]
 
     return render_to_response(
         'reconcile_medicine.html',
         context_instance=RequestContext(request,
-            {'patient': patient,
-            'unverified_medications': unverified_medications}
+            {'patient': patient, 'medications': medications}
             )
+        )
+
+@login_required
+def verify_medicine(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    return render_to_response(
+        'verify_medicine.html',
+        context_instance=RequestContext(request, {'patient': patient,})
+        )
+
+@login_required
+def discharge(request, patient_id):
+    patient = get_object_or_404(Patient, id=patient_id)
+    return render_to_response(
+        'discharge.html',
+        context_instance=RequestContext(request, {'patient': patient,})
         )

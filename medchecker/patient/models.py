@@ -30,10 +30,17 @@ class PatientMedication(models.Model):
         ('MEDICINE_BAG', 'Medicine Bag'),
         )
 
+    STATUS_CHOICES = (
+        ('UNVERIFIED', 'Unverified'),
+        ('VERIFIED', 'Verified'),
+        ('DELETED', 'Deleted'),
+        )
+
     patient = models.ForeignKey(Patient, blank=True, null=True)
     virtual_medicinal_product = models.ForeignKey(VirtualMedicinalProduct, null=True)
     form = models.CharField(max_length=255)
     strength = models.CharField(max_length=255)
+    route = models.CharField(max_length=255)
     dose = models.CharField(max_length=255)
     frequency = models.CharField(max_length=255)
     duration = models.CharField(max_length=255)
@@ -41,6 +48,30 @@ class PatientMedication(models.Model):
     source = models.CharField(max_length=20, choices=SOURCE_CHOICES)
     reason = models.CharField(max_length=1000, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
 
     def __unicode__(self):
-        return u'%s - %s' % (self.patient.get_full_name(), self.virtual_medicinal_product_pack.nm)
+        return u'%s - %s (%s)' % (self.patient.get_full_name(), self.virtual_medicinal_product.nm, self.source)
+
+class GPMedication(models.Model):
+    STATUS_CHOICES = (
+        ('UNVERIFIED', 'Unverified'),
+        ('VERIFIED', 'Verified'),
+        ('DELETED', 'Deleted'),
+        )
+
+    patient = models.ForeignKey(Patient, blank=True, null=True)
+    virtual_medicinal_product = models.ForeignKey(VirtualMedicinalProduct, null=True)
+    form = models.CharField(max_length=255)
+    strength = models.CharField(max_length=255)
+    route = models.CharField(max_length=255)
+    dose = models.CharField(max_length=255)
+    frequency = models.CharField(max_length=255)
+    duration = models.CharField(max_length=255)
+    special_instructions = models.TextField(null=True, blank=True)
+    reason = models.CharField(max_length=1000, null=True, blank=True)
+    comments = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+
+    def __unicode__(self):
+        return u'%s - %s (GP)' % (self.patient.get_full_name(), self.virtual_medicinal_product.nm)

@@ -102,7 +102,7 @@ STATICFILES_DIRS = (
     normpath(join(SITE_ROOT, 'static/bower_components/fontawesome')),
     ('js', normpath(join(SITE_ROOT, 'static/bower_components/jquery/dist'))),
     ('js', normpath(join(SITE_ROOT, 'static/bower_components/jqueryui'))),
-    ('js', normpath(join(SITE_ROOT, 'static/bower_components/jqueryui-touch-punch-improved'))),
+    ('js', normpath(join(SITE_ROOT, 'static/bower_components/jqueryui-touch-punch'))),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders

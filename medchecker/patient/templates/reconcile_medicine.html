@@ -16,57 +16,32 @@
   </div>
 </div>
 
-<div class="row med-rec-container show-for-landscape" data-equalizer>
-  <div class="medium-3 columns med-rec-col" data-equalizer-watch>
+<div class="row med-rec-container show-for-landscape">
+  {% include "reconcile_medicine_header.html" with title="GP" source="gp" %}
+  {% include "reconcile_medicine_header.html" with title="Medication History" source="history" %}
+  {% include "reconcile_medicine_header.html" with title="In Patient Prescription" source="inpatient" %}
+  {% include "reconcile_medicine_header.html" with title="Reconciled Medications" source="reconcile" %}
+</div>
+
+{% for medication in medications %}
+<div class="row med-rec-container show-for-landscape">
+  {% include "reconcile_medicine_medication_tile.html" with medication=medication.gp source="gp" %}
+  {% include "reconcile_medicine_medication_tile.html" with medication=medication.history source="gp" %}
+
+  <div class="medium-3 columns med-rec-col">
     <div class="med-rec-source">
-      <div class="header">
-        GP
-      </div>
-      <ul class="med-list">
-        {% for medication in unverified_medications %}
-          <li class="med-tile" data-source="gp" data-similar-id="{{ medication.id }}">{{ medication.virtual_medicinal_product.nm }}, {{ medication.frequency}} {{ medication.duration }} ({{ medication.get_source_display }})</li>
-        {% endfor %}
-      </ul>
+      <div></div>
     </div>
   </div>
-  <div class="medium-3 columns med-rec-col" data-equalizer-watch>
-    <div class="med-rec-source">  
-      <div class="header">
-        Hospital
-      </div>
-      <ul class="med-list">
-        {% for medication in unverified_medications %}
-          <li class="med-tile" data-source="hospital" data-similar-id="{{ medication.id }}">{{ medication.virtual_medicinal_product.nm }}, {{ medication.frequency}} {{ medication.duration }} ({{ medication.get_source_display }})</li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-  <div class="medium-3 columns med-rec-col" data-equalizer-watch>
-    <div class="med-rec-source">
-      <div class="header">
-        Unverified
-      </div>
-      <ul class="med-list">
-        {% for medication in unverified_medications %}
-          <li class="med-tile" data-source="unverified" data-similar-id="{{ medication.id }}">{{ medication.virtual_medicinal_product.nm }}, {{ medication.frequency}} {{ medication.duration }} ({{ medication.get_source_display }})</li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-  <div class="medium-3 columns med-rec-col" data-equalizer-watch>
+  <div class="medium-3 columns med-rec-col">
     <div class="med-rec-target">
-      <div class="header">
-        Reconciled Medications
+      <div class="dropzone" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
+        <span class="dropzone-text"></span>
       </div>
-      <ul id="reconcile-target" class="med-list">
-        <li id="drop-helper" class="drop-helper">
-          Drag selected meds here<br/>
-          <img src="{% static 'img/medicine_reconcile_drop_helper.png' %}" alt="drop helper icon" />
-        </li>
-      </ul>
     </div>
   </div>
 </div>
+{% endfor %}
 
 {% endblock content %}
 
@@ -74,7 +49,7 @@
   <script type="text/javascript" src="{% static 'js/foundation/foundation.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/foundation/foundation.equalizer.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
-  <script type="text/javascript" sec="{% static 'js/jquery.ui.touch-punch-improved.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
 
 
   <script type="text/javascript">
@@ -83,53 +58,72 @@
     $(function() {
       $('.med-tile').draggable({
         revert: "invalid",
+        revertDuration: 200,
+        helper: function() {
+          var helper = $(this).clone()
+          helper.attr('data-helper', '');
+          return helper;
+        },
         start: function(event, ui) {
           ui.helper.css('z-index', 99999);
           ui.helper.addClass('drag-helper');
-          var similar_id = ui.helper.attr('data-similar-id');
-          var source = ui.helper.attr('data-source');
+          var med_id = ui.helper.attr('data-med-id');
 
-          var helper_offset = ui.helper.offset();
-
-          $('.med-tile[data-similar-id="' + similar_id + '"]').not("[data-source='" + source + "']").each(function() {
-            $(this).animate({
-              left: helper_offset.left - $(this).offset().left,
-              top: helper_offset.top - $(this).offset().top
-            }, 300, function() {
-              $(this).hide();
-            });
+          $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
+            $(this).addClass('in-progress');
           });
 
+          $('.dropzone').each(function() {
+            if ($(this).attr('data-med-id') === med_id) {
+              $(this).find('.dropzone-text').html('Continue as Prescribed');
+              $(this).removeClass('replace');
+              $(this).addClass('continue');
+              $(this).attr('data-operation', 'continue');
+            } else {
+              $(this).find('.dropzone-text').html('Replace ' + $(this).attr('data-med-nm'));
+              $(this).removeClass('continue');
+              $(this).addClass('replace');
+              $(this).attr('data-operation', 'replace');
+            }
+            $(this).addClass('visible');
+          });
         },
         stop: function(event, ui) {
           ui.helper.removeClass('drag-helper');
-          var similar_id = ui.helper.attr('data-similar-id');
-          var source = ui.helper.attr('data-source');
+          var med_id = ui.helper.attr('data-med-id');
 
-          $('.med-tile[data-similar-id="' + similar_id + '"]').not("[data-source='" + source + "']").each(function() {
-            $(this).css('left', '');
-            $(this).css('top', '');
-            $(this).show();
+          $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
+            $(this).removeClass('in-progress');
           });
+
+          $('.dropzone').removeClass('visible');
         }
       });
 
-      $("#reconcile-target").droppable({
+      $(".dropzone").droppable({
+        hoverClass: "ui-state-hover",
         drop: function(event, ui) {
-          $(this).append('<li class="med-tile">' + ui.draggable.html() + '</li>');
-          
-          var similar_id = ui.helper.attr('data-similar-id');
-          var source = ui.helper.attr('data-source');
+          var med_id = ui.helper.attr('data-med-id');
 
-          ui.draggable.remove();
-
-          $('.med-tile[data-similar-id="' + similar_id + '"]').not("[data-source='" + source + "']").each(function() {
-            $(this).remove();
+          $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
+            $(this).draggable("destroy");
+            $(this).addClass('complete');
           });
-        }
-        // ,
+
+          if ($(this).attr('data-operation') === 'continue') {
+            $(this).replaceWith(ui.draggable.clone());
+          } else if ($(this).attr('data-operation') === 'replace') {
+            $(this).parent().append(ui.draggable.clone());
+          }
+          
+          ui.helper.remove();
+
+          $('.dropzone').removeClass('visible');
+        },
         // activate: function(event, ui) {
-        //   $('#drop-helper').show(300, 'linear');
+          
+
+        //   // $('#drop-helper').show(300, 'linear');
         // },
         // deactivate: function(event, ui) {
         //   $('#drop-helper').hide(300);

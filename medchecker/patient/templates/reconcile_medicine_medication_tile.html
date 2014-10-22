@@ -1,0 +1,15 @@
+<div class="medium-3 columns med-rec-col">
+  <div class="med-rec-source">
+    {% if medication %}
+    <div class="med-tile" data-med-id="{{ medication.virtual_medicinal_product.vpid }}">
+      <div class="medicine">{{ medication.virtual_medicinal_product.nm }}</div>
+      <div class="dose">{{ medication.strength }} - {{ medication.route }} - {{ medication.frequency }}</div>
+      {% ifequal medication.source "history" %}
+      <div class="source"><strong>Source: </strong>{{ medication.get_source_display }}</div>
+      {% endifequal %}
+    </div>
+    {% else %}
+    <div></div>
+    {% endif %}
+  </div>
+</div>
