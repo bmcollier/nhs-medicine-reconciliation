@@ -27,7 +27,7 @@ def add(request):
 def detail(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
 
-    unverified_medications = PatientMedication.objects.filter(patient=patient)
+    unverified_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient)
 
     return render_to_response(
         'detail.html',
@@ -111,9 +111,14 @@ def reconcile_medicine(request, patient_id):
 @login_required
 def verify_medicine(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
+    
+    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient)
+
     return render_to_response(
         'verify_medicine.html',
-        context_instance=RequestContext(request, {'patient': patient,})
+        context_instance=RequestContext(request, 
+            {'patient': patient, 'medications': medications}
+            )
         )
 
 @login_required

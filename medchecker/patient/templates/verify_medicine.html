@@ -1,7 +1,64 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extra_css %}
+  <link href="{% static 'css/medicine_verify.css' %}" rel="stylesheet">
+{% endblock extra_css %}
 
 {% block content %}
 <h1>{% block title %}Verify Medications{%endblock title %}</h1>
-<p class="NotYetImplemented"></p>
+
+<div class="row">
+  <div class="small-12 small-centered columns">
+    <ul class="orbit-verify" data-orbit>
+
+    {% for medication in medications %}
+      <li data-orbit-slide="{{ medication.virtual_medicinal_product.vpid }}">
+        <div class="header">
+          <h2>
+            <span class="medication">{{ medication.virtual_medicinal_product.vtmid.nm }} </span>
+            <span class="route">{{ medication.route }} </span>
+            <span class="frequency">{{ medication.frequency }}</span>
+          </h2>
+        </div>
+        <div class="content">
+          <a href="" class="button"><strong>Yes</strong>, I'm taking</a>
+          <a href="" class="button"><strong>Yes</strong>, but not as prescribed</a>
+          <a href="" class="button"><strong>No</strong>, I'm not taking it</a>
+          <a href="" class="button"><strong>Not Sure</strong></a>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+  </div>
+</div>
+
+
 
 {% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript" src="{% static 'js/foundation/foundation.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/foundation/foundation.orbit.js' %}"></script>
+
+  <script type="text/javascript">
+    $(document).foundation({
+      orbit: {
+        animation: 'slide',
+        animation_speed: 500,
+        navigation_arrows: true,
+        bullets: true,
+        timer: false,
+        next_on_click: false,
+        slide_number: false,
+        circular: false,
+        variable_height: true
+      }
+    });
+
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      $('[data-orbit-slide]').addClass('swipe-info');
+    }
+  </script>
+  
+{% endblock extra_js %}
