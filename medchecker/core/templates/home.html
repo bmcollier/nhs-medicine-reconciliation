@@ -29,13 +29,22 @@
             Add a new Patient
           </div>
         </li>
-
+        <li class="home-menu-item" data-url="https://docs.google.com/forms/d/1mZhH8NO-3sUrrjwqTNwR54xpuQIMe-6IwXWcC2vaf-0/viewform?entry.362395284={{ user.get_full_name }}&entry.1729656582=Doctor">
+          <div class="icon-container feedback"></div>
+          <div class="label-container">
+            Provide Feedback
+            <br/>
+            <small>It won't take long!</small>
+          </div>
+        </li>
+        {% if show_admin %}
         <li class="home-menu-item" data-url="/admin">
           <div class="icon-container admin"></div>
           <div class="label-container">
             Administration
           </div>
         </li>
+        {% endif %}
       </ul>
 
     </div>
