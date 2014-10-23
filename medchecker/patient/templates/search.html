@@ -7,9 +7,14 @@
   <div class="small-8 small-centered columns">
     <ul>
     {% for patient in patients %}
-      <li>
-        <h2><a href="{% url 'patient_detail' patient.id %}">{{ patient.first_name }} {{ patient.last_name }}</a> ({{ patient.nhs_number }})</h2>
-        <p>{{ patient.address }}</p>
+      <li class="patient-search-result">
+        <h2><a href="{% url 'patient_detail' patient.id %}">{{ patient.get_full_name }}</a> <span class="sex">({{ patient.sex }})</span></h2>
+        <label for="patient-dob" style="">DOB: </label>
+        <span id="patient-dob" class="detail">{{ patient.date_of_birth }}</span>
+        <label for="patient-hospno">Hospital No: </label>
+        <span id="patient-hospno" class="detail">{{ patient.hospital_id }}</span>
+        <label for="patient-nhs">NHS No: </label>
+        <span id="patient-nhs" class="detail">{{ patient.nhs_number }}</span>
       </li>
     {% endfor %}
     </ul>

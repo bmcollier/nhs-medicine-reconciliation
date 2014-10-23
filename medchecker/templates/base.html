@@ -10,6 +10,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="icon" sizes="96x96" href="{% static 'img/medchecker_logo96x96.png' %}">
     <title>{% block title %}{% endblock title %} | MedChecker</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -28,10 +29,32 @@
         <div class="row collapse">
           <div class="small-6 medium-4 columns">
             {% if patient %}
-            <img src="{% static 'img/kevin_woods.png' %}" alt="Small photograph of patient." class="left" />
-            <div class="left">
-              <label for="patient-name">Patient</label>
-              <span id="patient-name"><a href="{% url 'patient_detail' patient.id %}">{{ patient.get_full_name }}</a></span>
+            <img class="left positionRelative zindex2 paddingRight2Percent" alt="Small photograph of patient." src="{% static 'img/nav_patient.png' %}">
+            <div class="left positionRelative zindex2">
+              <div class="patient-summary">
+                <div class="summary-item">
+                  <label for="patient-name">Patient: </label>
+                  <span id="patient-name" class="detail"><a href="{% url 'patient_detail' patient.id %}">{{ patient.get_full_name }}</a> ({{ patient.sex }})</span>
+                  <label for="patient-dob">DOB: </label>
+                  <span id="patient-dob" class="detail">{{ patient.date_of_birth }}</span>
+                </div>
+                <div class="summary-item">
+                  <label for="patient-hospno">Hospital No: </label>
+                  <span id="patient-hospno" class="detail">{{ patient.hospital_id }}</span>
+                  <label for="patient-nhs">NHS No: </label>
+                  <span id="patient-nhs" class="detail">{{ patient.nhs_number }}</span>
+                </div>
+              </div>         
+            </div>
+            <div class="ddMenu hide">
+              <ul>
+                <li class="borderBottom"><a href="{% url 'patient_detail' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_02.png' %}" /></span>Medication History</a></li>
+                <li class="borderBottom borderTop"><a href="{% url 'patient_add_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_01.png' %}" /></span>Add new meds</a></li>
+                <li class="borderBottom borderTop"><a href="{% url 'patient_reconcile_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_03.png' %}" /></span>Reconcile meds</a></li>
+                <li class="borderBottom borderTop"><a href="{% url 'patient_search' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_04.png' %}" /></span>Search Patients</a></li>
+                <li class="borderBottom borderTop"><a href="{% url 'patient_add' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_05.png' %}" /></span>Add Patient</a></li>
+                <li class="borderBottom borderTop"><a href="{% url 'core_dashboard' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_06.png' %}" /></span>Select Recent Patients</a></li>
+              </ul>
             </div>
             {% else %}
               &#160;
@@ -39,12 +62,12 @@
           </div>
           <div class="hide-for-small-only medium-4 columns">
             <div class="logo">
-              <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo96x96.png' %}" alt="MedChecker logo" /></a>
-              <span class="bold">Med</span>Checker
+              <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo.png' %}" alt="MedChecker logo" /></a>
+{#               <span class="bold">Med</span>Checker #}
             </div>
           </div>
           <div class="small-6 medium-4 columns">
-            <img src="{% static 'img/nurse_norah.png' %}" alt="Small photograph of currently logged in user." class="right" />
+            <img src="{% static 'img/nav_user.png' %}" alt="Small photograph of currently logged in user." class="right" />
             <div class="right">
               <label for="current-user-name" class="text-right">Logged in as</label>
               <span id="current-user-name" class="text-right">{{ request.user.get_full_name }}</span>
@@ -60,6 +83,7 @@
     {% endblock content %}
 
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/medchecker.js' %}"></script>
     {% block extra_js %}{% endblock extra_js %}
   </body>
 </html>
