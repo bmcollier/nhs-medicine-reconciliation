@@ -25,7 +25,7 @@ class NfcUserAdmin(UserAdmin):
     ordering = ("email",)
 
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password', 'first_name', 'last_name')}),
+        (None, {'fields': ('username', 'email', 'password', 'first_name', 'last_name', 'nhs_trust', 'role')}),
         )
     add_fieldsets = (
         (None, {
