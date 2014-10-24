@@ -45,6 +45,11 @@
   font-weight: bold;
 }
 
+.orbit-verify li .header .source {
+  color: #fff;
+  font-style: italic
+}
+
 .orbit-verify .button {
   display: block;
   width: 300px;
@@ -59,4 +64,17 @@
 
 .orbit-verify .button:hover {
   background-color: #B8C1C7;
+}
+
+.orbit-verify .button.selected {
+  background-color: #2EB398;
+}
+
+.orbit-verify .button.not-selected {
+  opacity: 0.5;
+}
+
+.orbit-verify .button.complete {
+  margin-top: 81px;
+  margin-bottom: 81px;
 }

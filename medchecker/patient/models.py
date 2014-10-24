@@ -87,7 +87,9 @@ class PatientMedication(models.Model):
 
     STATUS_CHOICES = (
         ('UNVERIFIED', 'Unverified'),
-        ('VERIFIED', 'Verified'),
+        ('TAKING', 'Taking as prescribed'),
+        ('NOT AS PRESCRIBED', 'Taking, but not as prescribed'),
+        ('NOT TAKING', 'Not Taking'),
         ('DELETED', 'Deleted'),
         )
 

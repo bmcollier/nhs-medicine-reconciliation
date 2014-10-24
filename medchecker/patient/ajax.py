@@ -16,7 +16,10 @@ def verify_medicine(request, patient_id):
         if action == 'no':
             patient_medication.status = 'DELETED'
         if action == 'yes':
-            patient_medication.status = 'VERIFIED'
+            patient_medication.status = 'TAKING'
+        if action == 'not-as-prescribed':
+            patient_medication.status = 'NOT AS PRESCRIBED'
+
         patient_medication.save()
 
     result = {'status': 'OK'}
