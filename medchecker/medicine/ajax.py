@@ -3,9 +3,8 @@ from django.utils.html import strip_tags
 
 from medicine.medicineparser import (get_medicine_text_as_components,
     INTERVAL_FREQUENCY_HUMAN_MAP, DAILY_REPETITION_HUMAN_MAP, FORM_HUMAN_MAP, 
-    clean_token)
+    ROUTE_HUMAN_MAP, clean_token)
 from medicine.models import VirtualMedicinalProduct
-
 
 import json
 
@@ -22,13 +21,16 @@ def parse_medicine_text(request):
         print 'doing new suggestions'
 
         if not parsed_meds.get('form', False):
-            suggestions += [v for k, v in FORM_HUMAN_MAP.items()]
+            suggestions += set([v for k, v in FORM_HUMAN_MAP.items()])
 
         if not parsed_meds.get('frequency', False):
-            suggestions += [v for k, v in INTERVAL_FREQUENCY_HUMAN_MAP.items()]
+            suggestions += set([v for k, v in INTERVAL_FREQUENCY_HUMAN_MAP.items()])
 
-        if not parsed_meds.get('duration', False):
-            suggestions += [v for k, v in DAILY_REPETITION_HUMAN_MAP.items()]
+        # if not parsed_meds.get('duration', False):
+        #     suggestions += set([v for k, v in DAILY_REPETITION_HUMAN_MAP.items()])
+
+        if not parsed_meds.get('route', False):
+            suggestions += set([v for k, v in ROUTE_HUMAN_MAP.items()])
 
         for s in suggestions:
             if s.startswith(current_term):

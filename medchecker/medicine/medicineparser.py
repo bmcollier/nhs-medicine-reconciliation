@@ -11,8 +11,11 @@ __DAILY_REPETITION_RE = r'(^|[^\w\d])+(' + __DAILY_REPETITION_SYMBOL_RE + ')([^\
 __INTERVAL_FREQUENCY_SYMBOL_RE = r'hh|h1|h2|h3|h4|h5|h6|h8|h12|h18|h24|hd|pd|qd|td|tid|bd|od'
 __INTERVAL_FREQUENCY_RE = r'(^|[^\w\d])+(' + __INTERVAL_FREQUENCY_SYMBOL_RE + ')([^\w\d]|$)+'
 
-__FORM_SYMBOL_RE = r'capsule(s)?|tablet(s)?|bandage(s)?|injection(s)?|drop(s)?|patch(es)?|sachet(s)?|roll(s)?|tube(s)?|suppositor(y)?(ies)?|infusion bag(s)?|vial(s)?|suspension|solution(s)?'
+__FORM_SYMBOL_RE = r'capsule(s)?|tablet(s)?|bandage(s)?|injection(s)?|drop(s)?|patch(es)?|sachet(s)?|roll(s)?|tube(s)?|suppositor(y)?(ies)?|infusion bag(s)?|vial(s)?|suspension|solution(s)?|ointment(s)?'
 __FORM_RE = r'(^|[^\w\d])+(' + __FORM_SYMBOL_RE + ')([^\w\d]|$)+'
+
+__ROUTE_SYMBOL_RE = r'implant|inhalation|instillation|nasal|oral|parenteral|rectal|sublingual/buccal/oromucosal|transdermal|vaginal|ophthalmic|eye'
+__ROUTE_RE = r'(^|[^\w\d])+(' + __ROUTE_SYMBOL_RE + ')([^\w\d]|$)+'
 
 # __MEDICINE_RE = r'^([\w ]*) (?=(,|[0-9]|' + __DOSE_SYMBOL_RE + '|' + __DAILY_REPETITION_SYMBOL_RE + '|' + __INTERVAL_FREQUENCY_SYMBOL_RE + '))'
 __MEDICINE_RE = r'^([\w\d %\(\)/.\-]{4,})(?=(,|$))'
@@ -82,12 +85,30 @@ FORM_HUMAN_MAP = {
     'suspension': 'suspension',
     'solution': 'solution',
     'solutions': 'solution',
+    'ointment': 'ointment',
+    'ointments': 'ointment',
     }
+
+ROUTE_HUMAN_MAP = {
+    'implant': 'implant',
+    'inhalation': 'inhalation',
+    'instillation': 'instillation',
+    'nasal': 'nasal',
+    'oral': 'oral',
+    'parenteral': 'parenteral',
+    'rectal': 'rectal',
+    'sublingual/buccal/oromucosal': 'sublingual/buccal/oromucosal',
+    'transdermal': 'transdermal',
+    'vaginal': 'vaginal',
+    'eye': 'ophthalmic',
+    'ophthalmic': 'ophthalmic',
+}
 
 __DOSE_SYNTAX_HUMAN_MAP = dict(
     INTERVAL_FREQUENCY_HUMAN_MAP.items() +
     DAILY_REPETITION_HUMAN_MAP.items() + 
-    FORM_HUMAN_MAP.items()
+    FORM_HUMAN_MAP.items() + 
+    ROUTE_HUMAN_MAP.items()
     )
 
 def clean_token(token, remove_punctuation=True):
@@ -152,10 +173,15 @@ def get_medicine_text_as_components(medicine_text):
     if m:
         medicine_dict['duration'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
 
+    # Route
+    m = re.search(__ROUTE_RE, medicine_text_lower)
+    if m:
+        medicine_dict['route'] = __DOSE_SYNTAX_HUMAN_MAP[clean_token(m.group(0))]
+
     # Dose
     medicine_dict['dose'] =  '%s, %s, %s' % (
-        medicine_dict.get('strength', '?'), medicine_dict.get('frequency', '?'),
-        medicine_dict.get('duration', '?')
+        medicine_dict.get('strength', '?'), medicine_dict.get('route', '?'),
+        medicine_dict.get('frequency', '?')
         )
     
 
