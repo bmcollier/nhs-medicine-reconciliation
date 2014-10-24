@@ -32,11 +32,13 @@
           <div id="patient-menu" class="ddMenu hide">
             <ul>
               {% if patient %}
-              <li class="borderBottom"><a href="{% url 'patient_detail' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_02.png' %}" /></span>Medication History</a></li>
-              <li class="borderBottom borderTop"><a href="{% url 'patient_add_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_01.png' %}" /></span>Add new meds</a></li>
+              <li class="borderBottom borderTop title">Patient Options</li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_detail' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_02.png' %}" /></span>Medication History</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_add_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_01.png' %}" /></span>Add Medication</a></li>
               <li class="borderBottom borderTop"><a href="{% url 'patient_reconcile_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_03.png' %}" /></span>Reconcile to In Patient Prescription</a></li>
               {% endif %}
-              <li class="borderBottom borderTop"><a href="{% url 'patient_search' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_04.png' %}" /></span>Patients Under my Care</a></li>
+              <li class="borderBottom borderTop title">Quick Navigation</li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_search' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_04.png' %}" /></span>Patients Under My Care</a></li>
               <li class="borderBottom borderTop"><a href="{% url 'patient_add' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_05.png' %}" /></span>Add Patient</a></li>
               {# <li class="borderBottom borderTop"><a href="{% url 'core_dashboard' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_06.png' %}" /></span>Select Recent Patients</a></li> #}
             </ul>
@@ -58,7 +60,8 @@
           </div>
           <div id="user-menu" class="ddMenu right hide">
             <ul>
-              <li class="borderBottom"><a href="#"><img alt="#" src="{% static 'img/menuitems/rightnav_01.png' %}" />Help</a></li>
+              <li class="borderBottom borderTop title">User Options</li>
+              <li class="borderBottom borderTop"><a href="#"><img alt="#" src="{% static 'img/menuitems/rightnav_01.png' %}" />Help</a></li>
               <li class="borderBottom borderTop"><a href="{% url 'core_user_settings' %}"><img alt="#" src="{% static 'img/menuitems/rightnav_02.png' %}" />Settings</a></li>
               <li class="borderBottom borderTop"><a href="{% url 'logout' %}"><img alt="#" src="{% static 'img/menuitems/rightnav_03.png' %}" />Log out</a></li>
               <li class="borderBottom borderTop"><a href="https://docs.google.com/a/fivium.co.uk/forms/d/1LIg79z_Tz-CQLn6zEajb2L0aslmdxgIjkxZAHsrkhg0/viewform?entry.1275370341={{ user.get_full_name }}&entry.1011460118={{ user.nhs_trust|default:"" }}&entry.1719012980&entry.1132715114={{ user.email }}&entry.480722753&entry.41286448={{ user.role|default:"" }}&entry.77524542&entry.1852574224&entry.2106310129&entry.1580995732&entry.837280011" target="_blank"><img alt="#" src="{% static 'img/menuitems/leftnav_04.png' %}" />Feedback</a></li>

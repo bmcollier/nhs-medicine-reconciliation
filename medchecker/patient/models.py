@@ -86,11 +86,11 @@ class PatientMedication(models.Model):
         )
 
     STATUS_CHOICES = (
-        ('UNVERIFIED', 'Unverified'),
-        ('TAKING', 'Taking as prescribed'),
-        ('NOT AS PRESCRIBED', 'Taking, but not as prescribed'),
-        ('NOT TAKING', 'Not Taking'),
-        ('DELETED', 'Deleted'),
+        ('0 UNVERIFIED', 'Unverified'),
+        ('1 TAKING', 'Taking as prescribed'),
+        ('1 NOT AS PRESCRIBED', 'Taking, but not as prescribed'),
+        ('1 NOT TAKING', 'Not Taking'),
+        ('2 DELETED', 'Deleted'),
         )
 
     patient = models.ForeignKey(Patient, blank=True, null=True)
@@ -106,13 +106,13 @@ class PatientMedication(models.Model):
     source = models.CharField(max_length=20, choices=SOURCE_CHOICES)
     reason = models.CharField(max_length=1000, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='UNVERIFIED')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='0 UNVERIFIED')
 
     def __unicode__(self):
         return u'%s - %s (%s)' % (self.patient.get_full_name(), self.virtual_medicinal_product.nm, self.source)
 
     def is_verified(self):
-        if self.status == 'UNVERIFIED':
+        if self.status == '0 UNVERIFIED':
             return False
 
         return True

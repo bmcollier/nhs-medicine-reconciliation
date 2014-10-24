@@ -71,5 +71,10 @@
 .unverified {
   margin-top: -80px;
   text-align: center;
-  font-size: 0.7em;
+  font-size: 0.5em;
+  color: #E65F5C;
+}
+
+.unverified img {
+  margin-top: -14px;
 }

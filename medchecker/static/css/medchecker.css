@@ -127,3 +127,9 @@ h1 {
 #user-menu, #patient-menu {
 	width: 400px;
 }
+
+.ddMenu .title {
+	color: #dadcdb;
+	line-height: 30px;
+	background-color: #2A373C;
+}

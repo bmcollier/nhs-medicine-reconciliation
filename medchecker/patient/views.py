@@ -27,7 +27,7 @@ def add(request):
 def detail(request, patient_id):
     patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
-    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='DELETED').order_by('status', 'virtual_medicinal_product__nm')
+    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='2 DELETED').order_by('status', 'virtual_medicinal_product__nm')
     # verified_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient, status='VERIFIED')
 
     return render_to_response(

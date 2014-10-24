@@ -20,12 +20,21 @@
             <span class="strength">{{ medication.strength }} </span>
             <span class="frequency">{{ medication.frequency }}</span>
           </h2>
-          <span class="source">{{ medication.get_source_display }}</span>
+          <span class="source">
+            {{ medication.get_source_display }}
+            {% if not medication.is_verified %}
+            <span class="unverified">
+              <img src="{% static 'img/patient_detail_unverified.png' %}" alt="unverified medication icon" />
+              This medication is unverified
+            </span>
+          {% endif %}
+          </span>
+          
         </div>
         <div class="content">
-          <a data-orbit-link="{{ forloop.counter }}" data-action="yes" class="decision button {% if medication.status == 'TAKING' %}selected{% else %}not-selected{% endif %}"><strong>Yes</strong>, I'm taking</a>
-          <a data-orbit-link="{{ forloop.counter }}" data-action="not-as-prescribed" class="decision button {% if medication.status == 'NOT AS PRESCRIBED' %}selected{% else %}not-selected{% endif %}"><strong>Yes</strong>, but not as prescribed</a>
-          <a data-orbit-link="{{ forloop.counter }}" data-action="no" class="decision button {% if medication.status == 'DELETED' %}selected{% else %}not-selected{% endif %}"><strong>No</strong>, I'm not taking it</a>
+          <a data-orbit-link="{{ forloop.counter }}" data-action="yes" class="decision button {% if medication.status == '1 TAKING' %}selected{% else %}not-selected{% endif %}"><strong>Yes</strong>, I'm taking</a>
+          <a data-orbit-link="{{ forloop.counter }}" data-action="not-as-prescribed" class="decision button {% if medication.status == '1 NOT AS PRESCRIBED' %}selected{% else %}not-selected{% endif %}"><strong>Yes</strong>, but not as prescribed</a>
+          <a data-orbit-link="{{ forloop.counter }}" data-action="no" class="decision button {% if medication.status == '2 DELETED' %}selected{% else %}not-selected{% endif %}"><strong>No</strong>, I'm not taking it</a>
           {# <a data-orbit-link="{{ forloop.counter }}" data-action="yes" class="button"><strong>Not Sure</strong></a> #}
         </div>
       </li>
@@ -37,7 +46,7 @@
           </h2>
         </div>
         <div class="content">
-          <a data-action="complete" class="decision button complete" href="{% url 'patient_detail' patient.id %}">Return to medication history</a>
+          <a data-action="complete" class="decision button complete" href="{% url 'patient_detail' patient.id %}">Return to Medication History</a>
         </div>
       </li>
   </ul>

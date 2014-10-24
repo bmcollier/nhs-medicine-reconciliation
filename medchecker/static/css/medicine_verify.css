@@ -47,12 +47,13 @@
 
 .orbit-verify li .header .source {
   color: #fff;
-  font-style: italic
+  font-style: italic;
+  font-size: 1.1em;
 }
 
 .orbit-verify .button {
   display: block;
-  width: 300px;
+  width: 350px;
   margin-right: auto;
   margin-left: auto;
   -webkit-border-radius: 0.6em;
@@ -60,6 +61,7 @@
   border-radius: 0.6em;
   background-color: #D4D9DD;
   color: #41585E;
+  font-size: 1.3em;
 }
 
 .orbit-verify .button:hover {
@@ -77,4 +79,17 @@
 .orbit-verify .button.complete {
   margin-top: 81px;
   margin-bottom: 81px;
+}
+
+.unverified {
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 1.1em;
+}
+
+.orbit-container .orbit-slides-container .unverified img {s
+  margin-top: -14px;
+  display: inline;
 }
