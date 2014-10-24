@@ -1,15 +1,39 @@
 <div class="medium-3 columns med-rec-col">
   <div class="med-rec-source">
-    {% if medication %}
-    <div class="med-tile" data-med-id="{{ medication.virtual_medicinal_product.vpid }}">
-      <div class="medicine">{{ medication.virtual_medicinal_product.nm }}</div>
-      <div class="dose">{{ medication.strength }} - {{ medication.route }} - {{ medication.frequency }}</div>
-      {% ifequal medication.source "history" %}
-      <div class="source"><strong>Source: </strong>{{ medication.get_source_display }}</div>
-      {% endifequal %}
+    <div class="med-tile-container">
+      {% if medication %}
+      <div class="med-tile" data-med-id="{{ medication.virtual_medicinal_product.vpid }}">
+        <div class="medicine">
+          {{ medication.virtual_medicinal_product.nm }}
+        </div>
+        <div class="dose">
+          {% if medication2 %}
+            {% ifequal medication.strength medication2.strength %}
+              {{ medication.strength }},
+            {% else %}
+              <span class="highlight">{{ medication.strength }}</span>,
+            {% endifequal %}
+            {% ifequal medication.route medication2.route %}
+              {{ medication.route }},
+            {% else %}
+              <span class="highlight">{{ medication.route }}</span>,
+            {% endifequal %}
+            {% ifequal medication.frequency medication2.frequency %}
+              {{ medication.frequency }}
+            {% else %}
+              <span class="highlight">{{ medication.frequency }}</span>
+            {% endifequal %}
+          {% else %}
+            {{ medication.strength }}, {{ medication.route }}, {{ medication.frequency }}
+          {% endif %}
+        </div>
+        {% ifequal source "history" %}
+        <div class="source"><strong>Source: </strong>{{ medication.get_source_display }}</div>
+        {% endifequal %}
+      </div>
+      {% else %}
+      <div>&nbsp;</div>
+      {% endif %}
     </div>
-    {% else %}
-    <div></div>
-    {% endif %}
   </div>
 </div>

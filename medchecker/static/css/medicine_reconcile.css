@@ -6,7 +6,7 @@
 
 .med-rec-container {
   vertical-align: top;
-  width: 90%;
+  width: 94%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
@@ -21,16 +21,24 @@
 }
 
 .med-rec-source, .med-rec-target {
-  padding: 3px 10px 3px 10px;
+  /*padding: 3px 10px 3px 10px;*/
   height: 100%;
+  box-sizing: border-box;
 }
 
 .med-rec-source {
   background-color: #EAEDF2;
+  border-bottom: 1px solid #bbb;
 }
 
 .med-rec-target {
   background-color: #3F505A;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #eee;
+}
+
+.med-tile-container {
+  padding: 5px;
 }
 
 .med-rec-col .header {
@@ -64,9 +72,8 @@
   background-color: #75BACF;
 }
 
-.med-tile, .drop-helper {
+.med-tile, .drop-helper, .dropzone {
   box-sizing: border-box;
-  background-color: #D4D9DD;
   -webkit-border-radius: 0.6em;
   -moz-border-radius: 0.6em;
   border-radius: 0.6em;
@@ -74,8 +81,39 @@
   padding: 10px;
 }
 
+.med-tile, .drop-helper {
+  background-color: #D4D9DD;
+}
+
 .med-tile {
   cursor: move;
+  text-align: center;
+  min-height: 125px;
+}
+
+.med-tile.stop {
+  background-color: #FFE0E0;
+}
+
+.med-tile.suspend {
+  background-color: #FFFFE0;
+}
+
+.medicine {
+  font-weight: bold;
+}
+
+.source {
+  font-size: 0.8em;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+.drag-helper {
+  -webkit-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+  box-shadow: 4px 4px 5px 0px rgba(50, 50, 50, 0.75);
+  opacity: 0.7;
 }
 
 /*.drag-helper {
@@ -104,12 +142,14 @@
 }
 
 .dropzone {
-  border: 3px dashed #fff;
-  height: 100%;
+  border: 2px dashed #fff;
   display: none;
   color: white;
   text-align: center;
-  font-size: 1.2em;
+  font-size: 1em;
+  line-height: 30px;
+  padding: 2px 10px;
+  margin: 2px 0;
 }
 
 .dropzone.continue {
@@ -117,8 +157,16 @@
   color: #42FF68;
 }
 
+.highlight {
+  font-weight: bold;
+  background-color: #FFFF94;
+  border-radius: 0.3em;
+  padding: 2px;
+}
+
 .dropzone.continue.ui-state-hover {
   background-color: #A8FFBA;
+  color: #3F505A;
 }
 
 .dropzone.replace {
@@ -128,7 +176,29 @@
 
 .dropzone.replace.ui-state-hover {
   background-color: #FFE5A8;
+  color: #3F505A;
 }
+
+.dropzone.suspend {
+  border-color: #FFC642;
+  color: #FFC642; 
+}
+
+.dropzone.suspend.ui-state-hover {
+  background-color: #FFE5A8;
+  color: #3F505A;
+}
+
+.dropzone.stop {
+  border-color: #FF0F57;
+  color: #FF0F57; 
+}
+
+.dropzone.stop.ui-state-hover {
+  background-color: #FFA8C2;
+  color: #3F505A;
+}
+
 
 .dropzone.visible {
   display: block;

@@ -25,8 +25,8 @@
 
 {% for medication in medications %}
 <div class="row med-rec-container show-for-landscape">
-  {% include "reconcile_medicine_medication_tile.html" with medication=medication.gp source="gp" %}
-  {% include "reconcile_medicine_medication_tile.html" with medication=medication.history source="gp" %}
+  {% include "reconcile_medicine_medication_tile.html" with medication=medication.gp medication2=medication.history source="gp" %}
+  {% include "reconcile_medicine_medication_tile.html" with medication=medication.history medication2=medication.gp source="history" %}
 
   <div class="medium-3 columns med-rec-col">
     <div class="med-rec-source">
@@ -34,9 +34,20 @@
     </div>
   </div>
   <div class="medium-3 columns med-rec-col">
-    <div class="med-rec-target">
-      <div class="dropzone" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
-        <span class="dropzone-text"></span>
+    <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
+      <div class="med-tile-container">
+        <div class="dropzone replace" data-operation="replace">
+          <span class="dropzone-text">Replace {{ medication.medinfo.nm }}</span>
+        </div>
+        <div class="dropzone continue" data-operation="continue">
+          <span class="dropzone-text">Continue as Prescribed</span>
+        </div>
+        <div class="dropzone suspend" data-operation="suspend">
+          <span class="dropzone-text">Suspend Medication</span>
+        </div>
+        <div class="dropzone stop" data-operation="stop">
+          <span class="dropzone-text">Stop Medication</span>
+        </div>
       </div>
     </div>
   </div>
@@ -55,6 +66,16 @@
   <script type="text/javascript">
     $(document).foundation();
 
+    
+
+    $('.med-rec-source').each(function() {
+      $(this).height($(this).parents('.row').height());
+    });
+
+    $('.med-rec-target').each(function() {
+      $(this).height($(this).parents('.row').height() - 3);
+    });
+
     $(function() {
       $('.med-tile').draggable({
         revert: "invalid",
@@ -67,25 +88,27 @@
         start: function(event, ui) {
           ui.helper.css('z-index', 99999);
           ui.helper.addClass('drag-helper');
+
+          ui.helper.width($(event.currentTarget).width());
+
           var med_id = ui.helper.attr('data-med-id');
 
           $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
             $(this).addClass('in-progress');
           });
 
-          $('.dropzone').each(function() {
+          $('.med-rec-target').each(function() {
             if ($(this).attr('data-med-id') === med_id) {
-              $(this).find('.dropzone-text').html('Continue as Prescribed');
-              $(this).removeClass('replace');
-              $(this).addClass('continue');
-              $(this).attr('data-operation', 'continue');
+              $(this).find('.dropzone.continue').show();
+              $(this).find('.dropzone.suspend').show();
+              $(this).find('.dropzone.stop').show();
+              $(this).find('.dropzone.replace').hide();
             } else {
-              $(this).find('.dropzone-text').html('Replace ' + $(this).attr('data-med-nm'));
-              $(this).removeClass('continue');
-              $(this).addClass('replace');
-              $(this).attr('data-operation', 'replace');
+              $(this).find('.dropzone.continue').hide();
+              $(this).find('.dropzone.suspend').hide();
+              $(this).find('.dropzone.stop').hide();
+              $(this).find('.dropzone.replace').show();
             }
-            $(this).addClass('visible');
           });
         },
         stop: function(event, ui) {
@@ -96,7 +119,7 @@
             $(this).removeClass('in-progress');
           });
 
-          $('.dropzone').removeClass('visible');
+          $('.dropzone').hide();
         }
       });
 
@@ -110,25 +133,37 @@
             $(this).addClass('complete');
           });
 
+          console.log($(this).attr('data-operation'));
+
+          var result_tile = ui.draggable.clone();
+          result_tile.find('.highlight').removeClass('highlight')
+          
+
           if ($(this).attr('data-operation') === 'continue') {
-            $(this).replaceWith(ui.draggable.clone());
+            result_tile.addClass('continue');
           } else if ($(this).attr('data-operation') === 'replace') {
-            //$(this).parent().append(ui.draggable.clone());
-            $(this).replaceWith(ui.draggable.clone());
+            var target_med_id = $(this).parents('.med-rec-target').attr('data-med-id');
+            $('.med-tile[data-med-id="' + target_med_id + '"]').not('[data-helper]').each(function() {
+              $(this).draggable("destroy");
+              $(this).addClass('complete');
+            });
+            result_tile.addClass('continue');
+          } else if ($(this).attr('data-operation') === 'suspend') {
+            result_tile.addClass('suspend');
+          } else if ($(this).attr('data-operation') === 'stop') {
+            result_tile.addClass('stop');
           }
+
+          $(this).replaceWith(result_tile);
+
+          $('.med-rec-target[data-med-id="' + med_id + '"]').find('.med-tile-container').find('.dropzone').remove();
+
+          // $(this).parent().find('.dropzone').remove();
+
+          $('.med-rec-target').find('.med-tile[data-med-id="' + med_id + '"]').removeClass('complete');
           
           ui.helper.remove();
-
-          $('.dropzone').removeClass('visible');
         },
-        // activate: function(event, ui) {
-          
-
-        //   // $('#drop-helper').show(300, 'linear');
-        // },
-        // deactivate: function(event, ui) {
-        //   $('#drop-helper').hide(300);
-        // }
       });
     });
   </script>

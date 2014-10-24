@@ -67,8 +67,8 @@ def add_medicine(request, patient_id):
 def reconcile_medicine(request, patient_id):
     patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
-    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='DELETED')
-    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='DELETED')
+    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='2 DELETED')
+    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='2 DELETED')
 
     medications_dict = {}
     for medication in history_medications:
@@ -112,7 +112,7 @@ def reconcile_medicine(request, patient_id):
 def verify_medicine(request, patient_id):
     patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
     
-    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='DELETED').order_by('status')
+    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='2 DELETED').order_by('status')
 
     return render_to_response(
         'verify_medicine.html',
