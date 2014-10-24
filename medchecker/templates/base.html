@@ -24,6 +24,131 @@
   <body>
 
     {% block top_bar %}
+
+    <nav class="top-bar" role="navigation" data-topbar="">
+      <div class="row collapse padding10px">
+        <div class="small-6 medium-4 columns ">
+          <img id="patient-menu-icon" class="left positionRelative zindex2 paddingRight2Percent" alt="Small photograph of patient." src="{% static 'img/nav_patient.png' %}">             
+          <div id="patient-menu" class="ddMenu hide">
+            <ul>
+              {% if patient %}
+              <li class="borderBottom"><a href="{% url 'patient_detail' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_02.png' %}" /></span>Medication History</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_add_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_01.png' %}" /></span>Add new meds</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_reconcile_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_03.png' %}" /></span>Reconcile meds</a></li>
+              {% endif %}
+              <li class="borderBottom borderTop"><a href="{% url 'patient_search' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_04.png' %}" /></span>Search Patients</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_add' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_05.png' %}" /></span>Add Patient</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'core_dashboard' %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_06.png' %}" /></span>Select Recent Patients</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="hide-for-small-only medium-4 columns">
+          <div class="logo">
+            <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo.png' %}" alt="MedChecker logo" /></a>
+  {#               <span class="bold">Med</span>Checker #}
+          </div>
+        </div>
+
+
+        <div class="small-6 medium-4 columns">
+          <img id="user-menu-icon" class="right positionRelative zindex2" alt="Small photograph of currently logged in user." src="{% static 'img/nav_user.png' %}">             
+          <div class="right positionRelative zindex2 paddingRight2Percent">
+            <label class="text-right" for="current-user-name">Logged in as</label>
+            <span class="text-right" id="current-user-name">{{ user.get_full_name }}</span>              
+          </div>
+          <div id="user-menu" class="ddMenu right hide">
+            <ul>
+              <li class="borderBottom"><a href="#"><img alt="#" src="{% static 'img/menuitems/rightnav_01.png' %}" />Help</a></li>
+              <li class="borderBottom borderTop"><a href="#"><img alt="#" src="{% static 'img/menuitems/rightnav_02.png' %}" />Settings</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'logout' %}"><img alt="#" src="{% static 'img/menuitems/rightnav_03.png' %}" />Log out</a></li>
+              <li class="borderBottom borderTop"><a href="#"><img alt="#" src="{% static 'img/menuitems/leftnav_04.png' %}" />Feedback</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% if patient %}
+      <div class="patient-summary">
+        <div class="summary-item">
+          <label for="patient-name">Patient: </label>            
+          <span class="detail" id="span1"><a href="{% url 'patient_detail' patient.id %}">{{ patient.get_full_name }}</a> ({{ patient.sex }})</span>                 
+        </div>
+        <div class="summary-item">
+          <label for="patient-dob">DOB: </label>                 
+          <span class="detail" id="patient-dob">{{ patient.date_of_birth }}</span>                 
+        </div>
+        <div class="summary-item">
+          <label for="patient-hospno">Hospital No:</label>      
+          <span class="detail" id="patient-hospno">{{ patient.hospital_id }}</span>         
+        </div>
+        <div class="summary-item">
+          <label for="patient-nhs">NHS No: </label>              
+          <span class="detail" id="patient-nhs">{{ patient.nhs_number }}</span>                 
+        </div>
+        <div class="moreInfoTabWrapper">
+          <div id="moreInfoTab">More info<span>+</span></div>
+        </div>         
+      </div>
+          
+      <div id="moreInfo" class="hide">
+        <div class="left width100Percent marginBottom20px">
+          <div class="left width50Percent bold">DOB:</div>
+          <div class="left width50Percent fontSize0Point95em">{{ patient.date_of_birth }}</div>
+        </div>
+        <div class="left width100Percent marginBottom20px">
+          <div class="left width50Percent lineHeight1Point5em bold">Address:</div>
+          <div class="left width50Percent fontSize0Point95em">
+            <span>52 Eynsham Court</span>
+            <span>Woolstone</span>
+            <span>London</span>
+            <span>W5 4RC</span>
+          </div>
+        </div>
+        <div class="left width100Percent marginBottom20px">
+          <div class="left width50Percent lineHeight1Point5em bold">Hospital No:</div>
+          <div class="left width50Percent lineHeight1Point5em fontSize0Point95em">{{ patient.hospital_id }}</div>
+        </div>
+        <div class="left width100Percent marginBottom20px">   
+          <div class="left width50Percent lineHeight1Point5em bold">NHS No:</div>
+          <div class="left width50Percent fontSize0Point95em">
+            <span>{{ patient.nhs_number }}</span>
+          </div>
+        </div>
+        <div class="left width100Percent marginBottom20px">    
+          <div class="left width50Percent lineHeight1Point5em bold">
+            <span>Allergies:</span>
+          </div>
+          <div class="left width50Percent fontSize0Point95em">
+            <span>Tetracycline</span>
+            <span>Dilantin</span>
+          </div>  
+        </div>  
+        <div class="left width50Percent lineHeight1Point5em bold">GP Name &amp; Address</div>
+        <div class="left width50Percent fontSize0Point95em">
+          <span>336 Uxbridge Road</span>
+          <span>London</span> 
+          <span>W12 7LS</span>
+        </div>
+      </div>
+      {% endif %}
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %}
+
       <nav class="top-bar" data-topbar role="navigation">
 
         <div class="row collapse">
@@ -64,14 +189,14 @@
               &#160;
             {% endif %}
           </div>
-          {% comment %}
+          
           <div class="small-4 columns">
             <div class="logo right">
               <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo.png' %}" alt="MedChecker logo" /></a>
 {#               <span class="bold">Med</span>Checker #}
             </div>
           </div>
-          {% endcomment %}
+       
           <div class="hide-for-small-only medium-4 columns">
             <div class="logo">
               <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo.png' %}" alt="MedChecker logo" /></a>
@@ -90,6 +215,9 @@
           
         </div>
       </nav>
+
+{% endcomment %}
+
     {% endblock top_bar %}
 
     {% block content %}
