@@ -117,7 +117,16 @@
           <small class="error">{{ patient_medication_form.source.errors }}</small>
         {% endif %}
       </div>
-      <div class="small-8 columns">
+      <div class="small-4 columns">
+        <label{% if patient_medication_form.last_taken.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.last_taken.label }}
+          {{ patient_medication_form.last_taken }}  
+        </label>
+        {% if patient_medication_form.last_taken.errors %}
+          <small class="error">{{ patient_medication_form.last_taken.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-4 columns">
         <label{% if patient_medication_form.reason.errors %} class="error"{% endif %}>
           {{ patient_medication_form.reason.label }}
           {{ patient_medication_form.reason }}  

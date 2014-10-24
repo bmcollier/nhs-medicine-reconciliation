@@ -41,7 +41,7 @@ def parse_medicine_text(request):
     else:
         medicine = parsed_meds.get('medicine')
         if medicine:
-            suggested_meds = VirtualMedicinalProduct.objects.filter(nm__icontains=medicine).distinct('nm').order_by('nm')
+            suggested_meds = VirtualMedicinalProduct.objects.filter(nm__istartswith=medicine).distinct('nm').order_by('nm')
 
             meds = []
             for med in suggested_meds:

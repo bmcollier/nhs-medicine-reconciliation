@@ -17,22 +17,23 @@
 </div>
 
 <div class="row med-rec-container show-for-landscape">
-  {% include "reconcile_medicine_header.html" with title="GP" source="gp" %}
+  {% include "reconcile_medicine_header.html" with title="Last Discharge" source="inpatient" %}
+  {% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" %}
   {% include "reconcile_medicine_header.html" with title="Medication History" source="history" %}
-  {% include "reconcile_medicine_header.html" with title="In Patient Prescription" source="inpatient" %}
   {% include "reconcile_medicine_header.html" with title="Reconciled Medications" source="reconcile" %}
 </div>
 
 {% for medication in medications %}
 <div class="row med-rec-container show-for-landscape">
-  {% include "reconcile_medicine_medication_tile.html" with medication=medication.gp medication2=medication.history source="gp" %}
-  {% include "reconcile_medicine_medication_tile.html" with medication=medication.history medication2=medication.gp source="history" %}
-
   <div class="medium-3 columns med-rec-col">
     <div class="med-rec-source">
       <div></div>
     </div>
   </div>
+  {% include "reconcile_medicine_medication_tile.html" with medication=medication.gp medication2=medication.history source="gp" %}
+  {% include "reconcile_medicine_medication_tile.html" with medication=medication.history medication2=medication.gp source="history" %}
+  
+  
   <div class="medium-3 columns med-rec-col">
     <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
       <div class="med-tile-container">

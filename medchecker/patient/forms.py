@@ -12,7 +12,7 @@ class PatientMedicationModelForm(forms.ModelForm):
         model = PatientMedication
         fields = ['patient',  'form', 'virtual_medicinal_product',
             'strength', 'route', 'dose', 'frequency', 'duration',
-            'source', 'reason', 'comments',
+            'source', 'reason', 'comments', 'last_taken',
             ]
         widgets = {
             'virtual_medicinal_product': forms.TextInput(),
