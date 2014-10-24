@@ -113,7 +113,8 @@
           if ($(this).attr('data-operation') === 'continue') {
             $(this).replaceWith(ui.draggable.clone());
           } else if ($(this).attr('data-operation') === 'replace') {
-            $(this).parent().append(ui.draggable.clone());
+            //$(this).parent().append(ui.draggable.clone());
+            $(this).replaceWith(ui.draggable.clone());
           }
           
           ui.helper.remove();
