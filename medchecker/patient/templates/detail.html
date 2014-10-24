@@ -1,25 +1,47 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extra_css %}
+  <link href="{% static 'css/patient_detail.css' %}" rel="stylesheet">
+{% endblock extra_css %}
 
 {% block content %}
 <h1>{% block title %}{{ patient.get_full_name }} ({{ patient.nhs_number }}){%endblock title %}</h1>
 
-<h2>Medication History</h2>
-<a href="{% url 'patient_verify_medicine' patient.id %}" class="button">Review Unverified Medications</a>
-<a href="{% url 'patient_discharge' patient.id %}" class="button">Discharge Patient</a>
+{# <a href="{% url 'patient_discharge' patient.id %}" class="button">Discharge Patient</a> #}
 
-<h3>Unverified Medications</h2>
+<div class="row med-history">
+  <div class="small-12 columns med-history-header">
+    <img src="{% static 'img/patient_detail_med_history_header.png' %}" alt="Medication history icon" />
+    <div class="title">
+      Medication History
+    </div>
+    <a href="{% url 'patient_verify_medicine' patient.id %}" class="button right">Review Medications</a>
+  </div>
+</div>
+<div class="row med-history">
+  <div class="small-12 columns med-history-body">
+    <div class="row med-history">
+      <div class="small-12 large-8 large-centered columns">
+        <ul>
+        {% for medication in medications %}
+          <li class="medication">
+            <div class="medication-name">{{ medication.virtual_medicinal_product.vtmid.nm }}</div>
+            <div class="dose">{{ medication.strength }}, {{ medication.route }}, {{ medication.frequency }}</div>
+            <div class="source">{{ medication.get_source_display }}</div>
+            {% if not medication.is_verified %}
+              <div class="unverified right">
+                <img src="{% static 'img/patient_detail_unverified.png' %}" alt="unverified medication icon" />
+                This medication is unverified
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul> 
+      </div>
+    </div>
+  </div>
+</div>
 
-<ul>
-{% for medication in unverified_medications %}
-  <li>{{ medication.virtual_medicinal_product.nm }}, {{ medication.frequency}} {{ medication.duration }} ({{ medication.get_source_display }})</li>
-{% endfor %}
-</ul>
 
-<h3>Medication History</h2>
-
-<ul>
-{% for medication in verified_medications %}
-  <li>{{ medication.virtual_medicinal_product.nm }}, {{ medication.frequency}} {{ medication.duration }} ({{ medication.get_source_display }})</li>
-{% endfor %}
-</ul>
 {% endblock content %}

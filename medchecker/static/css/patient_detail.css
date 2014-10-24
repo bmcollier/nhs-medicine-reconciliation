@@ -1,0 +1,75 @@
+.row.med-history {
+  vertical-align: top;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.med-history-header {
+  height: 110px;
+  background-color: #E15A59;
+  -webkit-border-radius: 0.7em 0.7em 0 0;
+  -moz-border-radius: 0.7em 0.7em 0 0;
+  border-radius: 0.7em 0.7em 0 0;
+  text-align: center;
+  color: #fff;
+  font-size: 1.4em;
+}
+
+.med-history-header .title {
+  margin-top: -30px;
+}
+
+.med-history-body {
+  background-color: #EAEDF2;
+  -webkit-border-radius: 0 0 0.7em 0.7em;
+  -moz-border-radius: 0 0 0.7em 0.7em;
+  border-radius: 0 0 0.7em 0.7em;
+  overflow-y: auto;
+}
+
+.med-history-body ul {
+  margin: 0;
+  padding: 0;
+}
+
+.med-history-header .button {
+  margin-top: -85px;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  border-radius: 0.3em;
+  background-color: #52646E;
+  height: 80px;
+  line-height: 80px;
+  padding: 0 10px;
+}
+
+.medication {
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  border-radius: 0.3em;
+  background-color: #D4D9DD;
+  margin: 5px 0;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 1.3em;
+}
+
+.medication-name {
+  font-weight: bolder;
+  font-size: 1.4em;
+}
+
+.source {
+  font-style: italic;
+}
+
+.unverified {
+  margin-top: -80px;
+  text-align: center;
+  font-size: 0.7em;
+}
