@@ -118,3 +118,12 @@ h1 {
 .patient-search-result span.sex {
   font-size: 0.7em;
 }
+
+
+#user-menu a, #patient-menu a {
+	display: block;
+}
+
+#user-menu, #patient-menu {
+	width: 400px;
+}
