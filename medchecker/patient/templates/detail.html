@@ -37,6 +37,9 @@
             </div>
             <div class="dose">{{ medication.strength }}, {{ medication.route }}, {{ medication.frequency }}</div>
             <div class="source">{{ medication.get_source_display }}</div>
+            {% if medication.last_taken %}
+            <div class="last-taken" style="font-size: 0.8em;"><strong>Last taken:</strong> {{ medication.last_taken }}</div>
+            {% endif %}
           </li>
         {% endfor %}
       </ul> 
