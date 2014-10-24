@@ -9,9 +9,13 @@
         <div class="dose">
           {% if medication2 %}
             {% ifequal medication.strength medication2.strength %}
+              {% if medication.strength %}
               {{ medication.strength }},
+              {% endif %}
             {% else %}
+              {% if medication.strength %}
               <span class="highlight">{{ medication.strength }}</span>,
+              {% endif %}
             {% endifequal %}
             {% ifequal medication.route medication2.route %}
               {{ medication.route }},
@@ -24,7 +28,7 @@
               <span class="highlight">{{ medication.frequency }}</span>
             {% endifequal %}
           {% else %}
-            {{ medication.strength }}, {{ medication.route }}, {{ medication.frequency }}
+            {% if medication.strength %}{{ medication.strength }}, {% endif %}{{ medication.route }}, {{ medication.frequency }}
           {% endif %}
         </div>
         {% ifequal source "history" %}

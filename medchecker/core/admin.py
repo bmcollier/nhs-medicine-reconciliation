@@ -18,18 +18,31 @@ class NfcUserCreationForm(forms.ModelForm):
         return user
 
     def clean(self):
-        self.cleaned_data['username'] = self.data['email'][:30]
-        del self.errors['username']
+        
+        if not self.data['username']:
+            self.cleaned_data['username'] = self.data['email'][:30]
+        
+        try:
+            del self.errors['username']
+        except KeyError:
+            pass
+
         self.cleaned_data['password'] = 'fivium12'
-        del self.errors['password']
+
+
+        try:
+            del self.errors['password']
+        except KeyError:
+            pass
+
         super(forms.ModelForm, self).clean()
 
 
 class NfcUserAdmin(UserAdmin):
     # The forms to add and change user instances
     add_form = NfcUserCreationForm
-    list_display = ("email", "nfc_url")
-    ordering = ("email",)
+    list_display = ("first_name", "last_name", "email", "nfc_url")
+    ordering = ("first_name", "last_name", "email",)
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password', 'first_name', 'last_name', 'nhs_trust', 'role')}),

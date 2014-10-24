@@ -9,7 +9,7 @@ from patient.forms import PatientMedicationModelForm
 
 @login_required
 def search(request):
-    patients = Patient.objects.all()
+    patients = Patient.objects.all().order_by('first_name', 'last_name')
 
     return render_to_response(
         'search.html',
@@ -67,17 +67,17 @@ def add_medicine(request, patient_id):
 def reconcile_medicine(request, patient_id):
     patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
-    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='2 DELETED')
-    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='2 DELETED')
+    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='2 DELETED')
+    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='2 DELETED')
 
     medications_dict = {}
     for medication in history_medications:
-        if medications_dict.get(str(medication.virtual_medicinal_product.vpid)):
-            current_dict = medications_dict[str(medication.virtual_medicinal_product.vpid)]
+        if medications_dict.get(str(medication.virtual_medicinal_product.vtmid.vtmid)):
+            current_dict = medications_dict[str(medication.virtual_medicinal_product.vtmid.vtmid)]
             new_dict = dict(current_dict.items() + {'history': medication,}.items())
-            medications_dict[str(medication.virtual_medicinal_product.vpid)] = new_dict
+            medications_dict[str(medication.virtual_medicinal_product.vtmid.vtmid)] = new_dict
         else:
-            medications_dict[str(medication.virtual_medicinal_product.vpid)] = {
+            medications_dict[str(medication.virtual_medicinal_product.vtmid.vtmid)] = {
                 'history': medication,
                 'medinfo': {
                     'vpid': medication.virtual_medicinal_product.vpid, 'nm': medication.virtual_medicinal_product.nm
@@ -85,12 +85,12 @@ def reconcile_medicine(request, patient_id):
                 }
 
     for medication in gp_medications:
-        if medications_dict.get(str(medication.virtual_medicinal_product.vpid)):
-            current_dict = medications_dict[str(medication.virtual_medicinal_product.vpid)]
+        if medications_dict.get(str(medication.virtual_medicinal_product.vtmid.vtmid)):
+            current_dict = medications_dict[str(medication.virtual_medicinal_product.vtmid.vtmid)]
             new_dict = dict(current_dict.items() + {'gp': medication,}.items())
-            medications_dict[str(medication.virtual_medicinal_product.vpid)] = new_dict
+            medications_dict[str(medication.virtual_medicinal_product.vtmid.vtmid)] = new_dict
         else:
-            medications_dict[str(medication.virtual_medicinal_product.vpid)] = {
+            medications_dict[str(medication.virtual_medicinal_product.vtmid.vtmid)] = {
                 'gp': medication,
                 'medinfo': {
                     'vpid': medication.virtual_medicinal_product.vpid, 'nm': medication.virtual_medicinal_product.nm

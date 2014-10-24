@@ -40,6 +40,7 @@ INTERVAL_FREQUENCY_HUMAN_MAP = {
     'tid': 'three times a day',
     'bd': 'twice a day',
     'od': 'once a day',
+    'prn': 'as required',
     }
 
 DAILY_REPETITION_HUMAN_MAP = {

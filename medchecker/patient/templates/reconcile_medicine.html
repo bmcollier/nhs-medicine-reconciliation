@@ -67,7 +67,16 @@
   <script type="text/javascript">
     $(document).foundation();
 
-    
+    $( window ).resize(function() {
+      $('.med-rec-source').each(function() {
+        $(this).height($(this).parents('.row').height());
+      });
+
+      $('.med-rec-target').each(function() {
+        $(this).height($(this).parents('.row').height() - 3);
+      });
+    });
+
 
     $('.med-rec-source').each(function() {
       $(this).height($(this).parents('.row').height());
