@@ -17,11 +17,18 @@ class NfcUserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+    def clean(self):
+        self.cleaned_data['username'] = self.data['email'][:30]
+        del self.errors['username']
+        self.cleaned_data['password'] = 'fivium12'
+        del self.errors['password']
+        super(forms.ModelForm, self).clean()
+
 
 class NfcUserAdmin(UserAdmin):
     # The forms to add and change user instances
     add_form = NfcUserCreationForm
-    list_display = ("email", "nfc_login_id")
+    list_display = ("email", "nfc_url")
     ordering = ("email",)
 
     fieldsets = (
@@ -30,7 +37,7 @@ class NfcUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password', 'first_name', 'last_name', 'is_superuser', 'is_staff', 'is_active')}
+            'fields': ('username', 'email', 'password', 'first_name', 'last_name', 'is_superuser', 'is_staff', 'is_active', 'nhs_trust', 'role')}
             ),
         )
 

@@ -11,8 +11,8 @@ class PatientMedicationModelForm(forms.ModelForm):
     class Meta:
         model = PatientMedication
         fields = ['patient',  'form', 'virtual_medicinal_product',
-            'strength', 'dose', 'frequency', 'duration',
-            'special_instructions', 'source', 'reason', 'comments',
+            'strength', 'route', 'dose', 'frequency', 'duration',
+            'source', 'reason', 'comments',
             ]
         widgets = {
             'virtual_medicinal_product': forms.TextInput(),

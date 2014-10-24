@@ -52,7 +52,10 @@ class GeneralPractitioner(models.Model):
         return self.get_full_name()
 
 def get_random_gp():
-    return GeneralPractitioner.objects.order_by('?')[0].id
+    try:
+        return GeneralPractitioner.objects.order_by('?')[0].id
+    except IndexError:
+        return None
 
 class Patient(models.Model):
     SEX_CHOICES = (
@@ -90,20 +93,27 @@ class PatientMedication(models.Model):
 
     patient = models.ForeignKey(Patient, blank=True, null=True)
     virtual_medicinal_product = models.ForeignKey(VirtualMedicinalProduct, null=True)
-    form = models.CharField(max_length=255)
-    strength = models.CharField(max_length=255)
+    free_text = models.CharField(max_length=1000, null=True, blank=True)
+    form = models.CharField(max_length=255, null=True, blank=True)
+    strength = models.CharField(max_length=255, null=True, blank=True)
     route = models.CharField(max_length=255)
-    dose = models.CharField(max_length=255)
+    dose = models.CharField(max_length=255, null=True, blank=True)
     frequency = models.CharField(max_length=255)
-    duration = models.CharField(max_length=255)
+    duration = models.CharField(max_length=255, null=True, blank=True)
     special_instructions = models.TextField(null=True, blank=True)
     source = models.CharField(max_length=20, choices=SOURCE_CHOICES)
     reason = models.CharField(max_length=1000, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='UNVERIFIED')
 
     def __unicode__(self):
         return u'%s - %s (%s)' % (self.patient.get_full_name(), self.virtual_medicinal_product.nm, self.source)
+
+    def is_verified(self):
+        if self.status == 'UNVERIFIED':
+            return False
+
+        return True
 
 class GPMedication(models.Model):
     STATUS_CHOICES = (
@@ -114,12 +124,12 @@ class GPMedication(models.Model):
 
     patient = models.ForeignKey(Patient, blank=True, null=True)
     virtual_medicinal_product = models.ForeignKey(VirtualMedicinalProduct, null=True)
-    form = models.CharField(max_length=255)
-    strength = models.CharField(max_length=255)
+    form = models.CharField(max_length=255, null=True, blank=True)
+    strength = models.CharField(max_length=255, null=True, blank=True)
     route = models.CharField(max_length=255)
-    dose = models.CharField(max_length=255)
+    dose = models.CharField(max_length=255, null=True, blank=True)
     frequency = models.CharField(max_length=255)
-    duration = models.CharField(max_length=255)
+    duration = models.CharField(max_length=255, null=True, blank=True)
     special_instructions = models.TextField(null=True, blank=True)
     reason = models.CharField(max_length=1000, null=True, blank=True)
     comments = models.TextField(null=True, blank=True)
