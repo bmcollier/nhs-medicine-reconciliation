@@ -27,7 +27,7 @@
       <nav class="top-bar" data-topbar role="navigation">
 
         <div class="row collapse">
-          <div class="small-6 medium-4 columns">
+          <div class="medium-4 columns">
             {% if patient %}
             <img class="left positionRelative zindex2 paddingRight2Percent" alt="Small photograph of patient." src="{% static 'img/nav_patient.png' %}">
             <div class="left positionRelative zindex2">
@@ -35,12 +35,16 @@
                 <div class="summary-item">
                   <label for="patient-name">Patient: </label>
                   <span id="patient-name" class="detail"><a href="{% url 'patient_detail' patient.id %}">{{ patient.get_full_name }}</a> ({{ patient.sex }})</span>
+                </div>
+                <div class="summary-item">
                   <label for="patient-dob">DOB: </label>
                   <span id="patient-dob" class="detail">{{ patient.date_of_birth }}</span>
                 </div>
                 <div class="summary-item">
                   <label for="patient-hospno">Hospital No: </label>
                   <span id="patient-hospno" class="detail">{{ patient.hospital_id }}</span>
+                </div>
+                <div class="summary-item">
                   <label for="patient-nhs">NHS No: </label>
                   <span id="patient-nhs" class="detail">{{ patient.nhs_number }}</span>
                 </div>
@@ -60,12 +64,21 @@
               &#160;
             {% endif %}
           </div>
+          {% comment %}
+          <div class="small-4 columns">
+            <div class="logo right">
+              <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo.png' %}" alt="MedChecker logo" /></a>
+{#               <span class="bold">Med</span>Checker #}
+            </div>
+          </div>
+          {% endcomment %}
           <div class="hide-for-small-only medium-4 columns">
             <div class="logo">
               <a href="{% url 'core_home' %}"><img src="{% static 'img/medchecker_logo.png' %}" alt="MedChecker logo" /></a>
 {#               <span class="bold">Med</span>Checker #}
             </div>
           </div>
+
           <div class="small-6 medium-4 columns">
             <img src="{% static 'img/nav_user.png' %}" alt="Small photograph of currently logged in user." class="right" />
             <div class="right">
@@ -74,6 +87,7 @@
               <a href="{% url 'logout' %}">Log out</a>
             </div>
           </div>
+          
         </div>
       </nav>
     {% endblock top_bar %}

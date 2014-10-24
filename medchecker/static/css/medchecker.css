@@ -80,9 +80,13 @@ h1 {
 .top-bar img{cursor:pointer;}
 
 
+.patient-summary {
+	margin-top: -15px;
+}
+
 .patient-summary .summary-item {
 	display: block;
-	height: 30px;
+	height: 23px;
 }
 
 .patient-summary label {
