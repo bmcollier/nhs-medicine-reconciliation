@@ -46,15 +46,6 @@
         {% endif %}
       </div>
       <div class="small-2 columns">
-        <label{% if patient_medication_form.form.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.form.label }}
-          {{ patient_medication_form.form }}
-        </label>
-        {% if patient_medication_form.form.errors %}
-          <small class="error">{{ patient_medication_form.form.errors }}</small>
-        {% endif %}
-      </div>
-      <div class="small-2 columns">
         <label{% if patient_medication_form.strength.errors %} class="error"{% endif %}>
           {{ patient_medication_form.strength.label }}
           {{ patient_medication_form.strength }}
@@ -63,9 +54,19 @@
           <small class="error">{{ patient_medication_form.strength.errors }}</small>
         {% endif %}
       </div>
+      <div class="small-2 columns">
+        <label{% if patient_medication_form.form.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.form.label }}
+          {{ patient_medication_form.form }}
+        </label>
+        {% if patient_medication_form.form.errors %}
+          <small class="error">{{ patient_medication_form.form.errors }}</small>
+        {% endif %}
+      </div>
     </div>
 
     <div class="row">
+      {% comment %}
       <div class="small-6 columns">
         <label{% if patient_medication_form.dose.errors %} class="error"{% endif %}>
           {{ patient_medication_form.dose.label }}
@@ -75,7 +76,17 @@
           <small class="error">{{ patient_medication_form.dose.errors }}</small>
         {% endif %}
       </div>
-      <div class="small-3 columns">
+      {% endcomment %}
+      <div class="small-4 columns">
+        <label{% if patient_medication_form.route.errors %} class="error"{% endif %}>
+          {{ patient_medication_form.route.label }}
+          {{ patient_medication_form.route }}
+        </label>
+        {% if patient_medication_form.route.errors %}
+          <small class="error">{{ patient_medication_form.route.errors }}</small>
+        {% endif %}
+      </div>
+      <div class="small-4 columns">
         <label{% if patient_medication_form.frequency.errors %} class="error"{% endif %}>
           {{ patient_medication_form.frequency.label }}
           {{ patient_medication_form.frequency }}
@@ -84,7 +95,7 @@
           <small class="error">{{ patient_medication_form.frequency.errors }}</small>
         {% endif %}
       </div>
-      <div class="small-3 columns">
+      <div class="small-4 columns">
         <label{% if patient_medication_form.duration.errors %} class="error"{% endif %}>
           {{ patient_medication_form.duration.label }}
           {{ patient_medication_form.duration }}
@@ -95,20 +106,6 @@
       </div>
 
     </div>
-
-    <div class="row">
-      <div class="small-12 columns">
-        <label{% if patient_medication_form.special_instructions.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.special_instructions.label }}
-          {{ patient_medication_form.special_instructions }}
-        </label>
-        {% if patient_medication_form.special_instructions.errors %}
-          <small class="error">{{ patient_medication_form.special_instructions.errors }}</small>
-        {% endif %}
-      </div>
-    </div>
-
-    <hr/>
 
     <div class="row">
       <div class="small-4 columns">
@@ -130,6 +127,8 @@
         {% endif %}
       </div>
     </div>
+
+    <hr />
 
     <div class="row">
       <div class="small-12 columns">
@@ -274,6 +273,7 @@
 
           $('#id_virtual_medicinal_product').val(xhr.medicine);
           $('#id_form').val(xhr.form);
+          $('#id_route').val(xhr.route);
           $('#id_strength').val(xhr.strength);
           $('#id_dose').val(xhr.dose);
           $('#id_duration').val(xhr.duration);
