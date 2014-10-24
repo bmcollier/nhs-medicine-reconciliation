@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 # AJAX URLs
 urlpatterns += patterns('',
     url(r'^' + settings.AJAX_URL + 'medicine/', include('medicine.urlsajax')),
+    url(r'^' + settings.AJAX_URL + 'patient/', include('patient.urlsajax')),
 )
 
 

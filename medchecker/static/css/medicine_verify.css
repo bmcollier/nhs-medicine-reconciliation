@@ -56,3 +56,7 @@
   background-color: #D4D9DD;
   color: #41585E;
 }
+
+.orbit-verify .button:hover {
+  background-color: #B8C1C7;
+}

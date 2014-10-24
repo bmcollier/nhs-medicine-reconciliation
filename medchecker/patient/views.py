@@ -25,21 +25,21 @@ def add(request):
 
 @login_required
 def detail(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+    patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
-    unverified_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient)
+    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='DELETED').order_by('status', 'virtual_medicinal_product__nm')
+    # verified_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient, status='VERIFIED')
 
     return render_to_response(
         'detail.html',
         context_instance=RequestContext(request,
-            {'patient': patient,
-            'unverified_medications': unverified_medications}
+            {'patient': patient, 'medications': medications,}
             )
         )
 
 @login_required
 def add_medicine(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+    patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
     if request.method == 'POST':
         patient_medication_form = PatientMedicationModelForm(request.POST)
@@ -65,10 +65,10 @@ def add_medicine(request, patient_id):
 
 @login_required
 def reconcile_medicine(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+    patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
-    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient)
-    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient)
+    history_medications = PatientMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='DELETED')
+    gp_medications = GPMedication.objects.select_related('virtual_medicinal_product').filter(patient=patient).exclude(status='DELETED')
 
     medications_dict = {}
     for medication in history_medications:
@@ -110,9 +110,9 @@ def reconcile_medicine(request, patient_id):
 
 @login_required
 def verify_medicine(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+    patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
     
-    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient)
+    medications = PatientMedication.objects.select_related('virtual_medicinal_product', 'virtual_medicinal_product__vtmid').filter(patient=patient).exclude(status='DELETED').order_by('status')
 
     return render_to_response(
         'verify_medicine.html',
@@ -123,7 +123,7 @@ def verify_medicine(request, patient_id):
 
 @login_required
 def discharge(request, patient_id):
-    patient = get_object_or_404(Patient, id=patient_id)
+    patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
     return render_to_response(
         'discharge.html',
         context_instance=RequestContext(request, {'patient': patient,})

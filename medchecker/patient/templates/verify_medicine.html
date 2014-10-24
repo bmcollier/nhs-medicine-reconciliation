@@ -6,26 +6,26 @@
 {% endblock extra_css %}
 
 {% block content %}
-<h1>{% block title %}Verify Medications{%endblock title %}</h1>
+<h1>{% block title %}Review Medications{%endblock title %}</h1>
 
 <div class="row">
   <div class="small-12 small-centered columns">
     <ul class="orbit-verify" data-orbit>
 
     {% for medication in medications %}
-      <li data-orbit-slide="{{ medication.virtual_medicinal_product.vpid }}">
+      <li data-orbit-slide="{{ forloop.counter0 }}" data-patient-medication-id="{{ medication.id }}">
         <div class="header">
           <h2>
             <span class="medication">{{ medication.virtual_medicinal_product.vtmid.nm }} </span>
-            <span class="route">{{ medication.route }} </span>
+            <span class="strength">{{ medication.strength }} </span>
             <span class="frequency">{{ medication.frequency }}</span>
           </h2>
         </div>
         <div class="content">
-          <a href="" class="button"><strong>Yes</strong>, I'm taking</a>
-          <a href="" class="button"><strong>Yes</strong>, but not as prescribed</a>
-          <a href="" class="button"><strong>No</strong>, I'm not taking it</a>
-          <a href="" class="button"><strong>Not Sure</strong></a>
+          <a data-orbit-link="{{ forloop.counter }}" data-action="yes" class="decision button"><strong>Yes</strong>, I'm taking</a>
+          <a data-orbit-link="{{ forloop.counter }}" data-action="not-as-prescribed" class="decision button"><strong>Yes</strong>, but not as prescribed</a>
+          <a data-orbit-link="{{ forloop.counter }}" data-action="no" class="decision button"><strong>No</strong>, I'm not taking it</a>
+          {# <a data-orbit-link="{{ forloop.counter }}" data-action="yes" class="button"><strong>Not Sure</strong></a> #}
         </div>
       </li>
     {% endfor %}
@@ -42,17 +42,51 @@
   <script type="text/javascript" src="{% static 'js/foundation/foundation.orbit.js' %}"></script>
 
   <script type="text/javascript">
+    var orbit_verify;
+    var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    $('.orbit-verify').on("ready.fndtn.orbit", function(event) {
+      console.info("ready");
+      console.log(this);
+      console.log(event);
+      orbit_verify = this;
+    });
+
+    $('.decision').click(function() {
+      var action = $(this).attr('data-action');
+      var med_id = $(this).parents('li[data-orbit-slide]').attr('data-patient-medication-id');
+
+      $.ajax({
+        url: "{% url 'ajax_patient_verify_medicine' patient.id %}?action=" + action + "&type=patient&medication_id=" + med_id,
+        success: function(xhr) {
+          console.log(xhr);
+        },
+        error: function(xhr) {
+          // document.write(xhr.responseText);
+        }
+      });
+
+    })
+
+    // $('.orbit-verify').on("after-slide-change.fndtn.orbit", function(event, orbit) {
+    //   console.info("after slide change");
+    //   console.info("slide " + orbit.slide_number + " of " + orbit.total_slides);
+    //   console.log(event);
+    //   console.log(orbit);
+    //   console.log(this);
+    // });
+
     $(document).foundation({
       orbit: {
         animation: 'slide',
         animation_speed: 500,
-        navigation_arrows: true,
+        navigation_arrows: !is_mobile,
         bullets: true,
         timer: false,
         next_on_click: false,
         slide_number: false,
         circular: false,
-        variable_height: true
+        variable_height: true,
       }
     });
 
