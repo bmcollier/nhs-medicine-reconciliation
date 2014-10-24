@@ -11,7 +11,7 @@ __DAILY_REPETITION_RE = r'(^|[^\w\d])+(' + __DAILY_REPETITION_SYMBOL_RE + ')([^\
 __INTERVAL_FREQUENCY_SYMBOL_RE = r'hh|h1|h2|h3|h4|h5|h6|h8|h12|h18|h24|hd|pd|qd|td|tid|bd|od'
 __INTERVAL_FREQUENCY_RE = r'(^|[^\w\d])+(' + __INTERVAL_FREQUENCY_SYMBOL_RE + ')([^\w\d]|$)+'
 
-__FORM_SYMBOL_RE = r'capsule(s)?|tablet(s)?|bandage(s)?|injection(s)?|drop(s)?|patch(es)?|sachet(s)?|roll(s)?|tube(s)?|suppositor(y)?(ies)?|infusion bag(s)?|vial(s)?|suspension|solution(s)?|ointment(s)?'
+__FORM_SYMBOL_RE = r'capsule(s)?|tablet(s)?|bandage(s)?|injection(s)?|drop(s)?|patch(es)?|sachet(s)?|roll(s)?|tube(s)?|suppositor(y)?(ies)?|infusion bag(s)?|vial(s)?|suspension|solution(s)?|ointment(s)?|cream(s)?'
 __FORM_RE = r'(^|[^\w\d])+(' + __FORM_SYMBOL_RE + ')([^\w\d]|$)+'
 
 __ROUTE_SYMBOL_RE = r'implant|inhalation|instillation|nasal|oral|parenteral|rectal|sublingual/buccal/oromucosal|transdermal|vaginal|ophthalmic|eye'
@@ -87,6 +87,8 @@ FORM_HUMAN_MAP = {
     'solutions': 'solution',
     'ointment': 'ointment',
     'ointments': 'ointment',
+    'cream': 'cream',
+    'creams': 'cream',
     }
 
 ROUTE_HUMAN_MAP = {
