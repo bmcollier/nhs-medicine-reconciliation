@@ -46,3 +46,5 @@ Include
 # Bower Installed Components
 bower_components
 medchecker/core/fixtures/users.json
+bin
+.Python
