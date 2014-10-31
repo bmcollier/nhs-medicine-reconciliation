@@ -45,8 +45,9 @@ Development
 -----------
 
 1. Ensure that your virtualenv is activated
-2. Navigate to the directory containing this cloned repository and run `pip install -r requirements/local.py` to install the python dependencies.
-3. Install the web dependancies using bower with `bower install`
+2. Navigate to the directory containing this cloned repository and run `pip install -r requirements/local.txt` to install the python dependencies.
+3. Users using virtualenv under Cygwin on Windows will need to download the latest copy of Psycopg2 for Windows and install it with, e.g. `easy_install <name.exe>`.
+3. Install the web dependencies using bower with `bower install`.
 3. Create a database using postgres (the easiest method is via the pgadmin tool).
 4. Verify that the settings in medchecker/medchecker/settings/local.py are correct.
 4. Change directory to medchecker.
