@@ -8,23 +8,25 @@ from medicine.models import (VirtualTherapeuticMoiety, VirtualMedicinalProduct,
   
 import time
 
+IMPORT_PATH = 'c:\\Projects\\nhs-medicine-reconciliation\\import\\'
+
 def load_dm_and_d():
     start_time = time.time()
 
     # Delete all records we currently have?!?!
-    # ActualMedicinalProductPack.objects.all().delete()
-    # ActualMedicinalProduct.objects.all().delete()
-    # VirtualMedicinalProductPack.objects.all().delete()
-    # VirtualMedicinalProduct.objects.all().delete()
-    # VirtualTherapeuticMoiety.objects.all().delete()
+    ActualMedicinalProductPack.objects.all().delete()
+    ActualMedicinalProduct.objects.all().delete()
+    VirtualMedicinalProductPack.objects.all().delete()
+    VirtualMedicinalProduct.objects.all().delete()
+    VirtualTherapeuticMoiety.objects.all().delete()
 
-    load_vtm('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vtm2_3091014.xml')
-    load_vmp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmp2_3091014.xml')
-    load_vmpp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_vmpp2_3091014.xml')
-    load_amp('C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_amp2_3091014.xml')
+    load_vtm(IMPORT_PATH + 'nhsbsa_dmd_10.1.0_20141013000001\\f_vtm2_3091014.xml')
+    load_vmp(IMPORT_PATH + 'nhsbsa_dmd_10.1.0_20141013000001\\f_vmp2_3091014.xml')
+    load_vmpp(IMPORT_PATH + 'nhsbsa_dmd_10.1.0_20141013000001\\f_vmpp2_3091014.xml')
+    load_amp(IMPORT_PATH + 'nhsbsa_dmd_10.1.0_20141013000001\\f_amp2_3091014.xml')
     load_ampp(
-        ampp_file_location='C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\f_ampp2_3091014.xml',
-        gtin_file_location='C:\\Users\\MikeLeonard\\Documents\\MedicineReconcilation\\dm+d\\nhsbsa_dmd_10.1.0_20141013000001\\week422014-r2_3-GTIN\\f_gtin2_0091014.xml'
+        ampp_file_location=IMPORT_PATH + 'nhsbsa_dmd_10.1.0_20141013000001\\f_ampp2_3091014.xml',
+        gtin_file_location=IMPORT_PATH + 'nhsbsa_dmd_10.1.0_20141013000001\\week422014-r2_3-GTIN\\f_gtin2_0091014.xml'
         )
 
     end_time = time.time()

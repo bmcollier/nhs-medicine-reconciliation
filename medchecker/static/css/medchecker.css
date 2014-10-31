@@ -26,7 +26,7 @@ h1 {
 	text-align: center;
 }
 h1 {
-	color: rgb(71, 88, 96); font-size: 2em; font-weight: bolder; margin-top: 1em;
+	color: rgb(71, 88, 96); font-size: 2em; font-weight: bolder; margin-top: 5px;
 }
 .intro-text {
 	color: rgb(115, 128, 136); font-size: 1.4em;
@@ -133,3 +133,5 @@ h1 {
 	line-height: 30px;
 	background-color: #2A373C;
 }
+
+

@@ -22,7 +22,7 @@
 
 .med-rec-source, .med-rec-target {
   /*padding: 3px 10px 3px 10px;*/
-  height: 100%;
+  height: 20%;
   box-sizing: border-box;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .med-rec-col .header {
-  height: 110px;
+  height: 80px;
   background-color: #E46049;
   -webkit-border-radius: 0.7em 0.7em 0 0;
   -moz-border-radius: 0.7em 0.7em 0 0;
@@ -52,8 +52,37 @@
   font-size: 1.4em;
 }
 
+.inpatient {
+	background-image:url('../medicine_reconcile_header_inpatient.png');
+	background-repeat: no-repeat;
+}
+
+.gp {
+	background-image: url('../medicine_reconcile_header_gp.png');
+	background-repeat: no-repeat;
+}
+
+.history {
+	background-image: url('../medicine_reconcile_header_history.png');
+	background-repeat: no-repeat;
+}
+
+.reconcile {
+	background-image: url('../medicine_reconcile_header_reconcile.png');
+	background-repeat: no-repeat;
+}
+
 .med-rec-col .header .title {
-  margin-top: -30px;
+  margin-top: 0px;
+  margin-left: 110px;
+  padding-top: 15px;
+  float: left;
+}
+
+.med-rec-col-right {
+	display: none;
+	width: 0%;
+	float: right !important;
 }
 
 .header.gp {
@@ -63,6 +92,19 @@
 .header.inpatient {
   background-color: #DD5C4D;
 }
+
+.header.continue {
+  background-color: #45B598;
+}
+
+.header.suspend {
+  background-color: #EAC64D;
+}
+
+.header.stop {
+  background-color: #DD5C4D;
+}
+
 
 .header.history {
   background-color: #45B598;
@@ -236,4 +278,43 @@
 @-o-keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+
+#swipe_left {
+	display: inline;
+}
+
+#swipe_right {
+	display: inline;
+}
+
+.title {
+	display: inline;
+}
+
+.header img {
+	float: left;
+}
+
+.titledetail {
+	display:inline;
+}
+
+.titlemoreinfo {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: italic;
+}
+
+.titleinfo {
+	display: inline;
+	font-size: 10px
+	font-weight: normal;	
+}
+
+.tooltip {
+	width: 300px;
+	height: 300px;
+	background: yellow;
+	color: red;
 }
