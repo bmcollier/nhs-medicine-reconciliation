@@ -53,22 +53,22 @@
 }
 
 .inpatient {
-	background-image:url('../medicine_reconcile_header_inpatient.png');
+	background-image:url('../img/medicine_reconcile_header_inpatient.png');
 	background-repeat: no-repeat;
 }
 
 .gp {
-	background-image: url('../medicine_reconcile_header_gp.png');
+	background-image: url('../img/medicine_reconcile_header_gp.png');
 	background-repeat: no-repeat;
 }
 
 .history {
-	background-image: url('../medicine_reconcile_header_history.png');
+	background-image: url('../img/medicine_reconcile_header_history.png');
 	background-repeat: no-repeat;
 }
 
 .reconcile {
-	background-image: url('../medicine_reconcile_header_reconcile.png');
+	background-image: url('../img/medicine_reconcile_header_reconcile.png');
 	background-repeat: no-repeat;
 }
 
