@@ -12,7 +12,8 @@ Setup Instructions
 Required Software
 -----------------
 
-The following software is required to carry out development, no insturctions are given for installing this software
+The following software is required to carry out development, no instructions are given for installing this software.
+
 - [Python 2.7](https://www.python.org/downloads/)
 - [pip](https://pypi.python.org/pypi/pip)
 - [virtualenv](http://virtualenv.readthedocs.org/en/latest/) (can be installed via `pip install virtualenv`)
