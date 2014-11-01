@@ -52,6 +52,11 @@
   font-size: 1.4em;
 }
 
+.med-rec-col-right .med-rec-target {
+	background-color: #EAEDF2;	
+}
+
+
 .inpatient {
 	background-image:url('../img/medicine_reconcile_header_inpatient.png');
 	background-repeat: no-repeat;
@@ -72,10 +77,28 @@
 	background-repeat: no-repeat;
 }
 
+.stop {
+	background-image: url('../img/medicine_reconcile_header_stop.png');
+	background-repeat: no-repeat;
+	background-position: 10% 50%;
+}
+
+.suspend {
+	background-image: url('../img/medicine_reconcile_header_suspend.png');
+	background-repeat: no-repeat;
+	background-position: 10% 50%;
+}
+
+.continued {
+	background-image: url('../img/medicine_reconcile_header_continue.png');
+	background-repeat: no-repeat;
+	background-position: 10% 50%;
+}
+
 .med-rec-col .header .title {
   margin-top: 0px;
   margin-left: 110px;
-  padding-top: 15px;
+  padding-top: 25px;
   float: left;
 }
 
@@ -93,7 +116,7 @@
   background-color: #DD5C4D;
 }
 
-.header.continue {
+.header.continued {
   background-color: #45B598;
 }
 
@@ -189,7 +212,7 @@
   color: white;
   text-align: center;
   font-size: 1em;
-  line-height: 30px;
+  line-height: 116px;
   padding: 2px 10px;
   margin: 2px 0;
 }
@@ -317,4 +340,68 @@
 	height: 300px;
 	background: yellow;
 	color: red;
+}
+
+.send-data {
+	background: #ccc;
+	border-radius: 5px;
+	position: inherit;
+	width: 160px;
+	padding: 10px;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 20px;
+	color: #999;
+	position: absolute;
+	right: 0px;
+	margin-top: 5px;
+	margin-right: 46px;
+	text-align: center;
+	/* box-shadow: 2px 2px 3px #ccc; */
+}
+
+#title-container {
+	position: absolute;
+	left: 0px;
+	width: 100%;
+}
+
+.ui-dialog {
+	background: white;
+	border: 10px solid #ddd;
+	border-radius: 10px;
+	width: 100%;
+}
+
+.ui-dialog-titlebar {
+	background: #ddd;
+	height: 30px;
+	overflow: auto;
+	padding: 2px;
+	font-weight: bold;
+}
+
+.ui-dialog-content {
+	text-align: center;
+	padding: 5px;
+	padding-top: 20px;
+}
+
+.ui-dialog-title {
+	float: left;
+	width: 90%;
+}
+
+.ui-dialog-titlebar-close {
+	padding: 2px;
+	float: left;
+	width: 10%;#
+	font-weight: bold;
+}
+
+#toprow {
+	float: left;
+	width: 100%;
+	overflow: auto;
+	height: 56px;
 }
