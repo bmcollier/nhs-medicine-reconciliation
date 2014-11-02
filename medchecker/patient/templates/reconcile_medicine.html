@@ -6,6 +6,76 @@
 {% endblock extra_css %}
 
 {% block content %}
+
+<div class="destination-map">
+	<div class="destination done">
+		<img src="/static/img/destination.png"><br/>
+		Medicine Bag
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done">
+		<img src="/static/img/destination.png"><br/>
+		SCR Consent
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done">
+		<img src="/static/img/destination.png"><br/>
+		Medicine History Wizard
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done">
+		<img src="/static/img/destination.png">
+		Medical Questionnaire
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination selected">
+		<img src="/static/img/destination.png">
+		Medicines Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+		Junior Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+		Senior Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+		Pharmacy Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+	</div>
+</div>
+
+<div class="navigate-map">Navigate</div>
 <div id="toprow">
 	<div id="title-container">
 		<h1>
@@ -14,8 +84,8 @@
 			<div id="swipe_right">&nbsp;&rarr;</div>
 		</h1>
 	</div>
-	<div class="send-data">Send to PAS</div>
 </div>
+<div class="send-data">Send to PAS</div>
 
 <div class="row show-for-portrait">
   <div class="medium-8 medium-centered columns">
@@ -26,6 +96,7 @@
 </div>
 
 <div class="row med-rec-container show-for-landscape">
+
   {% include "reconcile_medicine_header.html" with title="Last Discharge" source="inpatient" bank="left" %}
   {% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" bank="left" %}
   {% include "reconcile_medicine_header.html" with title="Other Sources" source="history" bank="left" %}
@@ -62,7 +133,7 @@
   <div class="medium-3 columns med-rec-col med-rec-col-right">
     <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
       <div class="med-tile-container">
-        <div class="dropzone continue" data-operation="continue">
+        <div class="dropzone continue" data-operation="finished">
           <span class="dropzone-text">Confirm</span>
         </div>
       </div>
@@ -72,7 +143,7 @@
   <div class="medium-3 columns med-rec-col med-rec-col-right">
     <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
       <div class="med-tile-container">
-        <div class="dropzone continue" data-operation="continue">
+        <div class="dropzone continue" data-operation="finished">
           <span class="dropzone-text">Confirm</span>
         </div>
       </div>
@@ -82,7 +153,7 @@
     <div class="medium-3 columns med-rec-col med-rec-col-right">
     <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
       <div class="med-tile-container">
-        <div class="dropzone continue" data-operation="continue">
+        <div class="dropzone continue" data-operation="finished">
           <span class="dropzone-text">Confirm</span>
         </div>
       </div>
@@ -90,6 +161,8 @@
   </div>
   
 </div>
+
+
 
 {% endfor %}
 
@@ -119,6 +192,12 @@
 		$( "#dialog" ).dialog({ closeText: "X" });
 	});
 
+	$(".navigate-map").click(function() {
+		console.log("clicked");
+		$(".destination-map").css("display", "block");
+		$(".destination-map").animate({height: "130px"},200);
+	});
+	
 	$("#swipe_right").click(function() {
 		$(".med-rec-col-left").animate({width: "0%"},200);
 		$(".med-rec-col-left").toggle();
@@ -170,7 +249,7 @@
         revert: "invalid",
         revertDuration: 200,
         helper: function() {
-          var helper = $(this).clone()
+          var helper = $(this).clone();
           helper.attr('data-helper', '');
           return helper;
         },
@@ -241,6 +320,8 @@
             result_tile.addClass('suspend');
           } else if ($(this).attr('data-operation') === 'stop') {
             result_tile.addClass('stop');
+          } else if ($(this).attr('data-operation') === 'finished') {
+            result_tile.addClass('finished');
           }
 
           $(this).replaceWith(result_tile);
@@ -298,6 +379,7 @@
 
           $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
             $(this).removeClass('in-progress');
+            $(this).addClass('complete');
           });
 
           $('.dropzone').hide();

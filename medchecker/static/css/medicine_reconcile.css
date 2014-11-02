@@ -108,6 +108,14 @@
 	float: right !important;
 }
 
+.finished {
+	opacity: 1 !important;
+}
+
+.continue {
+	opacity: 1 !important;
+}
+
 .header.gp {
   background-color: #EAC64D;
 }
@@ -360,6 +368,25 @@
 	/* box-shadow: 2px 2px 3px #ccc; */
 }
 
+.navigate-map {
+	z-index: 5000;
+	background: #ccc;
+	border-radius: 5px;
+	position: inherit;
+	width: 160px;
+	padding: 10px;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 20px;
+	color: #999;
+	position: absolute;
+	left: 0px;
+	margin-top: 5px;
+	margin-left: 46px;
+	text-align: center;
+	/* box-shadow: 2px 2px 3px #ccc; */
+}
+
 #title-container {
 	position: absolute;
 	left: 0px;
@@ -404,4 +431,49 @@
 	width: 100%;
 	overflow: auto;
 	height: 56px;
+}
+
+#dialog {
+	display: none;
+}
+
+.destination-map {
+	background: #555;
+	/* height: 130px; */
+	height: 0px;
+	color: white;
+	margin: 0px;
+	padding: 10px;
+	position: fixed;
+    bottom: 0;
+    z-index: 99999;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+
+.destination {
+	float: left;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14px;
+	width: 80px;
+}
+
+.destination.selected {
+	opacity: 1;
+}
+
+.destination.done {
+	opacity: 0.8;
+	/* background: #45B598; */
+}
+
+.destination {
+	opacity: 0.50;
+}
+
+.route {
+	float: left;
+	opacity: 0.6;
 }
