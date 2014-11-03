@@ -126,6 +126,11 @@ h1 {
 
 #user-menu, #patient-menu {
 	width: 400px;
+	z-index: 9000;
+}
+
+#patient-menu-icon, #user-menu-icon {
+	z-index: 9001;
 }
 
 .ddMenu .title {

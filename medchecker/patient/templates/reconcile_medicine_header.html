@@ -1,10 +1,13 @@
 {% load staticfiles %}
 <div class="medium-3 columns med-rec-col med-rec-col-{{ bank }}">
-  <div class="header {{ source }}">
+  <div class="header {{ source }}" onclick="location.href='{{ link }}';" style="cursor:pointer;">
     {% with 'img/medicine_reconcile_header_'|add:source|add:'.png' as image_static %}
     {% endwith %}
     <div class="title">
       {{ title }}
+    </div>
+    <div class="subtitle">
+    	{{ subtitle }}
     </div>
   </div>
 </div>

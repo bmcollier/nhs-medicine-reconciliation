@@ -22,7 +22,7 @@
 
 .med-rec-source, .med-rec-target {
   /*padding: 3px 10px 3px 10px;*/
-  height: 20%;
+  min-height: 140px;
   box-sizing: border-box;
 }
 
@@ -98,7 +98,7 @@
 .med-rec-col .header .title {
   margin-top: 0px;
   margin-left: 110px;
-  padding-top: 25px;
+  padding-top: 15px;
   float: left;
 }
 
@@ -378,7 +378,7 @@
 	font-weight: bold;
 	padding-left: 20px;
 	padding-right: 20px;
-	color: white;
+	color: #475860;
 	position: absolute;
 	left: 0px;
 	margin-top: 5px;
@@ -499,4 +499,14 @@
 	width: 50%;
 	float: left;
 	z-index: 400;
+}
+
+.subtitle {
+	font-size: 10px;
+	clear:both;
+	text-align: center;
+	padding-left: 55px;
+	min-width: 100%;
+	overflow: all;
+	margin-left: 0px;
 }

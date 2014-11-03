@@ -8,49 +8,49 @@
 {% block content %}
 
 <div class="destination-map">
-	<div class="destination done">
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
 		<img src="/static/img/complete.png"><br/>
 		Scan Medicine Bag
 	</div>
 	<div class="route">
 		<img src="/static/img/route.png">
 	</div>
-	<div class="destination done">
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
 		<img src="/static/img/complete.png"><br/>
 		SCR Consent
 	</div>
 	<div class="route">
 		<img src="/static/img/route.png">
 	</div>
-	<div class="destination done">
+	<div class="destination done" onclick="location.href='/patient/3/verify_medications/';" style="cursor:pointer;">
 		<img src="/static/img/complete.png"><br/>
 		Patient History Wizard
 	</div>
 	<div class="route">
 		<img src="/static/img/route.png">
 	</div>
-	<div class="destination done">
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
 		<img src="/static/img/complete.png">
 		Patient Medical Questionnaire
 	</div>
 	<div class="route">
 		<img src="/static/img/route.png">
 	</div>
-	<div class="destination done">
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
 		<img src="/static/img/complete.png"><br/>
 		Carer History Wizard
 	</div>
 	<div class="route">
 		<img src="/static/img/route.png">
 	</div>
-	<div class="destination done">
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
 		<img src="/static/img/complete.png">
 		Carer Medical Questionnaire
 	</div>
 	<div class="route">
 		<img src="/static/img/route.png">
 	</div>
-	<div class="destination selected">
+	<div class="destination selected" >
 		<img src="/static/img/destination.png">
 		Medicines History Review
 	</div>
@@ -77,7 +77,7 @@
 	</div>
 </div>
 
-<div class="navigate-map">Navigate</div>
+<div class="navigate-map">Workflow</div>
 <div id="toprow">
 	<div id="title-container">
 		<h1>
@@ -99,15 +99,15 @@
 
 <div class="row med-rec-container show-for-landscape">
 
-  {% include "reconcile_medicine_header.html" with title="Last Discharge" source="inpatient" bank="left" %}
-  {% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" bank="left" %}
-  {% include "reconcile_medicine_header.html" with title="Other Sources" source="history" bank="left" %}
+  {% include "reconcile_medicine_header.html" with title="Last Discharge" source="inpatient" bank="left" subtitle="47 days ago. Tap for more info." link="" %}
+  {% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" bank="left" subtitle="Tap to show GP details" link="" %}
+  {% include "reconcile_medicine_header.html" with title="Other Sources" source="history" bank="left" subtitle="Touch to Add Medication" link="/patient/3/add_medication/" %}
 
-  {% include "reconcile_medicine_header.html" with title="Medicines History" source="reconcile" bank="both" %}
+  {% include "reconcile_medicine_header.html" with title="Medicine History" source="reconcile" bank="both" subtitle="Swipe right to allocate"%}
   
-  {% include "reconcile_medicine_header.html" with title="Continue" source="continued" bank="right" %}
-  {% include "reconcile_medicine_header.html" with title="Suspend" source="suspend" bank="right" %}
-  {% include "reconcile_medicine_header.html" with title="Stop" source="stop" bank="right" %}
+  {% include "reconcile_medicine_header.html" with title="Continue" source="continued" bank="right" subtitle="" link="" %}
+  {% include "reconcile_medicine_header.html" with title="Suspend" source="suspend" bank="right" subtitle="Until discharge or later" link="" %}
+  {% include "reconcile_medicine_header.html" with title="Stop" source="stop" bank="right" subtitle="" link="" %}
 
 </div>
 
