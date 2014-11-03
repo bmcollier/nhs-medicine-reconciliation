@@ -378,7 +378,7 @@
 	font-weight: bold;
 	padding-left: 20px;
 	padding-right: 20px;
-	color: #999;
+	color: white;
 	position: absolute;
 	left: 0px;
 	margin-top: 5px;
@@ -438,6 +438,7 @@
 }
 
 .destination-map {
+	opacity: 0.8;
 	background: #555;
 	/* height: 130px; */
 	height: 0px;
@@ -469,6 +470,11 @@
 	/* background: #45B598; */
 }
 
+.close-destination-map {
+	float: left;
+	width: 28px;
+}
+
 .destination {
 	opacity: 0.50;
 }
@@ -476,4 +482,21 @@
 .route {
 	float: left;
 	opacity: 0.6;
+}
+
+.medicine-reasons {
+	display:none;
+	overflow: all;
+	z-index:999999;
+}
+
+
+.choice-reason {
+	font-weight: bold;
+}
+
+.medicine-reason {
+	width: 50%;
+	float: left;
+	z-index: 400;
 }

@@ -34,10 +34,21 @@
         {% ifequal source "history" %}
         <div class="source"><strong>Source: </strong>{{ medication.get_source_display }}</div>
         {% endifequal %}
+      	<div class="medicine-reasons">
+	      	<div class="choice-reason">Reason for Decision:</div>
+	      	<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #1</div>
+			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #2</div>
+			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #3</div>
+			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #4</div>
+			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #5</div>
+			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #6</div>
+    	</div>
+      
       </div>
       {% else %}
       <div>&nbsp;</div>
       {% endif %}
+
     </div>
   </div>
 </div>
