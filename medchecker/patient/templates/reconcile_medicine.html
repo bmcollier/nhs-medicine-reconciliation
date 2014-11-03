@@ -75,9 +75,6 @@
 		<img src="/static/img/destination.png">
 		Pharmacy Review
 	</div>
-	<div class="close-destination-map">
-		<img src="/static/img/close-dest-map.png">
-	</div>
 </div>
 
 <div class="navigate-map">Navigate</div>
@@ -198,8 +195,15 @@
 	});
 
 	$(".navigate-map").click(function() {
-		$(".destination-map").css("display", "block");
-		$(".destination-map").animate({height: "130px"},300);
+		if ($(".destination-map:hidden").length) {
+			$(".destination-map").css("display", "block");
+			$(".destination-map").animate({height: "130px"},300);	
+		}
+		else {
+			$(".destination-map").animate({height: "0px"},300, function() {
+				$(".destination-map").css("display", "none");
+			});		
+		}
 	});
 	
 	$(".med-tile-container").on('click','.medicine-reason',function() {
@@ -209,11 +213,6 @@
         $(this).closest('.med-tile').children('.source').show();	
 	});
 	
-	$(".close-destination-map").click(function() {
-		$(".destination-map").animate({height: "0px"},300, function() {
-			$(".destination-map").css("display", "none");
-		});
-	});
 	
 	$("#swipe_right").click(function() {
 		$(".med-rec-col-left").animate({width: "0%"},200);
@@ -225,13 +224,16 @@
 		reactivate_meds();
 	});
 	
-	$("h1").on("swiperight",function() {
-		$(".med-rec-col-left").animate({width: "0%"},200);
-		$(".med-rec-col-left").toggle();
-		$(".med-rec-col-right").toggle();
-		$(".med-rec-col-right").animate({width: "25%"},200);
-		$("#swipe_left").toggle();
-		$("#swipe_right").toggle();	
+	$(document).on("swiperight",function() {
+		if($(".med-rec-col-right:hidden").length) {
+			$(".med-rec-col-left").animate({width: "0%"},200);
+			$(".med-rec-col-left").toggle();
+			$(".med-rec-col-right").toggle();
+			$(".med-rec-col-right").animate({width: "25%"},200);
+			$("#swipe_left").toggle();
+			$("#swipe_right").toggle();	
+			full_reactivate();
+		}
 	});
 	
 	$("#swipe_left").click(function() {
@@ -243,13 +245,15 @@
 		$("#swipe_right").toggle();
 	});
 	
-	$("h1").on("swipeleft",function() {
-		$(".med-rec-col-right").animate({width: "0%"},200);
-		$(".med-rec-col-right").toggle();
-		$(".med-rec-col-left").toggle();
-		$(".med-rec-col-left").animate({width: "25%"},200);
-		$("#swipe_left").toggle();
-		$("#swipe_right").toggle();
+	$(document).on("swipeleft",function() {
+		if($(".med-rec-col-left:hidden").length) {
+			$(".med-rec-col-right").animate({width: "0%"},200);
+			$(".med-rec-col-right").toggle();
+			$(".med-rec-col-left").toggle();
+			$(".med-rec-col-left").animate({width: "25%"},200);
+			$("#swipe_left").toggle();
+			$("#swipe_right").toggle();
+		}
 	});
 
 
@@ -413,6 +417,113 @@
         }
       });	
   }
+  
+  
+  function full_reactivate() {
+      $('.med-tile').draggable({
+        revert: "invalid",
+        revertDuration: 200,
+        helper: function() {
+          var helper = $(this).clone();
+          helper.attr('data-helper', '');
+          return helper;
+        },
+        start: function(event, ui) {
+          ui.helper.css('z-index', 99999);
+          ui.helper.addClass('drag-helper');
+
+          ui.helper.width($(event.currentTarget).width());
+
+          var med_id = ui.helper.attr('data-med-id');
+
+          $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
+            $(this).addClass('in-progress');
+          });
+
+          $('.med-rec-target').each(function() {
+            if ($(this).attr('data-med-id') === med_id) {
+              $(this).find('.dropzone.continue').show();
+              $(this).find('.dropzone.suspend').show();
+              $(this).find('.dropzone.stop').show();
+              $(this).find('.dropzone.replace').hide();
+            } else {
+              $(this).find('.dropzone.continue').hide();
+              $(this).find('.dropzone.suspend').hide();
+              $(this).find('.dropzone.stop').hide();
+              $(this).find('.dropzone.replace').show();
+            }
+          });
+        },
+        stop: function(event, ui) {
+          ui.helper.removeClass('drag-helper');
+          var med_id = ui.helper.attr('data-med-id');
+
+          $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
+            $(this).removeClass('in-progress');
+          });
+
+          $('.dropzone').hide();
+        }
+      });
+
+      $(".dropzone").droppable({
+        hoverClass: "ui-state-hover",
+        drop: function(event, ui) {
+          var med_id = ui.helper.attr('data-med-id');
+
+          $('.med-tile[data-med-id="' + med_id + '"]').not('[data-helper]').each(function() {
+            $(this).draggable("destroy");
+            $(this).addClass('complete');
+            $(this).removeClass('continue');
+          });
+
+          console.log($(this).attr('data-operation'));
+
+          var result_tile = ui.draggable.clone();
+          result_tile.find('.highlight').removeClass('highlight');
+
+          if ($(this).attr('data-operation') === 'continue') {
+            result_tile.addClass('continue');
+          } else if ($(this).attr('data-operation') === 'replace') {
+            var target_med_id = $(this).parents('.med-rec-target').attr('data-med-id');
+            $('.med-tile[data-med-id="' + target_med_id + '"]').not('[data-helper]').each(function() {
+              $(this).draggable("destroy");
+              $(this).addClass('complete');
+            });
+            result_tile.addClass('continue');
+          } else if ($(this).attr('data-operation') === 'suspend') {
+            result_tile.addClass('suspend');
+          } else if ($(this).attr('data-operation') === 'stop') {
+            result_tile.addClass('stop');
+          } else if ($(this).attr('data-operation') === 'finished') {
+            result_tile.addClass('finished');
+          }
+
+			if (result_tile.hasClass("finished")) {
+				result_tile.removeClass('in-progress');
+	            result_tile.addClass('complete');
+	            result_tile.closest('.med-tile').children('.medicine-reasons').show();
+	            result_tile.closest('.med-tile').children('.medicine').hide();
+	            result_tile.closest('.med-tile').children('.dose').hide();
+	            result_tile.closest('.med-tile').children('.source').hide();	
+			}
+
+          $(this).replaceWith(result_tile);
+          
+
+          //$('.med-rec-target[data-med-id="' + med_id + '"]').find('.med-tile-container').find('.dropzone').remove();
+
+          // $(this).parent().find('.dropzone').remove();
+
+          $('.med-rec-target').find('.med-tile[data-med-id="' + med_id + '"]').removeClass('complete');
+          
+          ui.helper.remove();
+        },
+      });
+    }
+  
+  
+  
   </script>
 
 	<div id="dialog" title="Information Sent">
