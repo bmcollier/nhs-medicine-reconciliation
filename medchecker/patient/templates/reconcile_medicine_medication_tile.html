@@ -3,6 +3,10 @@
     <div class="med-tile-container">
       {% if medication %}
       <div class="med-tile" data-med-id="{{ medication.virtual_medicinal_product.vpid }}">
+        <div class="closetile">
+        	<img src="/static/img/close2.png">
+        </div>
+        
         <div class="medicine">
           {{ medication.virtual_medicinal_product.nm }}
         </div>

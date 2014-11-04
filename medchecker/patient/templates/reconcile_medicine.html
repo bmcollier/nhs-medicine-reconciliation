@@ -135,7 +135,7 @@
   <div class="medium-3 columns med-rec-col med-rec-col-right">
     <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
       <div class="med-tile-container">
-        <div class="dropzone continue" data-operation="finished">
+        <div class="dropzone continue" data-operation="continue">
           <span class="dropzone-text">Confirm</span>
         </div>
       </div>
@@ -155,7 +155,7 @@
     <div class="medium-3 columns med-rec-col med-rec-col-right">
     <div class="med-rec-target" data-med-id="{{ medication.medinfo.vpid }}" data-med-nm="{{ medication.medinfo.nm }}">
       <div class="med-tile-container">
-        <div class="dropzone continue" data-operation="finished">
+        <div class="dropzone continue"  data-operation="finished">
           <span class="dropzone-text">Confirm</span>
         </div>
       </div>
@@ -213,6 +213,14 @@
         $(this).closest('.med-tile').children('.source').show();	
 	});
 	
+	$(".med-tile").click(function() {
+		window.location = '{% url 'patient_edit_medicine' patient.id %}';
+	});
+	
+	$('.closetile').click(function(event) {
+		event.stopPropagation();
+		$(this).parent().hide();
+	});
 	
 	$("#swipe_right").click(function() {
 		$(".med-rec-col-left").animate({width: "0%"},200);
@@ -222,9 +230,10 @@
 		$("#swipe_left").toggle();
 		$("#swipe_right").toggle();
 		reactivate_meds();
+		//collapse_unused_rows();
 	});
 	
-	$(document).on("swiperight",function() {
+	$(document).on("swipeleft",function() {
 		if($(".med-rec-col-right:hidden").length) {
 			$(".med-rec-col-left").animate({width: "0%"},200);
 			$(".med-rec-col-left").toggle();
@@ -243,9 +252,10 @@
 		$(".med-rec-col-left").animate({width: "25%"},200);
 		$("#swipe_left").toggle();
 		$("#swipe_right").toggle();
+		//uncollapse_unused_rows();
 	});
 	
-	$(document).on("swipeleft",function() {
+	$(document).on("swiperight",function() {
 		if($(".med-rec-col-left:hidden").length) {
 			$(".med-rec-col-right").animate({width: "0%"},200);
 			$(".med-rec-col-right").toggle();
@@ -293,10 +303,10 @@
               $(this).find('.dropzone.stop').show();
               $(this).find('.dropzone.replace').hide();
             } else {
-              $(this).find('.dropzone.continue').hide();
+              $(this).find('.dropzone.continue').show();
               $(this).find('.dropzone.suspend').hide();
               $(this).find('.dropzone.stop').hide();
-              $(this).find('.dropzone.replace').show();
+              $(this).find('.dropzone.replace').hide();
             }
           });
         },
@@ -415,6 +425,12 @@
 			
           $('.dropzone').hide();
         }
+      });
+      
+      $('.med-tile').each(function() {
+      	if ($(this).hasClass('complete')) {
+      		$(this).draggable('disable');
+      	}
       });	
   }
   
@@ -502,10 +518,12 @@
 			if (result_tile.hasClass("finished")) {
 				result_tile.removeClass('in-progress');
 	            result_tile.addClass('complete');
-	            result_tile.closest('.med-tile').children('.medicine-reasons').show();
-	            result_tile.closest('.med-tile').children('.medicine').hide();
-	            result_tile.closest('.med-tile').children('.dose').hide();
-	            result_tile.closest('.med-tile').children('.source').hide();	
+	            if (!(result_tile.hasClass('continue'))) {
+	            	result_tile.closest('.med-tile').children('.medicine-reasons').show();
+		            result_tile.closest('.med-tile').children('.medicine').hide();
+		            result_tile.closest('.med-tile').children('.dose').hide();
+		            result_tile.closest('.med-tile').children('.source').hide();
+	            }
 			}
 
           $(this).replaceWith(result_tile);
@@ -522,6 +540,49 @@
       });
     }
   
+  function collapse_unused_rows() {
+  	var i=0;
+  	$('.med-rec-col-both').each(function() {
+  		if ($(this).find(".med-tile").length == 0) {
+  			if (i > 0) {
+  				var k = 0;
+  				$('.med-rec-container').each(function() {
+  					if (k==i) {
+  						$(this).find('.columns').each(function() {
+  							$(this).hide();
+  						});	
+  					}
+  					k++;
+  				});
+  			}
+  		}
+  		i++;
+  	});
+  }
+  
+  function uncollapse_unused_rows() {
+  	var i=0;
+  	$('.med-rec-col-both').each(function() {
+  		if ($(this).find(".med-tile").length == 0) {
+  			if (i > 0) {
+  				var k = 0;
+  				$('.med-rec-container').each(function() {
+  					if (k==i) {
+  						$(this).find('.med-rec-col-both').each(function() {
+  							$(this).show();
+  						});
+  						$(this).find('.med-rec-col-left').each(function() {
+  							$(this).show();
+  						});
+  						
+  					}
+  					k++;
+  				});
+  			}
+  		}
+  		i++;
+  	});
+  }
   
   
   </script>

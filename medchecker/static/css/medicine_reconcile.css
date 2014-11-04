@@ -12,7 +12,7 @@
   margin-top: 0;
   margin-bottom: 0;
   max-width: 100%;
-  height: auto;
+  max-height: 120px;
 }
 
 .med-rec-col {
@@ -22,7 +22,7 @@
 
 .med-rec-source, .med-rec-target {
   /*padding: 3px 10px 3px 10px;*/
-  min-height: 140px;
+  min-height: 150px;
   box-sizing: border-box;
 }
 
@@ -174,11 +174,13 @@
 
 .medicine {
   font-weight: bold;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 
 .source {
   font-size: 0.8em;
-  margin-top: 15px;
+  margin-top: 0px;
   font-style: italic;
 }
 
@@ -509,4 +511,10 @@
 	min-width: 100%;
 	overflow: all;
 	margin-left: 0px;
+}
+
+.closetile {
+	position: absolute;
+	right: 15px;
+	top: 5px;
 }

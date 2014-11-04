@@ -64,6 +64,33 @@ def add_medicine(request, patient_id):
         )
 
 @login_required
+def edit_medicine(request, patient_id):
+    patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
+
+    if request.method == 'POST':
+        patient_medication_form = PatientMedicationModelForm(request.POST)
+        if patient_medication_form.is_valid():
+            patient_medication = patient_medication_form.save(commit=False)
+            patient_medication.patient = patient
+
+            patient_medication.save()
+
+            return HttpResponseRedirect(
+                reverse('patient_detail', kwargs={'patient_id': patient.id,})
+                )
+        else:
+            print 'not valid'
+
+    else:
+        patient_medication_form = PatientMedicationModelForm() # An unbound form
+
+    return render_to_response(
+        'edit_medicine.html',
+        context_instance=RequestContext(request, {'patient': patient, 'patient_medication_form': patient_medication_form})
+        )
+
+
+@login_required
 def reconcile_medicine(request, patient_id):
     patient = get_object_or_404(Patient.objects.select_related('general_practitioner'), id=patient_id)
 
