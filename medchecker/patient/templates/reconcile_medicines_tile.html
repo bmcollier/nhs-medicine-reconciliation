@@ -1,0 +1,15 @@
+<div class="medium-3 med-section columns med-rec-col-{{ column }} section-{{ section }}">
+	<div class="med-dock {% if column == 'both' or column == 'right' %}droppable{% endif %}">
+	{% for medication in medications %}
+		{% if medication.classification_type == section and medication.category == category %}
+			<div class="medicine-item draggable">
+				<div class="medicine-name">{{ medication.display_name }}</div>
+				<div class="medicine-strength">{{ medication.strength }}</div>
+				<div class="medicine-route">{{ medication.route }}</div>
+				<div class="medicine-frequency">{{ medication.frequency}}</div>
+				<div class="medicine-source">Source: {{ medication.info_source_type }}</div>
+			</div>
+		{% endif %}
+	{% endfor %}
+	</div>
+</div>

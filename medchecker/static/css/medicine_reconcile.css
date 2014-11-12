@@ -102,11 +102,6 @@
   float: left;
 }
 
-.med-rec-col-right {
-	display: none;
-	width: 0%;
-	float: right !important;
-}
 
 .finished {
 	opacity: 1 !important;
@@ -352,43 +347,6 @@
 	color: red;
 }
 
-.send-data {
-	background: #ccc;
-	border-radius: 5px;
-	position: inherit;
-	width: 160px;
-	padding: 10px;
-	font-weight: bold;
-	padding-left: 20px;
-	padding-right: 20px;
-	color: #999;
-	position: absolute;
-	right: 0px;
-	margin-top: 5px;
-	margin-right: 46px;
-	text-align: center;
-	/* box-shadow: 2px 2px 3px #ccc; */
-}
-
-.navigate-map {
-	z-index: 5000;
-	background: #ccc;
-	border-radius: 5px;
-	position: inherit;
-	width: 160px;
-	padding: 10px;
-	font-weight: bold;
-	padding-left: 20px;
-	padding-right: 20px;
-	color: #475860;
-	position: absolute;
-	left: 0px;
-	margin-top: 5px;
-	margin-left: 46px;
-	text-align: center;
-	/* box-shadow: 2px 2px 3px #ccc; */
-}
-
 #title-container {
 	position: absolute;
 	left: 0px;
@@ -432,7 +390,8 @@
 	float: left;
 	width: 100%;
 	overflow: auto;
-	height: 56px;
+	height: 58px;
+	position: relative;
 }
 
 #dialog {
@@ -517,4 +476,127 @@
 	position: absolute;
 	right: 15px;
 	top: 5px;
+}
+
+
+/**  New CSS for refactored Reconciler **/
+
+#category {
+	float: left;
+	margin-left: 0px;
+	background: white;
+	width: 100%;
+	height: 140px;
+}
+
+.ondock {
+	background: red;
+}
+
+.med-section {
+	background: #fff;
+	color: black;
+	float: left;
+	display: block;
+	height: 120px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	height: 140px;
+	overflow: all;
+}
+
+.navigate-map {
+	padding: 10px;
+	float: left;
+	background: #ccc;
+	color: #888;
+	font-weight: bold;
+	border-radius: 10px;
+	margin-left: 50px;
+	width: 160px;
+	z-index: 500000;
+	text-align: center;
+}
+
+.send-to-ehr {
+	padding: 10px;
+	float: right;
+	background: #ccc;
+	color: #888;
+	font-weight: bold;
+	border-radius: 10px;
+	margin-right: 50px;
+	width: 160px;
+	z-index: 500000;
+	text-align: center;
+}
+
+
+.med-dock {
+	margin-left: 5px;
+	margin-right: 5px;
+	background: #ddd;
+	overflow: all;
+	height: 140px;
+	padding: 5px;
+	border-bottom: 1px #bbb solid;
+}
+
+.medicine-item {
+	padding: 5px;
+	background: #bbb;
+	border-radius: 10px;
+	float: left;
+	width: 100%;
+	height: 130px;
+	color: #222;
+	z-index: 500;
+}
+
+.drag-parent {
+	background: #ff0;
+}
+
+.hidden-during-drag {
+	display: none;
+}
+
+.drag-used {
+	opacity: 0.5;
+}
+
+.med-rec-col-right {
+	display: none;
+	width: 0%;
+	float: right !important;
+}
+
+.medicine-name {
+	font-weight: bold;
+	text-align: center;
+}
+
+.medicine-strength {
+	font-weight: bold;
+	text-align: center;
+	display: inline;
+}
+
+.medicine-route {
+	font-weight: normal;
+	text-align: center;
+	display: inline;
+}
+
+.medicine-frequency {
+	font-weight: normal;
+	text-align: center;
+	display: inline;
+}
+
+.medicine-source {
+	font-weight: normal;
+	text-align: center;
 }

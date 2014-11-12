@@ -34,7 +34,7 @@
               {% if patient %}
               <li class="borderBottom borderTop title">Patient Options</li>
               <li class="borderBottom borderTop"><a href="{% url 'patient_detail' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_02.png' %}" /></span>Medication History</a></li>
-              <li class="borderBottom borderTop"><a href="{% url 'patient_add_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_01.png' %}" /></span>Add Medication</a></li>
+              <li class="borderBottom borderTop"><a href="{% url 'patient_edit_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_01.png' %}" /></span>Add / Edit Medication</a></li>
               <li class="borderBottom borderTop"><a href="{% url 'patient_reconcile_medicine' patient.id %}"><span class="patientMenuIcon"><img alt="#" src="{% static 'img/menuitems/leftnav_03.png' %}" /></span>Reconcile to In Patient Prescription</a></li>
               {% endif %}
               <li class="borderBottom borderTop title">Quick Navigation</li>
@@ -147,6 +147,7 @@
     <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/medchecker.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery.mobile.custom.min.js' %}"></script>
+    
     {% block extra_js %}{% endblock extra_js %}
     {% if not DEBUG %}
     <script>

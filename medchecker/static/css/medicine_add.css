@@ -13,6 +13,22 @@
   transition: background-color 300ms linear;
 }
 
+#primary-care > .row {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+#secondary-care > .row {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.toparrow {
+	float:left;
+	width: 50%;
+	text-align: center;
+}
+
 .medicine-free-text {
   box-sizing: border-box;
   font-size: 2em;
@@ -40,6 +56,22 @@
 
 #caret-locatior {
   width: 0px;
+}
+
+.leftarrow {
+	width: 80%;
+	float: left
+}
+
+.rightarrow {
+	float: left;
+	width: 20%;
+	overflow: hidden;
+	padding-top: 56px;
+}
+
+.bottom {
+	padding-top: 22px !important;
 }
 
 .medicine-free-text-suggestions {
