@@ -1,12 +1,8 @@
-<div class="medium-3 columns med-rec-col med-rec-col-left">
+<div class="medium-3 columns med-rec-col">
   <div class="med-rec-source">
     <div class="med-tile-container">
       {% if medication %}
       <div class="med-tile" data-med-id="{{ medication.virtual_medicinal_product.vpid }}">
-        <div class="closetile">
-        	<img src="/static/img/close2.png">
-        </div>
-        
         <div class="medicine">
           {{ medication.virtual_medicinal_product.nm }}
         </div>
@@ -38,21 +34,10 @@
         {% ifequal source "history" %}
         <div class="source"><strong>Source: </strong>{{ medication.get_source_display }}</div>
         {% endifequal %}
-      	<div class="medicine-reasons">
-	      	<div class="choice-reason">Reason for Decision:</div>
-	      	<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #1</div>
-			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #2</div>
-			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #3</div>
-			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #4</div>
-			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #5</div>
-			<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; Option #6</div>
-    	</div>
-      
       </div>
       {% else %}
       <div>&nbsp;</div>
       {% endif %}
-
     </div>
   </div>
 </div>

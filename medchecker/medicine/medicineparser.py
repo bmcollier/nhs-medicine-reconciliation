@@ -18,7 +18,7 @@ __ROUTE_SYMBOL_RE = r'implant|inhalation|instillation|nasal|oral|parenteral|rect
 __ROUTE_RE = r'(^|[^\w\d])+(' + __ROUTE_SYMBOL_RE + ')([^\w\d]|$)+'
 
 # __MEDICINE_RE = r'^([\w ]*) (?=(,|[0-9]|' + __DOSE_SYMBOL_RE + '|' + __DAILY_REPETITION_SYMBOL_RE + '|' + __INTERVAL_FREQUENCY_SYMBOL_RE + '))'
-__MEDICINE_RE = r'^([\w\d %\(\)/.\-]{4,})(?=(,|$))'
+__MEDICINE_RE = r'^([\w\d %\(\)/.\-]{3,})(?=(,|$))'
 
 INTERVAL_FREQUENCY_HUMAN_MAP = {
     # Interval Frequence

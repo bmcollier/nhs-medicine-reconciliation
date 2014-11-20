@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extra_css %}
+	<link href="{% static 'css/medicine_reconcile.css' %}" rel="stylesheet">
+{% endblock extra_css %}
+
+{% block content %}
+<div class="destination-map">
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
+		<img src="/static/img/complete.png"><br/>
+		Scan Medicine Bag
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
+		<img src="/static/img/complete.png"><br/>
+		SCR Consent
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done" onclick="location.href='/patient/3/verify_medications/';" style="cursor:pointer;">
+		<img src="/static/img/complete.png"><br/>
+		Patient History Wizard
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
+		<img src="/static/img/complete.png">
+		Patient Medical Questionnaire
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
+		<img src="/static/img/complete.png"><br/>
+		Carer History Wizard
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
+		<img src="/static/img/complete.png">
+		Carer Medical Questionnaire
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination selected" >
+		<img src="/static/img/destination.png">
+		Medicines History Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+		Junior Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+		Senior Review
+	</div>
+	<div class="route">
+		<img src="/static/img/route.png">
+	</div>
+	<div class="destination">
+		<img src="/static/img/destination.png">
+		Pharmacy Review
+	</div>
+</div>
+
+
+
+	<div id="toprow">
+		<div class="header-button left-header-button navigate-map">Workflow</div>
+		<div id="title-container">
+			<h1>
+				{% block title %}Discharge Reconcilation{%endblock title %}
+			</h1>
+		</div>
+		<div class="header-button right-header-button send-to-ehr">Send to EHR</div>
+	</div>
+
+	<div class="row show-for-portrait">
+	  <div class="medium-8 medium-centered columns">
+	    <div data-alert class="alert-box secondary radius please-rotate">
+	      Please rotate your device to landscape mode.
+	    </div>
+	  </div>
+	</div>
+
+	<div class="row med-rec-container show-for-landscape">
+		{% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" bank="left" subtitle="Tap to show GP details" link="" %}
+		{% include "reconcile_medicine_header.html" with title="Medicine History" source="reconcile" bank="left" subtitle=""%}
+		{% include "reconcile_medicine_header.html" with title="Inpatient Prescription" source="inpatient" bank="left" subtitle=""%}
+		{% include "reconcile_medicine_header.html" with title="Discharge Medication" source="discharge" bank="both" subtitle="" link="" %}
+	</div>
+
+	<div class="medicines row med-rec-container show-for-landscape">
+	{% if categories %}
+		{% for category in categories %}
+			<div id="category" class="section-{{ category }} row">
+				
+				{% include "reconcile_medicines_tile.html" with section="GP" column="left" %}
+				{% include "reconcile_medicines_tile.html" with section="HISTORY" column="left" %}
+				{% include "reconcile_medicines_tile.html" with section="INPATIENT" column="left" %}
+				{% include "reconcile_medicines_tile.html" with section="DISCHARGE" column="both" %}
+
+			</div>
+		{% endfor %}
+	{% else %}
+		No medications found for this Patient.
+	{% endif %}
+	</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript" src="{% static 'js/foundation/foundation.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/foundation/foundation.equalizer.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
+  
+  <script>
+  	$(function() {
+		$(".draggable").draggable({
+			revert: "invalid",
+			start: function(event, ui) {
+				$(this).parent().addClass('drag-parent');
+				clone = $(this).clone().appendTo($(this).parent());
+				clone.addClass('hidden-during-drag');
+				clone.addClass('drag-used');
+				$('.section-HISTORY .med-dock').addClass('ondock');
+			},
+			stop: function(event, ui) {
+				$('.medicine-item').removeClass('hidden-during-drag');
+				$('.med-dock').removeClass('drag-parent');
+				$(this).draggable('disable');
+			}
+		});
+		$(".droppable").droppable({
+			drop: function(event, ui) {
+				$(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+			}
+		});
+	});
+	
+	$(document).ready(function() {
+		$(".navigate-map").click(function() {
+			if ($(".destination-map:hidden").length) {
+				$(".destination-map").css("display", "block");
+				$(".destination-map").animate({height: "130px"},300);	
+			}
+			else {
+				$(".destination-map").animate({height: "0px"},300, function() {
+					$(".destination-map").css("display", "none");
+				});		
+			}
+		});
+	});
+	
+	function make_draggable() {
+		$(function() {
+			$(".draggable").draggable({
+				revert: "invalid",
+				start: function(event, ui) {
+					$(this).parent().addClass('drag-parent');
+					clone = $(this).clone().appendTo($(this).parent());
+					clone.addClass('hidden-during-drag');
+					clone.addClass('drag-used');
+				},
+				stop: function(event, ui) {
+					$('.medicine-item').removeClass('hidden-during-drag');
+					$('.med-dock').removeClass('drag-parent');
+					$(this).draggable('disable');
+				}
+			});
+			$(".droppable").droppable({
+				drop: function(event, ui) {
+					$(ui.draggable).detach().css({top: 0,left: 0}).appendTo(this);
+				}
+			});
+		});
+		$(".draggable").draggable("enable");
+	}
+	
+  </script>
+{% endblock extra_js %}

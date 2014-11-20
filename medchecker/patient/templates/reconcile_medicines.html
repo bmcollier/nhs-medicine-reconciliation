@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="destination-map">
-	<div class="destination done" onclick="location.href='';" style="cursor:pointer;">
+	<div class="destination done" onclick="location.href='/patient/3/scan_medication/';" style="cursor:pointer;">
 		<img src="/static/img/complete.png"><br/>
 		Scan Medicine Bag
 	</div>
@@ -99,13 +99,13 @@
 	</div>
 
 	<div class="row med-rec-container show-for-landscape">
-		{% include "reconcile_medicine_header.html" with title="Last Discharge" source="inpatient" bank="left" subtitle="47 days ago. Tap for more info." link="" %}
-		{% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" bank="left" subtitle="Tap to show GP details" link="" %}
-		{% include "reconcile_medicine_header.html" with title="Other Sources" source="history" bank="left" subtitle="Touch to Add Medication" link="/patient/3/add_medication/" %}
+		{% include "reconcile_medicine_header.html" with title="Last Discharge" source="inpatient" bank="left" subtitle="47 days ago. Tap for more info." link=patient_edit_link_ehr sourcecol="EHR" %}
+		{% include "reconcile_medicine_header.html" with title="SCR/GP" source="gp" bank="left" subtitle="Tap to show GP details" link=patient_edit_link_gp sourcecol="GP" %}
+		{% include "reconcile_medicine_header.html" with title="Other Sources" source="history" bank="left" subtitle="Touch to Add Medication" link=patient_edit_link sourcecol="OTHER" %}
 		{% include "reconcile_medicine_header.html" with title="Medicine History" source="reconcile" bank="both" subtitle="Swipe right to allocate"%}
-		{% include "reconcile_medicine_header.html" with title="Continue" source="continued" bank="right" subtitle="" link="" %}
-		{% include "reconcile_medicine_header.html" with title="Suspend" source="suspend" bank="right" subtitle="Until discharge or later" link="" %}
-		{% include "reconcile_medicine_header.html" with title="Stop" source="stop" bank="right" subtitle="" link="" %}
+		{% include "reconcile_medicine_header.html" with title="Continue" source="continued" bank="right" subtitle=""%}
+		{% include "reconcile_medicine_header.html" with title="Suspend" source="suspend" bank="right" subtitle="Until discharge or later"%}
+		{% include "reconcile_medicine_header.html" with title="Stop" source="stop" bank="right" subtitle=""%}
 	</div>
 
 	<div class="medicines row med-rec-container show-for-landscape">
@@ -135,20 +135,53 @@
   <script type="text/javascript" src="{% static 'js/jquery.ui.touch-punch.min.js' %}"></script>
   
   <script>
+  	console.log("Started App");
   	$(function() {
 		$(".draggable").draggable({
 			revert: "invalid",
 			start: function(event, ui) {
+				console.log("Start");
 				$(this).parent().addClass('drag-parent');
 				clone = $(this).clone().appendTo($(this).parent());
 				clone.addClass('hidden-during-drag');
 				clone.addClass('drag-used');
 				$('.section-HISTORY .med-dock').addClass('ondock');
+				origin=$(this).parent().parent().attr('section-name');
+				console.log(origin);
 			},
 			stop: function(event, ui) {
+				console.log("Stop");
 				$('.medicine-item').removeClass('hidden-during-drag');
 				$('.med-dock').removeClass('drag-parent');
-				$(this).draggable('disable');
+				console.log($(this).parent().parent().attr('section-name'));
+				if (($(this).closest(".med-dock").hasClass("droppable")) && (origin!=$(this).parent().parent().attr('section-name'))) {
+					console.log("Dropped");
+					$(this).draggable('disable');
+					var medtile = $(this);
+					$.ajax({
+						  	type: "GET",
+						  	url: "{% url "ajax_drop_medicine" %}",
+						    data: {
+						    	patient_id: '{{ patient.id }}',
+								vmp: $(this).attr('data-med-id'),
+								classification: 'CONTINUE',
+								dose: $(this).attr('data-med-dose'),
+								daily_dose_units: $(this).attr('data-med-ddu'),
+								route: $(this).attr('data-med-route'),
+								frequency: $(this).attr('data-med-freq'),
+								strength:$(this).attr('data-med-strength'),
+								source: $(this).attr('data-med-source'),
+								classification: $(this).parent().parent().attr('section-name'),
+						  		},
+							success: function (data){
+								medtile.attr('medicine-id', data['id']);
+							}
+					});
+				}
+				else {
+					console.log("Hasn't got droppable");
+					clone.remove();
+				}
 			}
 		});
 		$(".droppable").droppable({
@@ -162,7 +195,7 @@
 		$(".navigate-map").click(function() {
 			if ($(".destination-map:hidden").length) {
 				$(".destination-map").css("display", "block");
-				$(".destination-map").animate({height: "130px"},300);	
+				$(".destination-map").animate({height: "110px"},300);	
 			}
 			else {
 				$(".destination-map").animate({height: "0px"},300, function() {
@@ -170,7 +203,28 @@
 				});		
 			}
 		});
+		
+		$(".edittile").click( function() {
+ 			window.location.href='{% url "patient_edit_medicine" patient.id %}' + $(this).parent().attr("medicine-id");
+		});
+		$(".closetile").click(function() {
+ 			$.get('{% url "ajax_delete_medicine" %}', {
+				medication_id: $(this).parent().attr('medicine-id')}, function(data){
+			});
+			$(this).parent().remove();
+		});
+		
 	});
+	
+	//$(document).on("swiperight",function() {
+	//	$(".med-rec-col-right").animate({width: "0%"},200);
+	//	$(".med-rec-col-right").toggle();
+	//	$(".med-rec-col-left").toggle();
+	//	$(".med-rec-col-left").animate({width: "25%"},200);
+	//	$("#swipe_left").toggle();
+	//	$("#swipe_right").toggle();
+	//	make_draggable();
+	//});
 	
 	$("#swipe_right").click(function() {
 		$(".med-rec-col-left").animate({width: "0%"},200);
@@ -181,6 +235,16 @@
 		$("#swipe_right").toggle();
 		make_draggable();
 	});
+	
+	//$(document).on("swipeleft",function() {
+	//	$(".med-rec-col-left").animate({width: "0%"},200);
+	//	$(".med-rec-col-left").toggle();
+	//	$(".med-rec-col-right").toggle();
+	//	$(".med-rec-col-right").animate({width: "25%"},200);
+	//	$("#swipe_left").toggle();
+	//	$("#swipe_right").toggle();	
+	//	make_draggable();
+	//});
 	
 	$("#swipe_left").click(function() {
 		$(".med-rec-col-right").animate({width: "0%"},200);
@@ -201,11 +265,45 @@
 					clone = $(this).clone().appendTo($(this).parent());
 					clone.addClass('hidden-during-drag');
 					clone.addClass('drag-used');
+					origin=$(this).parent().parent().attr('section-name');
 				},
 				stop: function(event, ui) {
 					$('.medicine-item').removeClass('hidden-during-drag');
 					$('.med-dock').removeClass('drag-parent');
-					$(this).draggable('disable');
+					
+					
+					if (($(this).closest(".med-dock").hasClass("droppable")) && (origin!=$(this).parent().parent().attr('section-name'))) {
+						$(this).draggable('disable');
+						
+						$(this).closest('.medicine-item').children('.medicine-name').hide();
+						$(this).closest('.medicine-item').children('.medicine-details').hide();
+			            $(this).closest('.medicine-item').children('.medicine-source').hide();
+						$(this).closest('.medicine-item').children('.medicine-reasons').show();
+						
+					$.ajax({
+					  	type: "GET",
+					  	url: "{% url "ajax_drop_medicine" %}",
+					    data: {
+					    	patient_id: '{{ patient.id }}',
+							vmp: $(this).attr('data-med-id'),
+							classification: 'CONTINUE',
+							dose: $(this).attr('data-med-dose'),
+							daily_dose_units: $(this).attr('data-med-ddu'),
+							route: $(this).attr('data-med-route'),
+							frequency: $(this).attr('data-med-freq'),
+							strength:$(this).attr('data-med-strength'),
+							source: $(this).attr('data-med-source'),
+							classification: $(this).parent().parent().attr('section-name')
+					  		},
+						success: function (data){
+						    $(this).parent().attr('medicine-id').val(data['id']);
+						  }
+					  });
+					
+					}
+					else {
+						clone.remove();
+					}
 				}
 			});
 			$(".droppable").droppable({
@@ -216,6 +314,13 @@
 		});
 		$(".draggable").draggable("enable");
 	}
+	
+	$('.medicine-reason').click(function() {
+		$(this).closest('.medicine-item').children('.medicine-name').show();
+		$(this).closest('.medicine-item').children('.medicine-details').show();
+        $(this).closest('.medicine-item').children('.medicine-source').show();
+		$(this).closest('.medicine-item').children('.medicine-reasons').hide();
+	})
 	
   </script>
 {% endblock extra_js %}

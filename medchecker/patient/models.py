@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 
-from medicine.models import VirtualMedicinalProduct
+from medicine.models import VirtualMedicinalProduct, VirtualTherapeuticMoiety
 
 import time, random, string
 
@@ -152,3 +152,73 @@ class GPMedication(models.Model):
 
     def __unicode__(self):
         return u'%s - %s (GP)' % (self.patient.get_full_name(), self.virtual_medicinal_product.nm)
+    
+class Medication(models.Model):
+
+    SOURCE_CHOICES = (
+        ('RELATIVE', 'Relative of Patient'),
+        ('CARER', 'Carer of Patient'),
+        ('PATIENT', 'Patient'),
+        ('MEDICINE_BAG', 'Medicine Bag'),
+        )
+
+    STATUS_CHOICES = (
+        ('0 UNVERIFIED', 'Unverified'),
+        ('1 TAKING', 'Taking as prescribed'),
+        ('1 NOT AS PRESCRIBED', 'Taking, but not as prescribed'),
+        ('1 NOT TAKING', 'Not Taking'),
+        ('2 DELETED', 'Deleted'),
+        )
+
+    DATA_CHOICES = (
+        ('EHR', 'Electronic Health Record'),
+        ('GP', 'General Practitioner'),
+        ('OTHER', 'Other Source'),
+        ('HISTORY', 'Medication History'),
+        ('STOP', 'Stopped'),
+        ('SUSPEND', 'Suspended'),
+        ('CONTINUE', 'Continued'))
+    
+    FREQ_CHOICES = (
+    ('OD', 'Once daily'),
+    ('BD', 'Twice daily'),
+    ('TD', 'Three times daily'),
+    ('QD', 'Four times daily'),
+    ('HD', 'Five times daily'),
+    ('PD', 'Six times daily'))
+    
+    patient = models.ForeignKey(Patient, blank=True, null=True)
+    virtual_medicinal_product = models.ForeignKey(VirtualMedicinalProduct)
+    free_text = models.CharField(max_length=1000, null=True, blank=True)
+    form = models.CharField(max_length=255, null=True, blank=True)
+    strength = models.CharField(max_length=255, null=True, blank=True)
+    route = models.CharField(max_length=255, null=True, blank=True)
+    dose = models.CharField(max_length=255, null=True, blank=True)
+    frequency = models.CharField(max_length=255, null=True, blank=True)
+    duration = models.CharField(max_length=255, null=True, blank=True)
+    special_instructions = models.TextField(null=True, blank=True)
+    source = models.CharField(max_length=20, choices=SOURCE_CHOICES,null=True, blank=True)
+    reason = models.CharField(max_length=1000, null=True, blank=True)
+    comments = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='0 UNVERIFIED', null=True, blank=True)
+    last_taken = models.CharField(max_length=1000, null=True, blank=True)
+    barcode = models.CharField(max_length=20, null=True, blank=True)
+    virtual_therapeutic_moiety = models.ForeignKey(VirtualTherapeuticMoiety, null=True, blank=True)
+    vmp_derivation = models.CharField(max_length=255, null=True, blank=True)
+    dose_without_units = models.CharField(max_length=255, null=True, blank=True)
+    dose_units = models.CharField(max_length=255, null=True, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    daily_dose = models.CharField(max_length=255, null=True, blank=True)
+    daily_dose_units = models.CharField(null=True, blank=True, max_length=20)
+    frequency_narrative = models.CharField(max_length=255, null=True, blank=True)
+    duration_start_date = models.DateTimeField(null=True, blank=True)
+    classification_type = models.CharField(max_length=20, choices=DATA_CHOICES, null=True, blank=True)
+    comments = models.TextField(null=True, blank=True)
+    
+    def __unicode__(self):
+        return u'%s - %s (%s)' % (self.patient.get_full_name(), self.virtual_medicinal_product.nm, self.source)
+
+    def is_verified(self):
+        if self.status == '0 UNVERIFIED':
+            return False
+        return True

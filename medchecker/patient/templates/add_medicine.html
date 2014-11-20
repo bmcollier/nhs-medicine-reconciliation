@@ -35,80 +35,29 @@
     {% endif %}
     {% endcomment %}
 
-    <div class="row">
-      <div class="small-8 columns">
-        <label{% if patient_medication_form.virtual_medicinal_product.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.virtual_medicinal_product.label }}
+<div class="row">
+	<div class="large-6 columns">
+        <label {% if patient_medication_form.virtual_medicinal_product.errors %} class="error" {% endif %} >
+          Treatment (unit of use)
           {{ patient_medication_form.virtual_medicinal_product }}
         </label>
         {% if patient_medication_form.virtual_medicinal_product.errors %}
           <small class="error">{{ patient_medication_form.virtual_medicinal_product.errors }}</small>
         {% endif %}
-      </div>
-      <div class="small-2 columns">
-        <label{% if patient_medication_form.strength.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.strength.label }}
-          {{ patient_medication_form.strength }}
-        </label>
-        {% if patient_medication_form.strength.errors %}
-          <small class="error">{{ patient_medication_form.strength.errors }}</small>
-        {% endif %}
-      </div>
-      <div class="small-2 columns">
-        <label{% if patient_medication_form.form.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.form.label }}
-          {{ patient_medication_form.form }}
-        </label>
-        {% if patient_medication_form.form.errors %}
-          <small class="error">{{ patient_medication_form.form.errors }}</small>
-        {% endif %}
-      </div>
-    </div>
+	</div>
+	
 
-    <div class="row">
-      {% comment %}
-      <div class="small-6 columns">
-        <label{% if patient_medication_form.dose.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.dose.label }}
-          {{ patient_medication_form.dose }}
-        </label>
-        {% if patient_medication_form.dose.errors %}
-          <small class="error">{{ patient_medication_form.dose.errors }}</small>
-        {% endif %}
-      </div>
-      {% endcomment %}
-      <div class="small-4 columns">
-        <label{% if patient_medication_form.route.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.route.label }}
-          {{ patient_medication_form.route }}
-        </label>
-        {% if patient_medication_form.route.errors %}
-          <small class="error">{{ patient_medication_form.route.errors }}</small>
-        {% endif %}
-      </div>
-      <div class="small-4 columns">
-        <label{% if patient_medication_form.frequency.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.frequency.label }}
-          {{ patient_medication_form.frequency }}
-        </label>
-        {% if patient_medication_form.frequency.errors %}
-          <small class="error">{{ patient_medication_form.frequency.errors }}</small>
-        {% endif %}
-      </div>
-      <div class="small-4 columns">
-        <label{% if patient_medication_form.duration.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.duration.label }}
-          {{ patient_medication_form.duration }}
-        </label>
-        {% if patient_medication_form.duration.errors %}
-          <small class="error">{{ patient_medication_form.duration.errors }}</small>
-        {% endif %}
-      </div>
-
-    </div>
-
-    <div class="row">
-      <div class="small-4 columns">
+	<!--<div class="large-6 columns">
+	    <label {% if patient_medication_form.virtual_therapeutic_moiety.errors %} class="error" {% endif %} >
+	      {{ patient_medication_form.virtual_therapeutic_moiety.label }}
+	      {{ patient_medication_form.virtual_therapeutic_moiety }}
+	    </label>
+	    {% if patient_medication_form.virtual_therapeutic_moiety.errors %}
+	      <small class="error">{{ patient_medication_form.route.virtual_therapeutic_moiety }}</small>
+	    {% endif %}	
+	</div>-->
+	
+<div class="small-4 columns">
         <label{% if patient_medication_form.source.errors %} class="error"{% endif %}>
           {{ patient_medication_form.source.label }}
           {{ patient_medication_form.source }}
@@ -116,57 +65,135 @@
         {% if patient_medication_form.source.errors %}
           <small class="error">{{ patient_medication_form.source.errors }}</small>
         {% endif %}
-      </div>
-      <div class="small-4 columns">
-        <label{% if patient_medication_form.last_taken.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.last_taken.label }}
-          {{ patient_medication_form.last_taken }}  
+      </div>	
+</div>
+
+<div class="row">
+	
+	<div class="small-2 columns">
+        <label {% if patient_medication_form.quantity.errors %} class="error" {% endif %} >
+          Treatment unit quantity
+          {{ patient_medication_form.quantity }}
         </label>
-        {% if patient_medication_form.last_taken.errors %}
-          <small class="error">{{ patient_medication_form.last_taken.errors }}</small>
+        {% if patient_medication_form.quantity.errors %}
+          <small class="error">{{ patient_medication_form.quantity.errors }}</small>
         {% endif %}
-      </div>
-      <div class="small-4 columns">
-        <label{% if patient_medication_form.reason.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.reason.label }}
-          {{ patient_medication_form.reason }}  
+	</div>
+	
+	<div class="small-2 columns">
+        <label {% if patient_medication_form.strength.errors %} class="error" {% endif %} >
+          Treatment unit strength
+          {{ patient_medication_form.strength }}
         </label>
-        {% if patient_medication_form.reason.errors %}
-          <small class="error">{{ patient_medication_form.reason.errors }}</small>
+        {% if patient_medication_form.strength.errors %}
+          <small class="error">{{ patient_medication_form.strength.errors }}</small>
         {% endif %}
-      </div>
-    </div>
-
-    <hr />
-
-    <div class="row">
-      <div class="small-12 columns">
-        <label{% if patient_medication_form.comments.errors %} class="error"{% endif %}>
-          {{ patient_medication_form.comments.label }}
-          {{ patient_medication_form.comments }}
+	</div>
+	
+	<div class="small-2 columns">
+        <label {% if patient_medication_form.dose_units.errors %} class="error" {% endif %} >
+          Units for this treatment
+          {{ patient_medication_form.dose_units }}
         </label>
-        {% if patient_medication_form.comments.errors %}
-          <small class="error">{{ patient_medication_form.comments.errors }}</small>
+        {% if patient_medication_form.dose_units.errors %}
+          <small class="error">{{ patient_medication_form.dose_units.errors }}</small>
         {% endif %}
-      </div>
-    </div>
+	</div>
+	
+	<div>
+		<div class="large-3 columns">
+	        <label {% if patient_medication_form.strength.errors %} class="error" {% endif %} >
+	          &nbsp;<br/>Treatment dose
+	          {{ patient_medication_form.dose }}
+	        </label>
+	        {% if patient_medication_form.daily_dose_units.errors %}
+	          <small class="error">{{ patient_medication_form.daily_dose_units.errors }}</small>
+	        {% endif %}
+		</div>
+		<div class="large-3 columns">
+		    <label {% if patient_medication_form.route.errors %} class="error" {% endif %} >
+		      &nbsp;<br/>{{ patient_medication_form.route.label }}
+		      {{ patient_medication_form.route }}
+		    </label>
+		    {% if patient_medication_form.route.errors %}
+		      <small class="error">{{ patient_medication_form.route.errors }}</small>
+		    {% endif %}	
+        </div>
+	</div>
+</div>
 
-    <hr />
+<div class="row">
+	<div class="toparrow">&nbsp;</div>
+	<div class="toparrow"><img src="/static/img/arrow-down.png"/></div>
+	
+	<div class="large-6 columns">
+        &nbsp;
+	</div>
+	
+	<div class="large-6 columns">
+        <label {% if patient_medication_form.frequency.errors %} class="error" {% endif %} >
+          {{ patient_medication_form.frequency.label }}
+          {{ patient_medication_form.frequency }}
+        </label>
+        {% if patient_medication_form.frequency.errors %}
+          <small class="error">{{ patient_medication_form.frequency.errors }}</small>
+        {% endif %}
+	</div>
+</div>
 
-    <div class="row">
-      <div class="small-12 columns">
-        <input type="submit" class="button" value="Add Medicine"/>
-        <a href="{% url 'patient_detail' patient.id %}" class="button">Cancel</a>
-        <a href="{% url 'patient_add_medicine' patient.id %}" class="button alert">Start Over</a>
-      </div>
-    </div>
+<div class="row">
+	<div class="toparrow">&nbsp;</div>
+	<div class="toparrow"><img src="/static/img/arrow-down.png"/></div>
+	
+	<div class="large-6 columns bottom">
+        <input type="submit" class="button tiny radius" value="Save Medicine"/>
+        <a href="{% url 'patient_reconcile_medicine' patient.id %}" class="button tiny radius">Cancel</a>
+        <a href="{% url 'patient_edit
+        _medicine' patient.id %}" class="button alert tiny radius">Start Over</a>
+	</div>
+	
+	<div class="large-4 columns">
+        <label {% if patient_medication_form.daily_dose.errors %} class="error" {% endif %} >
+          Total daily dose
+          {{ patient_medication_form.daily_dose }}
+        </label>
+        {% if patient_medication_form.daily_dose.errors %}
+          <small class="error">{{ patient_medication_form.daily_dose.errors }}</small>
+        {% endif %}
+	</div>
+	
+	<div class="small-2 columns">
+        <label {% if patient_medication_form.dose_units.errors %} class="error" {% endif %} >
+          Units
+          {{ patient_medication_form.daily_dose_units }}
+        </label>
+        {% if patient_medication_form.daily_dose_units.errors %}
+          <small class="error">{{ patient_medication_form.daily_dose_units.errors }}</small>
+        {% endif %}
+	</div>
+</div>
 
-  </form>
-
+</form>
 {% endblock content %}
 
 {% block extra_js %}
   <script type="text/javascript">
+  
+  	$('#id_strength').keyup(function() {
+		calculate_totals();
+	});
+	
+	$('#id_quantity').on('input propertychange paste', function() {
+		calculate_totals();
+	});
+	
+	$('#id_strength').on('input propertychange paste', function() {
+		calculate_totals();
+	});
+	
+	$('#id_frequency').on('input propertychange paste', function() {
+		calculate_totals();
+	});
 
     var suggestion_auto_complete_timeout = undefined;
 
@@ -447,5 +474,107 @@
     , cache: false
     });
 
+	function calculate_totals() {
+		if ($('#id_strength').val().indexOf("ml") > 0) {
+			$('#id_dose_units').val("ml");}
+		else {
+			$('#id_dose_units').val("");
+		}
+		if ($('#id_strength').val().indexOf("g") > 0) {
+			$('#id_dose_units').val("g");}
+		else {
+			$('#id_dose_units').val("");
+		}
+		if ($('#id_strength').val().indexOf("mg") > 0) {
+			
+			if ($('#id_quantity').val().length > 0) {
+				total = $('#id_quantity').val() * $('#id_strength').val().substr(0,$('#id_strength').val().indexOf("mg"));
+				$('#id_dose').val(total);
+				
+				$('#id_dose').val($('#id_quantity').val() * $('#id_strength').val().substr(0,$('#id_strength').val().indexOf("mg")));
+			}
+			else {
+				$('#id_dose').val($('#id_strength').val().substr(0,$('#id_strength').val().indexOf("mg")));
+			}
+			$('#id_dose_units').val("mg");}
+		else {
+			$('#id_dose_units').val("");
+		}
+		$('#id_daily_dose').val(Math.round(parse_frequency($('#id_frequency').val()) * $('#id_dose').val()));
+		$('#id_daily_dose_units').val($('#id_dose_units').val());	
+	}
+
+	function parse_frequency(freqstring) {
+		switch (freqstring) {
+			case 'every 30 minutes':
+				multiplier = 48;
+				return multiplier;
+				break;
+		    case 'every hour':
+		    	multiplier = 24;
+		    	return multiplier;
+				break;
+		    case 'every 2 hours':
+		    	multiplier = 12;
+		    	return multiplier;
+				break;
+		    case 'every 3 hours':
+		    	multiplier = 8;
+		    	return multiplier;
+				break;
+		    case 'every 4 hours':
+		    	multiplier = 6;
+		    	return multiplier;
+				break;
+		    case 'every 5 hours':
+		    	multiplier = 24/5;
+		    	return multiplier;
+				break;
+		    case 'every 6 hours':
+		    	multiplier = 4;
+		    	return multiplier;
+				break;
+		    case 'every 8 hours':
+		    	multiplier = 3;
+		    	return multiplier;
+				break;
+		    case 'every 12 hours':
+		    	multiplier = 2;
+		    	return multiplier;
+				break;
+		    case 'every 18 hours':
+		    	multiplier = 24/18;
+		    	return multiplier;
+				break;
+		    case 'every 24 hours':
+		    	multiplier = 1;
+		    	return multiplier;
+				break;
+		    case 'six times a day':
+		    	multiplier = 4;
+		    	return multiplier;
+				break;
+		    case 'five times a day':
+		    	multiplier = 24/5;
+		    	return multiplier;
+				break;
+		    case 'four times a day':
+		    	multiplier = 6;
+		    	return multiplier;
+				break;
+		    case 'three times a day':
+		    	multiplier = 8;
+		    	return multiplier;
+				break;
+		    case 'twice a day':
+		    	multiplier = 12;
+		    	return multiplier;
+				break;
+		    case 'once a day':
+		    	multiplier = 24;
+		    	return multiplier;
+				break;
+		}
+	}
   </script>
 {% endblock extra_js %}

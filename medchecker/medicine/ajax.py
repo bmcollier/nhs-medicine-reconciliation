@@ -4,9 +4,38 @@ from django.utils.html import strip_tags
 from medicine.medicineparser import (get_medicine_text_as_components,
     INTERVAL_FREQUENCY_HUMAN_MAP, DAILY_REPETITION_HUMAN_MAP, FORM_HUMAN_MAP, 
     ROUTE_HUMAN_MAP, clean_token)
-from medicine.models import VirtualMedicinalProduct
+from medicine.models import VirtualMedicinalProduct, ActualMedicinalProduct, ActualMedicinalProductPack
+from patient.models import Medication, Patient
 
 import json
+
+def delete_medicine(request):
+    medicine = Medication(id=request.GET.get('medication_id'))
+    medicine.delete();
+    return HttpResponse("", content_type='application/json')
+
+def drop_medicine(request):
+    patient_name = Patient(id=request.GET.get('patient_id'))
+    vmp_name = VirtualMedicinalProduct(vpid=request.GET.get('vmp'))
+    new_medicine = Medication(patient=patient_name,
+                              dose=request.GET.get('dose'),
+                              daily_dose_units = request.GET.get('daily_dose_units'),
+                              route = request.GET.get('route'),
+                              frequency = request.GET.get('frequency'),
+                              virtual_medicinal_product=vmp_name, 
+                              source=request.GET.get('source'),
+                              strength=request.GET.get('strength'),
+                              classification_type=request.GET.get('classification'))
+    # Now return new medicine id
+    
+    new_medicine.save()
+    return HttpResponse('{"id":"' + str(new_medicine.id) + '"}', content_type='application/json')
+    
+def suggest_barcode(request):
+    medicine_barcode = request.GET.get('medicine_barcode')
+    medicine = ActualMedicinalProductPack.objects.get(gtin=medicine_barcode)
+    medicine_name_suggestion = '{"name": "' + medicine.vppid.vpid.nm + '","authority":"' + medicine.nm + '"}'
+    return HttpResponse(medicine_name_suggestion, content_type='application/json')
 
 def parse_medicine_text(request):
     medicine_string = request.GET.get('medicine_free_text')
