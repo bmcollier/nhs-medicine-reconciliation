@@ -28,11 +28,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'medchecker',
+        'NAME': 'medchecker_old',
         'USER': 'django',
         'PASSWORD': 'fivium12',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
         'ATOMIC_REQUESTS': True,
     }
 }
