@@ -36,11 +36,18 @@
     {% endcomment %}
 
 <div class="row">
-	<div class="large-6 columns">
+	<div class="small-4 columns">
         <label>
           <b>Treatment (unit of use)</b><br/>
           {{ medication.virtual_medicinal_product }}
         </label>
+	</div>
+	
+	<div class="small-4 columns">
+        <label>
+          <b>Therapeutic Moiety</b><br/>
+          {{ medication.virtual_medicinal_product.vtmid.nm }}
+          </label>
 	</div>
 	
 	<!--<div class="large-6 columns">
@@ -53,7 +60,7 @@
 	    {% endif %}	
 	</div>-->
 	
-<div class="small-4 columns">
+	<div class="small-4 columns">
         <label{% if patient_medication_form.source.errors %} class="error"{% endif %}>
           {{ patient_medication_form.source.label }}
           {{ patient_medication_form.source }}
@@ -547,27 +554,27 @@
 		    	return multiplier;
 				break;
 		    case 'six times a day':
-		    	multiplier = 4;
-		    	return multiplier;
-				break;
-		    case 'five times a day':
-		    	multiplier = 24/5;
-		    	return multiplier;
-				break;
-		    case 'four times a day':
 		    	multiplier = 6;
 		    	return multiplier;
 				break;
+		    case 'five times a day':
+		    	multiplier = 5;
+		    	return multiplier;
+				break;
+		    case 'four times a day':
+		    	multiplier = 4;
+		    	return multiplier;
+				break;
 		    case 'three times a day':
-		    	multiplier = 8;
+		    	multiplier = 3;
 		    	return multiplier;
 				break;
 		    case 'twice a day':
-		    	multiplier = 12;
+		    	multiplier = 2;
 		    	return multiplier;
 				break;
 		    case 'once a day':
-		    	multiplier = 24;
+		    	multiplier = 1;
 		    	return multiplier;
 				break;
 		}

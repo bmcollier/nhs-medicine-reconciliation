@@ -172,9 +172,9 @@ def reconcile_medicines(request, patient_id):
     for medication in medications:
         if medication.virtual_medicinal_product.vtmid.nm <> '':
             medication.category = medication.virtual_medicinal_product.vtmid.nm
-            medication.display_name = medication.virtual_medicinal_product.nm
+            medication.display_name = medication.virtual_medicinal_product.vtmid.nm
         else:
-            medication.category = medication.virtual_therapeutic_moeity.nm
+            medication.category = medication.virtual_medicinal_product.vtmid.nm
             medication.display_name = medication.virtual_medicinal_product.nm
         categories.append(medication.category)
         

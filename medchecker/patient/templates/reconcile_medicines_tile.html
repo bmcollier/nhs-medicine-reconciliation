@@ -18,13 +18,22 @@
         		</div>
 				<div class="medicine-name">{{ medication.display_name }}</div>
 				<div class="medicine-details">
-					{{ medication.strength}}
-					{% if medication.strength and medication.route %},{% endif %} 
-					{{ medication.route }}
-					{% if medication.route and medication.frequency %},{% endif %} 
-					{{ medication.frequency }}
-					{% if medication.strength or medication.route or medication.frequency %}.{% endif %}</div>
+					{% if medication.dose and medication.dose_units and medication.route and medication.frequency %}
+					{{medication.dose}}{{medication.dose_units}}, {{medication.route}}, {{medication.frequency}}.
+					{% elif medication.strength and medication.route and medication.frequency %}
+						{{ medication.strength}}
+						{% if medication.strength and medication.route %},{% endif %} 
+						{{ medication.route }}
+						{% if medication.route and medication.frequency %},{% endif %} 
+						{{ medication.frequency }}
+						{% if medication.strength or medication.route or medication.frequency %}.
+						{% endif %}<br/>
+						Prescription Incomplete
+					{% endif %}
+				</div>
 				<div class="medicine-source">Source: {{ medication.get_source_display }}</div>
+				
+				
 				<div class="medicine-reasons">
 			      	<div class="choice-reason">Reason for Decision:</div>
 			      	<div class="medicine-reason"><img src="/static/img/select.png">&nbsp; No longer indicated</div>
